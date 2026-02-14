@@ -1,0 +1,304 @@
+/* bagira.css — светло, тепло, динамично (Bagira vibe) */
+
+/* -------------------- Tokens -------------------- */
+:root {
+  --bg: #fbf7f1;                /* тёплый молочный */
+  --bg-2: #f6efe6;              /* чуть темнее */
+  --card: #ffffff;
+  --card-2: #fff7ec;            /* кремовый */
+  --stroke: rgba(20, 15, 10, 0.10);
+
+  --text: rgba(20, 15, 10, 0.92);
+  --muted: rgba(20, 15, 10, 0.65);
+
+  --brand: #ff8a3d;             /* янтарь */
+  --brand-2: #ff3d8e;           /* коралл/розовый */
+  --brand-3: #3aa6ff;           /* холодный акцент */
+  --good: #17b978;
+  --warn: #ffb703;
+  --bad: #e84a4a;
+
+  --shadow: 0 12px 34px rgba(20, 15, 10, 0.10);
+  --shadow-2: 0 18px 55px rgba(20, 15, 10, 0.12);
+
+  --radius-xl: 22px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+
+  --ring: 0 0 0 4px rgba(255, 138, 61, 0.22);
+
+  --grad: radial-gradient(900px 420px at 18% 8%, rgba(255, 138, 61, 0.22), transparent 60%),
+          radial-gradient(740px 520px at 88% 12%, rgba(255, 61, 142, 0.18), transparent 60%),
+          radial-gradient(820px 520px at 50% 105%, rgba(58, 166, 255, 0.12), transparent 60%),
+          linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.0));
+}
+
+/* -------------------- Base -------------------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--text);
+  background: var(--bg);
+  background-image: var(--grad);
+  background-attachment: fixed;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* -------------------- Common -------------------- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 26px 18px 60px;
+}
+
+.muted { color: var(--muted); }
+.hr { height: 1px; background: rgba(20,15,10,0.10); margin: 18px 0; }
+
+/* -------------------- Buttons -------------------- */
+.btn {
+  border: 1px solid var(--stroke);
+  background: var(--card);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  box-shadow: var(--shadow);
+  font-weight: 750;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-2); }
+.btn:active { transform: translateY(0px); }
+.btn:focus { outline: none; box-shadow: var(--ring); }
+
+.btn--primary {
+  border-color: rgba(255, 138, 61, 0.35);
+  background: linear-gradient(135deg, rgba(255,138,61,0.95), rgba(255,61,142,0.85));
+  color: #1b0f0a;
+}
+.btn--danger {
+  border-color: rgba(232,74,74,0.35);
+  background: linear-gradient(135deg, rgba(232,74,74,0.92), rgba(255,61,142,0.72));
+  color: #1b0f0a;
+}
+.btn--ghost {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* -------------------- Form -------------------- */
+.bagira-form {
+  display: grid;
+  grid-template-columns: 160px 160px 1fr 1fr 160px 140px 120px;
+  gap: 10px;
+  margin: 12px 0 18px;
+  padding: 14px;
+  border-radius: var(--radius-xl);
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(20,15,10,0.10);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.bagira-form input,
+.bagira-form select,
+.bagira-form button {
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(20,15,10,0.12);
+  background: rgba(255,255,255,0.92);
+}
+
+.bagira-form input:focus,
+.bagira-form select:focus {
+  outline: none;
+  box-shadow: var(--ring);
+  border-color: rgba(255,138,61,0.38);
+}
+
+.bagira-form button {
+  border-color: rgba(255,138,61,0.28);
+  background: linear-gradient(135deg, rgba(255,138,61,0.95), rgba(255,61,142,0.85));
+  color: #1b0f0a;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+/* -------------------- Cards grid -------------------- */
+.bagira-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 14px;
+}
+
+/* -------------------- Card -------------------- */
+.bagira-card {
+  border-radius: 20px;
+  padding: 14px;
+  background:
+    radial-gradient(520px 220px at 12% 0%, rgba(255,138,61,0.18), transparent 60%),
+    radial-gradient(520px 220px at 88% 0%, rgba(255,61,142,0.14), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,247,236,0.92));
+  border: 1px solid rgba(20,15,10,0.10);
+  box-shadow: var(--shadow-2);
+  position: relative;
+  overflow: hidden;
+}
+
+.bagira-card::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.45), transparent 55%);
+  transform: rotate(12deg);
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+/* status outline */
+.bagira-card.status-new { outline: 2px solid rgba(255,183,3,0.35); }
+.bagira-card.status-active { outline: 2px solid rgba(23,185,120,0.30); }
+.bagira-card.status-archived { outline: 2px solid rgba(20,15,10,0.14); opacity: 0.90; }
+
+/* -------------------- Card content -------------------- */
+.bagira-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.bagira-badge {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  border: 1px solid rgba(255,138,61,0.22);
+  background: rgba(255,138,61,0.12);
+}
+
+.bagira-badge.ghost {
+  border-color: rgba(20,15,10,0.14);
+  background: rgba(255,255,255,0.65);
+}
+
+.bagira-title {
+  font-size: 16px;
+  font-weight: 950;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.bagira-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.bagira-price {
+  font-weight: 950;
+  font-size: 16px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* -------------------- Photos gallery -------------------- */
+.bagira-photos {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.bagira-photo {
+  position: relative;
+  width: 78px;
+  height: 58px;
+}
+
+.bagira-photo img {
+  width: 78px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(20,15,10,0.12);
+  box-shadow: 0 8px 18px rgba(20,15,10,0.10);
+  background: rgba(255,255,255,0.6);
+}
+
+.bagira-photo__del {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(20,15,10,0.14);
+  background: rgba(255,255,255,0.92);
+  cursor: pointer;
+  line-height: 1;
+  box-shadow: var(--shadow);
+}
+
+.bagira-more {
+  width: 78px;
+  height: 58px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(255,138,61,0.45);
+  background: rgba(255,138,61,0.10);
+  font-weight: 950;
+  color: rgba(20,15,10,0.85);
+}
+
+/* -------------------- Actions -------------------- */
+.bagira-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  gap: 10px;
+}
+
+.bagira-upload {
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255,138,61,0.12);
+  border: 1px solid rgba(255,138,61,0.22);
+  font-weight: 850;
+}
+
+.bagira-actions button {
+  border: 1px solid rgba(20,15,10,0.12);
+  background: rgba(255,255,255,0.92);
+  border-radius: 12px;
+  padding: 8px 10px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+/* -------------------- Responsive -------------------- */
+@media (max-width: 900px) {
+  .bagira-form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .bagira-form { grid-template-columns: 1fr; }
+  .bagira-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16
+    container_name: bagira_db
+    environment:
+      POSTGRES_DB: bagira
+      POSTGRES_USER: bagira
+      POSTGRES_PASSWORD: bagira_password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bagira_backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://bagira:bagira_password@db:5432/bagira
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:
