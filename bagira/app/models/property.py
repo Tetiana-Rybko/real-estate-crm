@@ -1,4 +1,4 @@
-from future import annotations
+from __future__ import annotations
 
 import enum
 from datetime import datetime
@@ -25,7 +25,7 @@ class PropertyStatus(str, enum.Enum):
 
 
 class Property(Base):
-    tablename = "properties"
+    __tablename__ = "properties"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 

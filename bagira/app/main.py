@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from app.api.routers.auth import router as auth_router
 from app.api.routers.clients import router as clients_router
 from app.api.routers.objects import router as objects_router
 import os
@@ -21,6 +22,8 @@ app.add_middleware(
 
 app.include_router(clients_router)
 app.include_router(objects_router)
+app.include_router(auth_router)
 @app.get("/health")
 def health():
     return {"status": "ok"}
+

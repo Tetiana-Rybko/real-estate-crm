@@ -1,4 +1,4 @@
-from future import annotations
+from __future__ import annotations
 
 from datetime import datetime
 
@@ -9,7 +9,7 @@ from app.db.base import Base
 
 
 class DealProperty(Base):
-    tablename = "deal_properties"
+    __tablename__ = "deal_properties"
     table_args = (
         UniqueConstraint("deal_id", "property_id", name="uq_deal_property"),
     )
