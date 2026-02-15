@@ -1,5 +1,5 @@
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column,relationship
 
 from app.db.base import Base
 
@@ -20,3 +20,6 @@ class Client(Base):
 
     # опционально: комментарий риелтора
     note: Mapped[str | None] = mapped_column(String(500), nullable=True)
+
+    deals = relationship("Deal", back_populates="client")
+    properties = relationship("Property", back_populates="owner")

@@ -13,8 +13,8 @@ services:
 
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: bagira/Dockerfile
     container_name: bagira_backend
     environment:
       DATABASE_URL: postgresql+psycopg://bagira:bagira_password@db:5432/bagira
