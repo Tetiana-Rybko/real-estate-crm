@@ -1,27 +1,32 @@
+version: "3.9"
+
 services:
   db:
-    image: postgres:16
     container_name: bagira_db
+    image: postgres:15
     environment:
       POSTGRES_DB: bagira
       POSTGRES_USER: bagira
       POSTGRES_PASSWORD: bagira_password
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   backend:
-    build:
-      context: ..
-      dockerfile: Dockerfile
     container_name: bagira_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       DATABASE_URL: postgresql+psycopg://bagira:bagira_password@db:5432/bagira
+      SECRET_KEY: CHANGE_ME_SECRET
     depends_on:
       - db
     ports:
       - "8000:8000"
+    volumes:
+      - ./:/app
 
 volumes:
   pgdata:

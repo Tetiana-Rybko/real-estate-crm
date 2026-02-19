@@ -28,7 +28,7 @@ class DealStatus(str, enum.Enum):
 
 
 class Deal(Base):
-    tablename = "deals"
+    __tablename__ = "deals"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
@@ -50,14 +50,16 @@ class Deal(Base):
 
     # ORM relationships
     client: Mapped["Client"] = relationship(back_populates="deals")
-    realtor: Mapped["User"] = relationship(back_populates="deals")
+    realtor: Mapped["User"] = relationship("User",back_populates="deals")
 
     # many-to-many с объектами через DealProperty
     links: Mapped[list["DealProperty"]] = relationship(
+        "DealProperty",
         back_populates="deal",
         cascade="all, delete-orphan",
     )
     properties: Mapped[list["Property"]] = relationship(
+        "Property",
         secondary="deal_properties",
         back_populates="deals",
         viewonly=True,  # чтобы управлять через links

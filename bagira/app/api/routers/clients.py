@@ -10,7 +10,12 @@ from app.core.security import get_current_user
 from app.models.user import User
 
 
-router = APIRouter(prefix="/clients", tags=["clients"])
+router = APIRouter(
+    prefix="/clients",
+    tags=["clients"],
+    dependencies=[Depends(get_current_user)]
+
+)
 
 
 # Общая зависимость: и защищает эндпоинты, и даёт current_user в функциях

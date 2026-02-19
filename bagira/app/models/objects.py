@@ -10,7 +10,7 @@ from app.db.base import Base
 
 class DealProperty(Base):
     __tablename__ = "deal_properties"
-    table_args = (
+    __table_args__ = (
         UniqueConstraint("deal_id", "property_id", name="uq_deal_property"),
     )
 
