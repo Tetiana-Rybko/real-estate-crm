@@ -1,4 +1,3 @@
-import os
 from datetime import datetime, timedelta
 
 from fastapi import Depends, HTTPException, status
@@ -10,7 +9,6 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.models.user import User
-from app.core.settings import settings
 
 # OAuth2 схема (Swagger будет знать, что нужен Bearer token)
 from app.core.settings import settings

@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: bagira
       POSTGRES_USER: bagira
-      POSTGRES_PASSWORD: bagira_password
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -19,8 +19,8 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      DATABASE_URL: postgresql+psycopg://bagira:bagira_password@db:5432/bagira
-      SECRET_KEY: CHANGE_ME_SECRET
+      DATABASE_URL: ${DATABASE_URL}
+      SECRET_KEY: ${SECRET_KEY}
     depends_on:
       - db
     ports:

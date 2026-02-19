@@ -1,9 +1,6 @@
 import os
 import sys
 
-from app.db.base import Base
-from app.models.client import Client
-
 from logging.config import fileConfig
 from pathlib import Path
 
