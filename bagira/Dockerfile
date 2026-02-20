@@ -5,19 +5,22 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# системные либы (нужны для psycopg/cryptography и т.п.)
+# системные либы
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc libpq-dev \
+    gcc \
+    libpq-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # зависимости
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# код (у тебя папка app внутри bagira)
+# код
 COPY app /app/app
 COPY alembic.ini /app/alembic.ini
 COPY migrations /app/migrations
 
 EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-w", "2", "-b", "0.0.0.0:8000", "app.main:app"]
