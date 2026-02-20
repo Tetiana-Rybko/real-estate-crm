@@ -1,99 +1,42 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
-
+from fastapi import APIRouter, HTTPException
+from app.api.deps import DBSession, CurrentUser
 from app.schemas.client import ClientCreate, ClientOut, ClientUpdate
-from app.db.session import get_db
-from app.models.client import Client
-from app.core.security import get_current_user
-from app.models.user import User
+from app.services.clients import ClientService
 
-
-router = APIRouter(
-    prefix="/clients",
-    tags=["clients"],
-    dependencies=[Depends(get_current_user)]
-
-)
-
-
-# Общая зависимость: и защищает эндпоинты, и даёт current_user в функциях
-def current_user_dep(current_user: User = Depends(get_current_user)) -> User:
-    return current_user
-
+router = APIRouter(prefix="/clients", tags=["clients"])
 
 @router.get("", response_model=list[ClientOut])
-def list_clients(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(current_user_dep),
-):
-    # current_user доступен (можешь использовать для фильтрации/логов)
-    return db.scalars(select(Client).order_by(Client.id.desc())).all()
-
+def list_clients(db: DBSession, user: CurrentUser):
+    return ClientService.list(db)
 
 @router.get("/{client_id}", response_model=ClientOut)
-def get_client(
-    client_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(current_user_dep),
-):
-    client = db.get(Client, client_id)
+def get_client(client_id: int, db: DBSession, user: CurrentUser):
+    client = ClientService.get(db, client_id)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     return client
 
-
 @router.post("", response_model=ClientOut)
-def create_client(
-    payload: ClientCreate,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(current_user_dep),
-):
-    client = Client(**payload.model_dump())
+def create_client(payload: ClientCreate, db: DBSession, user: CurrentUser):
     try:
-        db.add(client)
-        db.commit()
-        db.refresh(client)
-        return client
-    except IntegrityError:
-        db.rollback()
-        raise HTTPException(status_code=409, detail="Client with this email already exists") from None
-
+        return ClientService.create(db, payload)
+    except ValueError as e:
+        raise HTTPException(status_code=409, detail=str(e)) from None
 
 @router.put("/{client_id}", response_model=ClientOut)
-def update_client(
-    client_id: int,
-    payload: ClientUpdate,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(current_user_dep),
-):
-    client = db.get(Client, client_id)
+def update_client(client_id: int, payload: ClientUpdate, db: DBSession, user: CurrentUser):
+    client = ClientService.get(db, client_id)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
-
-    data = payload.model_dump(exclude_unset=True)
-    for k, v in data.items():
-        setattr(client, k, v)
 
     try:
-        db.commit()
-        db.refresh(client)
-        return client
-    except IntegrityError:
-        db.rollback()
-        raise HTTPException(status_code=409, detail="Client with this email already exists") from None
-
+        return ClientService.update(db, client, payload)
+    except ValueError as e:
+        raise HTTPException(status_code=409, detail=str(e)) from None
 
 @router.delete("/{client_id}", status_code=204)
-def delete_client(
-    client_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(current_user_dep),
-):
-    client = db.get(Client, client_id)
+def delete_client(client_id: int, db: DBSession, user: CurrentUser):
+    client = ClientService.get(db, client_id)
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
-
-    db.delete(client)
-    db.commit()
+    ClientService.delete(db, client)

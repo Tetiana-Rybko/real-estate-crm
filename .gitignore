@@ -1,13 +1,28 @@
-# IDE
+# IDE / venv
 .idea/
-
-# Virtual env
 .venv/
 venv/
 
-# Python cache
+# Python
 __pycache__/
 *.pyc
 
 # Env files
 .env
+.env.*
+!.env.example
+
+# Keys / certificates
+*.pem
+*.key
+*.crt
+
+# Secrets folders
+secrets/
+
+# Local databases
+*.sqlite3
+*.db
+
+# Alembic local config
+alembic.ini
