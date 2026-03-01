@@ -2,17 +2,18 @@ services:
   db:
     container_name: bagira_db
     image: postgres:15
-    restart: unless-stopped
     environment:
-      POSTGRES_DB: bagira
-      POSTGRES_USER: bagira
+      POSTGRES_DB: ${POSTGRES_DB:-bagira}
+      POSTGRES_USER: ${POSTGRES_USER:-bagira}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U bagira -d bagira || exit 1"]
-      interval: 10s
-      timeout: 5s
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bagira} -d ${POSTGRES_DB:-bagira}"]
+      interval: 5s
+      timeout: 3s
       retries: 10
 
   backend:
@@ -20,31 +21,26 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL}
       SECRET_KEY: ${SECRET_KEY}
-      ALGORITHM: ${ALGORITHM}
-      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-1440}
     depends_on:
       db:
         condition: service_healthy
-    # В проде НЕ публикуем порт наружу (8000) — только nginx снаружи.
-    # Если хочешь временно открыть для дебага — раскомментируй ports ниже.
-    # ports:
-    #   - "8000:8000"
+    ports:
+      - "8000:8000"
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health || exit 1"]
-      interval: 10s
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health || exit 1" ]
+      interval: 5s
       timeout: 5s
       retries: 12
       start_period: 30s
-    command: >
-      sh -lc "alembic upgrade head &&
-              gunicorn -k uvicorn.workers.UvicornWorker
-              -w 2 -b 0.0.0.0:8000
-              --access-logfile - --error-logfile -
-              app.main:app"
+    command: sh -lc "alembic upgrade head && gunicorn -k uvicorn.workers.UvicornWorker -w 2 -b 0.0.0.0:8000 --access-logfile - --error-logfile - app.main:app"
+    volumes:
+      - uploads:/app/uploads
 
 volumes:
   pgdata:
+  uploads:
