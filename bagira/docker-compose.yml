@@ -39,6 +39,7 @@ services:
       start_period: 30s
     command: sh -lc "alembic upgrade head && gunicorn -k uvicorn.workers.UvicornWorker -w 2 -b 0.0.0.0:8000 --access-logfile - --error-logfile - app.main:app"
     volumes:
+      - .:/app
       - uploads:/app/uploads
 
 volumes:

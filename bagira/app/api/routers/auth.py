@@ -21,7 +21,7 @@ def register(
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
     count_users = db.scalar(select(func.count()).select_from(User)) or 0
-    role = UserRole.OWNER if count_users == 0 else UserRole.AGENT
+    role = UserRole.ADMIN if count_users == 0 else UserRole.AGENT
 
     user = User(
         full_name=full_name,
