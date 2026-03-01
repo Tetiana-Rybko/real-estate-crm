@@ -1,9 +1,16 @@
 from __future__ import annotations
 
-from sqlalchemy import String
+import enum
+
+from sqlalchemy import Enum, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+
+
+class UserRole(str, enum.Enum):
+    OWNER = "OWNER"
+    AGENT = "AGENT"
 
 
 class User(Base):
@@ -13,5 +20,11 @@ class User(Base):
     full_name: Mapped[str] = mapped_column(String(200))
     email: Mapped[str] = mapped_column(String(200), unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String(255))
+
+    role: Mapped[UserRole] = mapped_column(
+        Enum(UserRole, name="user_role"),
+        default=UserRole.AGENT,
+        nullable=False,
+    )
 
     deals: Mapped[list["Deal"]] = relationship("Deal", back_populates="realtor")
