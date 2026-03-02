@@ -1,6 +1,10 @@
-from sqlalchemy import String, ForeignKey, Integer
+from __future__ import annotations
+
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.db.base import Base
+
 
 class Client(Base):
     __tablename__ = "clients"
@@ -17,7 +21,9 @@ class Client(Base):
         nullable=False,
         index=True,
     )
+
+    # связь клиент -> пользователь(агент)
     agent: Mapped["User"] = relationship("User", back_populates="clients")
 
-    deals = relationship("Deal", back_populates="client")
-    properties = relationship("Property", back_populates="owner")
+    deals: Mapped[list["Deal"]] = relationship("Deal", back_populates="client")
+    properties: Mapped[list["Property"]] = relationship("Property", back_populates="owner")

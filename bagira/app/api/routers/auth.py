@@ -1,32 +1,38 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy import select,func
+from pydantic import BaseModel, EmailStr
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 from app.core.security import hash_password, verify_password, create_access_token
 from app.db.session import get_db
-from app.models.user import User,UserRole
+from app.models.user import User, UserRole
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
+class RegisterIn(BaseModel):
+    full_name: str
+    email: EmailStr
+    password: str
+
+
 @router.post("/register")
 def register(
-    full_name: str,
-    email: str,
-    password: str,
+    payload: RegisterIn,
     db: Session = Depends(get_db),
 ):
-    existing = db.scalar(select(User).where(User.email == email))
+    existing = db.scalar(select(User).where(User.email == payload.email))
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
+
     count_users = db.scalar(select(func.count()).select_from(User)) or 0
     role = UserRole.ADMIN if count_users == 0 else UserRole.AGENT
 
     user = User(
-        full_name=full_name,
-        email=email,
-        hashed_password=hash_password(password),
+        full_name=payload.full_name,
+        email=payload.email,
+        hashed_password=hash_password(payload.password),
         role=role,
     )
 
@@ -48,5 +54,5 @@ def login(
             detail="Invalid credentials",
         )
 
-    token = create_access_token({"sub": str(user.id), "email": user.email,"role":user.role.value})
+    token = create_access_token({"sub": str(user.id), "email": user.email, "role": user.role.value})
     return {"access_token": token, "token_type": "bearer"}
