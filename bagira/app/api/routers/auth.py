@@ -1,27 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from pydantic import BaseModel, EmailStr
 from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 from app.core.security import hash_password, verify_password, create_access_token
 from app.db.session import get_db
 from app.models.user import User, UserRole
+from app.schemas.auth import UserRegisterRequest
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-class RegisterIn(BaseModel):
-    full_name: str
-    email: EmailStr
-    password: str
-
-
 @router.post("/register")
-def register(
-    payload: RegisterIn,
-    db: Session = Depends(get_db),
-):
+def register(payload: UserRegisterRequest, db: Session = Depends(get_db)):
     existing = db.scalar(select(User).where(User.email == payload.email))
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -43,10 +34,7 @@ def register(
 
 
 @router.post("/token")
-def login(
-    form_data: OAuth2PasswordRequestForm = Depends(),
-    db: Session = Depends(get_db),
-):
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.scalar(select(User).where(User.email == form_data.username))
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
