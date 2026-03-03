@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import enum
 from datetime import datetime
 
@@ -28,14 +29,23 @@ class Property(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
+    type: Mapped[PropertyType] = mapped_column(
+        Enum(PropertyType, name="property_type"),
+        nullable=False,
+        default=PropertyType.apartment,
+    )
+    status: Mapped[PropertyStatus] = mapped_column(
+        Enum(PropertyStatus, name="property_status"),
+        nullable=False,
+        default=PropertyStatus.draft,
+    )
 
-    type: Mapped[PropertyType] = mapped_column(Enum(PropertyType), nullable=False, default=PropertyType.apartment)
-    status: Mapped[PropertyStatus] = mapped_column(Enum(PropertyStatus), nullable=False, default=PropertyStatus.draft)
     agent_id: Mapped[int] = mapped_column(
         ForeignKey("users.id", ondelete="RESTRICT"),
         nullable=False,
         index=True,
     )
+
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     address: Mapped[str | None] = mapped_column(String(500), nullable=True)
     city: Mapped[str | None] = mapped_column(String(120), nullable=True)
@@ -43,29 +53,40 @@ class Property(Base):
 
     price: Mapped[int | None] = mapped_column(Integer, nullable=True)
     rooms: Mapped[int | None] = mapped_column(Integer, nullable=True)
-    area_total: Mapped[int | None] = mapped_column(Integer, nullable=True)  # м² можно хранить int или numeric
+    area_total: Mapped[int | None] = mapped_column(Integer, nullable=True)
     floor: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     is_published: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 
-    owner_id: Mapped[int | None] = mapped_column(ForeignKey("clients.id", ondelete="SET NULL"), nullable=True, index=True)
+    owner_id: Mapped[int | None] = mapped_column(
+        ForeignKey("clients.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
 
-    agent: Mapped["User"] = relationship(back_populates="properties")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
 
-    owner: Mapped["Client"] = relationship(back_populates="properties")
+    owner: Mapped["Client | None"] = relationship("Client", back_populates="properties")
+    agent: Mapped["User"] = relationship("User", back_populates="properties")
 
     links: Mapped[list["DealProperty"]] = relationship(
+        "DealProperty",
         back_populates="property",
         cascade="all, delete-orphan",
     )
     deals: Mapped[list["Deal"]] = relationship(
+        "Deal",
         secondary="deal_properties",
         back_populates="properties",
         viewonly=True,
     )
 
-    tasks: Mapped[list["Task"]] = relationship(back_populates="property")
-    activities: Mapped[list["Activity"]] = relationship(back_populates="property")
+    tasks: Mapped[list["Task"]] = relationship("Task", back_populates="property")
+    activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="property")
