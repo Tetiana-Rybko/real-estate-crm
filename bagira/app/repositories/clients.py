@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -8,8 +6,16 @@ from app.models.client import Client
 
 class ClientRepository:
     @staticmethod
-    def list(db: Session) -> list[Client]:
+    def list_all(db: Session) -> list[Client]:
         return db.scalars(select(Client).order_by(Client.id.desc())).all()
+
+    @staticmethod
+    def list_by_agent(db: Session, agent_id: int) -> list[Client]:
+        return db.scalars(
+            select(Client)
+            .where(Client.agent_id == agent_id)
+            .order_by(Client.id.desc())
+        ).all()
 
     @staticmethod
     def get(db: Session, client_id: int) -> Client | None:

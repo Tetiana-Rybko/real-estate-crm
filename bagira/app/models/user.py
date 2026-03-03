@@ -20,7 +20,7 @@ class User(Base):
     full_name: Mapped[str] = mapped_column(String(200))
     email: Mapped[str] = mapped_column(String(200), unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String(255))
-
+    properties: Mapped[list["Property"]] = relationship("Property", back_populates="agent")
     role: Mapped[UserRole] = mapped_column(
         Enum(UserRole, name="user_role"),
         default=UserRole.AGENT,

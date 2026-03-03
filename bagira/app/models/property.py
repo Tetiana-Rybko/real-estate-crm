@@ -28,9 +28,14 @@ class Property(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
+
     type: Mapped[PropertyType] = mapped_column(Enum(PropertyType), nullable=False, default=PropertyType.apartment)
     status: Mapped[PropertyStatus] = mapped_column(Enum(PropertyStatus), nullable=False, default=PropertyStatus.draft)
-
+    agent_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="RESTRICT"),
+        nullable=False,
+        index=True,
+    )
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     address: Mapped[str | None] = mapped_column(String(500), nullable=True)
     city: Mapped[str | None] = mapped_column(String(120), nullable=True)
@@ -46,6 +51,7 @@ class Property(Base):
 
     owner_id: Mapped[int | None] = mapped_column(ForeignKey("clients.id", ondelete="SET NULL"), nullable=True, index=True)
 
+    agent: Mapped["User"] = relationship(back_populates="properties")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
