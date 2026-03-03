@@ -27,7 +27,7 @@ class User(Base):
         nullable=False,
     )
 
-    # ✅ вот этого не хватало — иначе back_populates="clients" ломает маппинг
+
     clients: Mapped[list["Client"]] = relationship(
         "Client",
         back_populates="agent",

@@ -9,6 +9,8 @@ from app.api.routers.clients import router as clients_router
 from app.api.routers.objects import router as objects_router
 from app.models import user,deal,client,objects
 import logging
+from app.api.routers import deals
+
 
 app = FastAPI(title="Bagira SRM API")
 setup_logging()
@@ -28,6 +30,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(clients_router)
 app.include_router(objects_router)
+app.include_router(deals.router)
 
 @app.get("/health")
 def health():
