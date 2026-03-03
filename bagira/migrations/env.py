@@ -6,13 +6,11 @@ from pathlib import Path
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-# ✅ правильный file
 BASE_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(BASE_DIR))
 
 config = context.config
 
-# ✅ берем DATABASE_URL из env (docker / .env)
 db_url = os.getenv("DATABASE_URL")
 if db_url:
     config.set_main_option("sqlalchemy.url", db_url)
@@ -21,10 +19,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 from app.db.base import Base
-
-# ✅ ВАЖНО: импортируем модели здесь (чтобы Alembic увидел таблицы)
-# импортируй именно модули, которые содержат модели
-from app.models import user, deal, client, objects, task, activity, property  # noqa: F401
+from app.models import user, deal, client, objects, task, activity, property, refresh_token  # noqa: F401
 
 target_metadata = Base.metadata
 

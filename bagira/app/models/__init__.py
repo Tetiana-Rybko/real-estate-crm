@@ -1,4 +1,5 @@
 from app.models.user import User
+from app.models.refresh_token import RefreshToken
 from app.models.client import Client
 from app.models.deal import Deal
 from app.models.property import Property
