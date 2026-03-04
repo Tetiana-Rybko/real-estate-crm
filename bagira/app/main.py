@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 
 from app.api.routers.auth import router as auth_router
 from app.api.routers.clients import router as clients_router
-from app.api.routers.objects import router as objects_router
+from app.api.routers.properties import router as properties_router
 from app.models import user,deal,client,objects
 import logging
 from app.api.routers import deals
@@ -29,8 +29,8 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(clients_router)
-app.include_router(objects_router)
 app.include_router(deals.router)
+app.include_router(properties_router)
 
 @app.get("/health")
 def health():
