@@ -19,7 +19,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 from app.db.base import Base
-from app.models import user, deal, client, objects, task, activity, property, refresh_token  # noqa: F401
+from app.models import user, deal, client, task, activity, property, refresh_token  # noqa: F401
 
 target_metadata = Base.metadata
 
