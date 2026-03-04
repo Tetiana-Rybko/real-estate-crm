@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from app.api.routers.auth import router as auth_router
 from app.api.routers.clients import router as clients_router
 from app.api.routers.properties import router as properties_router
-from app.models import user,deal,client,objects
+from app.models import user,deal,client
 import logging
 from app.api.routers import deals
 
