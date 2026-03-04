@@ -4,7 +4,7 @@ import os
 import uuid
 from typing import Any, Literal, Optional
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status,Response
 from pydantic import BaseModel, Field
 
 from app.api.deps import CurrentUser, require_roles
@@ -112,15 +112,19 @@ def update_object(object_id: int, payload: ObjectUpdate, user: CurrentUser) -> O
 @router.delete(
     "/{object_id}",
     status_code=status.HTTP_204_NO_CONTENT,
+    response_class=Response,
     dependencies=[Depends(require_roles(UserRole.ADMIN, UserRole.AGENT))],
 )
-def delete_object(object_id: int, user: CurrentUser) -> None:
+def delete_object(object_id: int, user: CurrentUser) -> Response:
     for i, obj in enumerate(_DB):
         if obj.id == object_id:
             _DB.pop(i)
-            return
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Object not found")
+            return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Object not found",
+    )
 
 @router.post(
     "/{object_id}/photos",
