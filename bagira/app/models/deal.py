@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import enum
 from datetime import datetime
-
-from sqlalchemy import DateTime, Enum, ForeignKey, Integer, String, Text, func
+from sqlalchemy import DateTime,Enum as SAEnum, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -33,8 +32,8 @@ class Deal(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
     title: Mapped[str] = mapped_column(String(255), nullable=False)
-    type: Mapped[DealType] = mapped_column(Enum(DealType), nullable=False, default=DealType.sale)
-    status: Mapped[DealStatus] = mapped_column(Enum(DealStatus), nullable=False, default=DealStatus.new)
+    type: Mapped[DealType] = mapped_column(SAEnum(DealType), nullable=False, default=DealType.sale)
+    status: Mapped[DealStatus] = mapped_column(SAEnum(DealStatus), nullable=False, default=DealStatus.new)
 
     # связи
     client_id: Mapped[int] = mapped_column(

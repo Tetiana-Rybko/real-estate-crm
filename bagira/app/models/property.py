@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import enum
 from datetime import datetime
+from typing import Optional
 
-from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, Integer, String, Text, func
+from sqlalchemy import Boolean, DateTime, Enum as SAEnum, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -30,12 +31,12 @@ class Property(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
     type: Mapped[PropertyType] = mapped_column(
-        Enum(PropertyType, name="property_type"),
+        SAEnum(PropertyType, name="property_type"),
         nullable=False,
         default=PropertyType.apartment,
     )
     status: Mapped[PropertyStatus] = mapped_column(
-        Enum(PropertyStatus, name="property_status"),
+        SAEnum(PropertyStatus, name="property_status"),
         nullable=False,
         default=PropertyStatus.draft,
     )
@@ -47,19 +48,19 @@ class Property(Base):
     )
 
     title: Mapped[str] = mapped_column(String(255), nullable=False)
-    address: Mapped[str | None] = mapped_column(String(500), nullable=True)
-    city: Mapped[str | None] = mapped_column(String(120), nullable=True)
-    district: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    address: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    city: Mapped[Optional[str]] = mapped_column(String(120), nullable=True)
+    district: Mapped[Optional[str]] = mapped_column(String(120), nullable=True)
 
-    price: Mapped[int | None] = mapped_column(Integer, nullable=True)
-    rooms: Mapped[int | None] = mapped_column(Integer, nullable=True)
-    area_total: Mapped[int | None] = mapped_column(Integer, nullable=True)
-    floor: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    price: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    rooms: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    area_total: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    floor: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
 
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     is_published: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 
-    owner_id: Mapped[int | None] = mapped_column(
+    owner_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("clients.id", ondelete="SET NULL"),
         nullable=True,
         index=True,
@@ -73,7 +74,7 @@ class Property(Base):
         nullable=False,
     )
 
-    owner: Mapped["Client | None"] = relationship("Client", back_populates="properties")
+    owner: Mapped[Optional["Client"]] = relationship("Client", back_populates="properties")
     agent: Mapped["User"] = relationship("User", back_populates="properties")
 
     links: Mapped[list["DealProperty"]] = relationship(

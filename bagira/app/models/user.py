@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import enum
 
-from sqlalchemy import Enum, String
+from sqlalchemy import Enum as SAEnum, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -22,7 +22,7 @@ class User(Base):
     hashed_password: Mapped[str] = mapped_column(String(255))
     properties: Mapped[list["Property"]] = relationship("Property", back_populates="agent")
     role: Mapped[UserRole] = mapped_column(
-        Enum(UserRole, name="user_role"),
+        SAEnum(UserRole, name="user_role"),
         default=UserRole.AGENT,
         nullable=False,
     )
