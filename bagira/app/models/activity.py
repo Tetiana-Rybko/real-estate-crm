@@ -14,7 +14,7 @@ class ActivityType(str, enum.Enum):
     call = "call"
     meeting = "meeting"
     showing = "showing"
-
+    task = "task"
 
 class ActivityStatus(str, enum.Enum):
     planned = "planned"
@@ -67,9 +67,14 @@ class Activity(Base):
         server_default=func.now(),
         nullable=False,
     )
-
+    task_id: Mapped[int | None] = mapped_column(
+        ForeignKey("tasks.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
     # relationships
     user: Mapped["User | None"] = relationship("User", back_populates="activities")
     client: Mapped["Client | None"] = relationship("Client", back_populates="activities")
     deal: Mapped["Deal | None"] = relationship("Deal", back_populates="activities")
     property: Mapped["Property | None"] = relationship("Property", back_populates="activities")
+    task: Mapped["Task | None"] = relationship("Task", back_populates="activities")

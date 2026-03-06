@@ -78,3 +78,4 @@ class Task(Base):
 
     deal: Mapped["Deal | None"] = relationship("Deal", back_populates="tasks")
     property: Mapped["Property | None"] = relationship("Property", back_populates="tasks")
+    activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="task")

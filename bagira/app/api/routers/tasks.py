@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.models.task import Task
-from app.schemas.task import TaskCreate, TaskRead, TaskUpdate
+from app.models.activity import Activity,ActivityType,ActivityStatus
+from app.schemas.task import TaskCreate, TaskRead, TaskUpdate,TaskStatus
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
@@ -38,13 +39,35 @@ def update_task(task_id: int, payload: TaskUpdate, db: Session = Depends(get_db)
     if task is None:
         raise HTTPException(status_code=404, detail="Task not found")
 
+    old_status = task.status
+
     for key, value in payload.model_dump(exclude_unset=True).items():
         setattr(task, key, value)
 
     db.commit()
     db.refresh(task)
-    return task
 
+    if old_status != TaskStatus.done and task.status == TaskStatus.done:
+        existing_activity = db.scalars(
+            select(Activity).where(Activity.task_id == task.id)
+        ).first()
+
+        if existing_activity is None:
+            activity = Activity(
+                type=ActivityType.task,
+                status=ActivityStatus.done,
+                note=f"Task completed: {task.title}",
+                user_id=task.user_id,
+                client_id=task.client_id,
+                deal_id=task.deal_id,
+                property_id=task.property_id,
+                task_id=task.id,
+            )
+            db.add(activity)
+            db.commit()
+
+    db.refresh(task)
+    return task
 
 @router.delete("/{task_id}")
 def delete_task(task_id: int, db: Session = Depends(get_db)):
