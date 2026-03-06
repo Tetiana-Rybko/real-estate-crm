@@ -24,6 +24,6 @@ class Client(Base):
 
     # связь клиент -> пользователь(агент)
     agent: Mapped["User"] = relationship("User", back_populates="clients")
-
+    activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="client")
     deals: Mapped[list["Deal"]] = relationship("Deal", back_populates="client")
     properties: Mapped[list["Property"]] = relationship("Property", back_populates="owner")

@@ -26,6 +26,7 @@ class User(Base):
         default=UserRole.AGENT,
         nullable=False,
     )
+    activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="user")
 
 
     clients: Mapped[list["Client"]] = relationship(
