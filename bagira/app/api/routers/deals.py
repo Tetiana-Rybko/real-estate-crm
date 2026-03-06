@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
+from app.models.activity import Activity
+from app.schemas.activity import ActivityRead
 from app.db.session import get_db
 from app.api.deps import get_current_user, require_roles
 from app.models.user import UserRole
@@ -85,3 +88,20 @@ def assign_deal(
 ):
     deal = DealService.get_or_404(db, deal_id)
     return DealService.assign(db, user, deal, payload.realtor_id)
+
+@router.get("/{deal_id}/timeline", response_model=list[ActivityRead])
+def get_deal_timeline(
+    deal_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    deal = DealService.get_or_404(db, deal_id)
+    DealService.ensure_access(user, deal)
+
+    activities = db.scalars(
+        select(Activity)
+        .where(Activity.deal_id == deal_id)
+        .order_by(Activity.created_at.desc())
+    ).all()
+
+    return activities

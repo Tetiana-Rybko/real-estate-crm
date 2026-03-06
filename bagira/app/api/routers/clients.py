@@ -1,5 +1,8 @@
 import logging
+from sqlalchemy import select
 
+from app.models.activity import Activity
+from app.schemas.activity import ActivityRead
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.api.deps import CurrentUser, DBSession, require_roles
@@ -92,3 +95,22 @@ def delete_client(client_id: int, db: DBSession, user: CurrentUser):
 
     ClientService.delete(db, client)
     return None
+
+@router.get(
+    "/{client_id}/timeline",
+    response_model=list[ActivityRead],
+    dependencies=[Depends(require_roles(UserRole.ADMIN, UserRole.AGENT))],
+)
+def get_client_timeline(client_id: int, db: DBSession, user: CurrentUser):
+    logger.info("get_client_timeline client_id=%s user_id=%s", client_id, user.id)
+
+    client = ClientService.get_or_404(db, client_id)
+    ClientService.ensure_access(user, client)
+
+    activities = db.scalars(
+        select(Activity)
+        .where(Activity.client_id == client_id)
+        .order_by(Activity.created_at.desc())
+    ).all()
+
+    return activities

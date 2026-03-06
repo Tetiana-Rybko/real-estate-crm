@@ -18,6 +18,7 @@ class ActivityCreate(BaseModel):
     property_id: int | None = None
 
 
+
 class ActivityRead(BaseModel):
     id: int
     type: ActivityType
@@ -33,3 +34,13 @@ class ActivityRead(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ActivityUpdate(BaseModel):
+    type: ActivityType | None = None
+    status: ActivityStatus | None = None
+    note: str | None = None
+
+    user_id: int | None = None
+    client_id: int | None = None
+    deal_id: int | None = None
+    property_id: int | None = None
