@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
+from app.models.activity import Activity, ActivityStatus, ActivityType
 from app.models.deal import Deal, DealStatus
 from app.models.user import User, UserRole
 from app.repositories.deal import DealRepository
@@ -23,6 +24,27 @@ class DealService:
             raise HTTPException(status_code=403, detail="Not allowed")
 
     @staticmethod
+    def _create_activity(
+        db: Session,
+        *,
+        deal: Deal,
+        user: User,
+        note: str,
+    ):
+        activity = Activity(
+            type=ActivityType.note,
+            status=ActivityStatus.done,
+            note=note,
+            user_id=user.id,
+            client_id=deal.client_id,
+            deal_id=deal.id,
+        )
+        db.add(activity)
+        db.commit()
+        db.refresh(activity)
+        return activity
+
+    @staticmethod
     def create(db: Session, user: User, payload):
         realtor_id = user.id
         if user.role == UserRole.ADMIN and payload.realtor_id:
@@ -39,7 +61,16 @@ class DealService:
             note=payload.note,
         )
 
-        return DealRepository.create(db, deal)
+        created_deal = DealRepository.create(db, deal)
+
+        DealService._create_activity(
+            db,
+            deal=created_deal,
+            user=user,
+            note=f"Deal created: {created_deal.title}",
+        )
+
+        return created_deal
 
     @staticmethod
     def update(db: Session, user: User, deal: Deal, payload):
@@ -48,18 +79,42 @@ class DealService:
         for k, v in payload.model_dump(exclude_unset=True).items():
             setattr(deal, k, v)
 
-        return DealRepository.save(db, deal)
+        updated_deal = DealRepository.save(db, deal)
+        return updated_deal
 
     @staticmethod
     def update_status(db: Session, user: User, deal: Deal, status):
         DealService.ensure_access(user, deal)
+
+        old_status = deal.status
         deal.status = status
-        return DealRepository.save(db, deal)
+        updated_deal = DealRepository.save(db, deal)
+
+        if old_status != status:
+            DealService._create_activity(
+                db,
+                deal=updated_deal,
+                user=user,
+                note=f"Deal status changed: {old_status} -> {status}",
+            )
+
+        return updated_deal
 
     @staticmethod
     def assign(db: Session, user: User, deal: Deal, realtor_id: int):
         if user.role != UserRole.ADMIN:
             raise HTTPException(status_code=403, detail="Admin only")
 
+        old_realtor_id = deal.realtor_id
         deal.realtor_id = realtor_id
-        return DealRepository.save(db, deal)
+        updated_deal = DealRepository.save(db, deal)
+
+        if old_realtor_id != realtor_id:
+            DealService._create_activity(
+                db,
+                deal=updated_deal,
+                user=user,
+                note=f"Deal assigned to realtor_id={realtor_id}",
+            )
+
+        return updated_deal

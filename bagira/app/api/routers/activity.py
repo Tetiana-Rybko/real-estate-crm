@@ -14,6 +14,8 @@ def list_activities(
     client_id: int | None = None,
     deal_id: int | None = None,
     property_id: int | None = None,
+    task_id: int | None = None,
+    limit: int = 50,
     db: Session = Depends(get_db),
 ):
     query = select(Activity)
@@ -26,8 +28,10 @@ def list_activities(
         query = query.where(Activity.deal_id == deal_id)
     if property_id is not None:
         query = query.where(Activity.property_id == property_id)
+    if task_id is not None:
+        query = query.where(Activity.task_id == task_id)
 
-    query = query.order_by(Activity.created_at.desc())
+    query = query.order_by(Activity.created_at.desc()).limit(limit)
 
     activities = db.scalars(query).all()
     return activities

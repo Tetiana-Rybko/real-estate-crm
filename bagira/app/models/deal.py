@@ -64,16 +64,16 @@ class Deal(Base):
         nullable=False,
     )
 
-    # ORM relationships (явно указываем названия моделей строками)
+
     client: Mapped["Client"] = relationship("Client", back_populates="deals")
     realtor: Mapped["User"] = relationship("User", back_populates="deals")
 
     # many-to-many с объектами через DealProperty
-    links: Mapped[list["DealProperty"]] = relationship(
-        "DealProperty",
-        back_populates="deal",
-        cascade="all, delete-orphan",
-    )
+    #links: Mapped[list["DealProperty"]] = relationship(
+       # "DealProperty",
+        #back_populates="deal",
+        #cascade="all, delete-orphan",
+    #)
     properties: Mapped[list["Property"]] = relationship(
         "Property",
         secondary="deal_properties",
@@ -81,6 +81,6 @@ class Deal(Base):
         viewonly=True,  # чтобы управлять через links
     )
 
-    # если у Task/Activity есть deal_id — можно включить:
+
     tasks: Mapped[list["Task"]] = relationship("Task", back_populates="deal")
     activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="deal")
