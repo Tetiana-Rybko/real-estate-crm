@@ -5,6 +5,7 @@ from app.models.deal import Deal
 from app.models.property import Property
 from app.models.task import Task
 from app.models.activity import Activity
+from app.models.deal_property import DealProperty
 
 __all__ = [
     "User",
@@ -13,4 +14,5 @@ __all__ = [
     "Property",
     "Task",
     "Activity",
+    "DealProperty",
 ]

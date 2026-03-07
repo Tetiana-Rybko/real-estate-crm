@@ -13,7 +13,6 @@ from app.schemas.property import PropertyCreate, PropertyUpdate
 class PropertyService:
     @staticmethod
     def list(db: Session, user: User) -> list[Property]:
-        # ADMIN видит всё, AGENT — "свои"
         if user.role == UserRole.ADMIN:
             return PropertyRepository.list_all(db)
         return PropertyRepository.list_by_agent(db, user.id)
@@ -30,14 +29,23 @@ class PropertyService:
 
     @staticmethod
     def ensure_access(user: User, obj: Property) -> None:
-        # Пока у Property нет agent_id — доступ не ограничиваем для AGENT,
-        # иначе будет невозможно работать.
-        # Когда добавишь Property.agent_id — сделаем проверку как у Client.
-        return
+        if user.role == UserRole.ADMIN:
+            return
+        if obj.agent_id != user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not allowed",
+            )
 
     @staticmethod
     def create(db: Session, user: User, payload: PropertyCreate) -> Property:
-        obj = Property(**payload.model_dump())
+        data = payload.model_dump()
+
+        # агентом объекта всегда становится текущий пользователь
+        # если позже захочешь, для ADMIN можно добавить отдельную логику назначения
+        data["agent_id"] = user.id
+
+        obj = Property(**data)
 
         try:
             PropertyRepository.add(db, obj)

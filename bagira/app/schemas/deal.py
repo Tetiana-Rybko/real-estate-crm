@@ -48,3 +48,6 @@ class DealOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+class DealPropertyAttach(BaseModel):
+    property_id: int

@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.models.activity import Activity, ActivityStatus, ActivityType
+from app.models.deal_property import DealProperty
 from app.models.deal import Deal, DealStatus
 from app.models.user import User, UserRole
 from app.repositories.deal import DealRepository
@@ -118,3 +119,26 @@ class DealService:
             )
 
         return updated_deal
+
+    @staticmethod
+    def attach_property(db: Session, user: User, deal: Deal, property_id: int):
+        DealService.ensure_access(user, deal)
+
+        property_obj = DealRepository.get_property(db, property_id)
+        if not property_obj:
+            raise HTTPException(status_code=404, detail="Property not found")
+
+        existing = DealRepository.get_deal_property_link(db, deal.id, property_id)
+        if existing:
+            raise HTTPException(status_code=409, detail="Property already attached to deal")
+
+        link = DealRepository.attach_property(db, deal.id, property_id)
+
+        DealService._create_activity(
+            db,
+            deal=deal,
+            user=user,
+            note=f"Property attached to deal: property_id={property_id}",
+        )
+
+        return link

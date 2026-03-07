@@ -16,6 +16,7 @@ from app.schemas.deal import (
     DealStatusUpdate,
     DealAssign,
     DealOut,
+    DealPropertyAttach,
 )
 
 router = APIRouter(prefix="/deals", tags=["deals"])
@@ -105,3 +106,12 @@ def get_deal_timeline(
     ).all()
 
     return activities
+@router.post("/{deal_id}/properties", status_code=201)
+def attach_property_to_deal(
+    deal_id: int,
+    payload: DealPropertyAttach,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    deal = DealService.get_or_404(db, deal_id)
+    return DealService.attach_property(db, user, deal, payload.property_id)

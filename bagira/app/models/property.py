@@ -83,3 +83,15 @@ class Property(Base):
 
     tasks: Mapped[list["Task"]] = relationship("Task", back_populates="property")
     activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="property")
+
+    deal_properties: Mapped[list["DealProperty"]] = relationship(
+        "DealProperty",
+        back_populates="property",
+        cascade="all, delete-orphan",
+    )
+
+    deals: Mapped[list["Deal"]] = relationship(
+        "Deal",
+        secondary="deal_properties",
+        viewonly=True,
+    )
