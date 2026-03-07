@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-
+from app.schemas.property import PropertyOut
 from app.models.activity import Activity
 from app.schemas.activity import ActivityRead
 from app.db.session import get_db
@@ -17,6 +17,7 @@ from app.schemas.deal import (
     DealAssign,
     DealOut,
     DealPropertyAttach,
+    DealWithPropertiesOut
 )
 
 router = APIRouter(prefix="/deals", tags=["deals"])
@@ -115,3 +116,12 @@ def attach_property_to_deal(
 ):
     deal = DealService.get_or_404(db, deal_id)
     return DealService.attach_property(db, user, deal, payload.property_id)
+@router.get("/{deal_id}/properties", response_model=list[PropertyOut])
+def list_deal_properties(
+    deal_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    deal = DealService.get_with_properties_or_404(db, deal_id)
+    DealService.ensure_access(user, deal)
+    return deal.properties

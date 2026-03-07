@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
-
+from app.schemas.property import PropertyOut
 from app.models.deal import DealType, DealStatus
 
 
@@ -51,3 +51,16 @@ class DealOut(BaseModel):
 
 class DealPropertyAttach(BaseModel):
     property_id: int
+
+class DealPropertyLinkOut(BaseModel):
+    id: int
+    deal_id: int
+    property_id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class DealWithPropertiesOut(DealOut):
+    properties: list[PropertyOut] = []

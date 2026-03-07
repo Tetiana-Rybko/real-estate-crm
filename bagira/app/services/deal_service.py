@@ -142,3 +142,10 @@ class DealService:
         )
 
         return link
+
+    @staticmethod
+    def get_with_properties_or_404(db: Session, deal_id: int) -> Deal:
+        deal = DealRepository.get_with_properties(db, deal_id)
+        if not deal:
+            raise HTTPException(status_code=404, detail="Deal not found")
+        return deal

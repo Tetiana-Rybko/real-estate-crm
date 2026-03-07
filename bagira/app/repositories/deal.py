@@ -1,5 +1,5 @@
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session,selectinload
 
 from app.models.deal import Deal
 from app.models.deal_property import DealProperty
@@ -57,3 +57,11 @@ class DealRepository:
         db.commit()
         db.refresh(link)
         return link
+
+    @staticmethod
+    def get_with_properties(db: Session, deal_id: int) -> Deal | None:
+        return db.scalar(
+            select(Deal)
+            .options(selectinload(Deal.properties))
+            .where(Deal.id == deal_id)
+        )
