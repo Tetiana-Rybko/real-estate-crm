@@ -36,6 +36,7 @@ class User(Base):
     )
 
     deals: Mapped[list["Deal"]] = relationship("Deal", back_populates="realtor")
+    tasks: Mapped[list["Task"]] = relationship("Task", back_populates="user")
     refresh_tokens: Mapped[list["RefreshToken"]] = relationship(
         "RefreshToken",
         back_populates="user",

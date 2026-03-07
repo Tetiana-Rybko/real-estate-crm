@@ -15,7 +15,6 @@ class Client(Base):
     phone: Mapped[str | None] = mapped_column(String(50), nullable=True)
     email: Mapped[str | None] = mapped_column(String(200), nullable=True, unique=True, index=True)
     note: Mapped[str | None] = mapped_column(String(500), nullable=True)
-
     agent_id: Mapped[int] = mapped_column(
         ForeignKey("users.id", ondelete="RESTRICT"),
         nullable=False,
@@ -27,3 +26,4 @@ class Client(Base):
     activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="client")
     deals: Mapped[list["Deal"]] = relationship("Deal", back_populates="client")
     properties: Mapped[list["Property"]] = relationship("Property", back_populates="owner")
+    tasks: Mapped[list["Task"]] = relationship("Task", back_populates="client")

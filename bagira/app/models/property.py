@@ -66,7 +66,11 @@ class Property(Base):
         index=True,
     )
 
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),
@@ -76,18 +80,6 @@ class Property(Base):
 
     owner: Mapped[Optional["Client"]] = relationship("Client", back_populates="properties")
     agent: Mapped["User"] = relationship("User", back_populates="properties")
-
-    links: Mapped[list["DealProperty"]] = relationship(
-        "DealProperty",
-        back_populates="property",
-        cascade="all, delete-orphan",
-    )
-    deals: Mapped[list["Deal"]] = relationship(
-        "Deal",
-        secondary="deal_properties",
-        back_populates="properties",
-        viewonly=True,
-    )
 
     tasks: Mapped[list["Task"]] = relationship("Task", back_populates="property")
     activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="property")

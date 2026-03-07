@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import enum
 from datetime import datetime
-from sqlalchemy import DateTime,Enum as SAEnum, ForeignKey, Integer, String, Text, func
+
+from sqlalchemy import DateTime, Enum as SAEnum, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -11,8 +12,8 @@ from app.db.base import Base
 class DealType(str, enum.Enum):
     sale = "sale"
     rent = "rent"
-    purchase = "purchase"   # подбор на покупку
-    lease = "lease"         # подбор на аренду
+    purchase = "purchase"
+    lease = "lease"
 
 
 class DealStatus(str, enum.Enum):
@@ -32,10 +33,17 @@ class Deal(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
 
     title: Mapped[str] = mapped_column(String(255), nullable=False)
-    type: Mapped[DealType] = mapped_column(SAEnum(DealType), nullable=False, default=DealType.sale)
-    status: Mapped[DealStatus] = mapped_column(SAEnum(DealStatus), nullable=False, default=DealStatus.new)
+    type: Mapped[DealType] = mapped_column(
+        SAEnum(DealType, name="deal_type"),
+        nullable=False,
+        default=DealType.sale,
+    )
+    status: Mapped[DealStatus] = mapped_column(
+        SAEnum(DealStatus, name="deal_status"),
+        nullable=False,
+        default=DealStatus.new,
+    )
 
-    # связи
     client_id: Mapped[int] = mapped_column(
         ForeignKey("clients.id", ondelete="RESTRICT"),
         nullable=False,
@@ -47,7 +55,6 @@ class Deal(Base):
         index=True,
     )
 
-    # бизнес-поля
     budget_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
     budget_max: Mapped[int | None] = mapped_column(Integer, nullable=True)
     note: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -64,23 +71,11 @@ class Deal(Base):
         nullable=False,
     )
 
-
     client: Mapped["Client"] = relationship("Client", back_populates="deals")
     realtor: Mapped["User"] = relationship("User", back_populates="deals")
 
-    # many-to-many с объектами через DealProperty
-    #links: Mapped[list["DealProperty"]] = relationship(
-       # "DealProperty",
-        #back_populates="deal",
-        #cascade="all, delete-orphan",
-    #)
-    properties: Mapped[list["Property"]] = relationship(
-        "Property",
-        secondary="deal_properties",
-        back_populates="deals",
-        viewonly=True,  # чтобы управлять через links
-    )
-
-
     tasks: Mapped[list["Task"]] = relationship("Task", back_populates="deal")
     activities: Mapped[list["Activity"]] = relationship("Activity", back_populates="deal")
+
+
+
