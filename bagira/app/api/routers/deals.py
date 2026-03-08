@@ -6,8 +6,8 @@ from app.models.activity import Activity
 from app.schemas.activity import ActivityRead
 from app.db.session import get_db
 from app.api.deps import get_current_user, require_roles
-from app.models.user import UserRole
-from app.models.user import User
+from app.models.user import UserRole,User
+from app.models.deal import DealStatus,Deal
 from app.repositories.deal import DealRepository
 from app.services.deal_service import DealService
 from app.schemas.deal import (
@@ -46,7 +46,35 @@ def create_deal(
     user: User = Depends(get_current_user),
 ):
     return DealService.create(db, user, payload)
+@router.get("/pipeline")
+def deals_pipeline(
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    # якщо ADMIN — бачить всі угоди
+    if user.role == UserRole.ADMIN:
+        deals = db.scalars(select(Deal)).all()
+    else:
+        # агент бачить тільки свої
+        deals = db.scalars(
+            select(Deal).where(Deal.realtor_id == user.id)
+        ).all()
 
+    pipeline = {
+        "new": [],
+        "qualified": [],
+        "showing": [],
+        "negotiation": [],
+        "contract": [],
+        "won": [],
+        "lost": [],
+        "archived": [],
+    }
+
+    for deal in deals:
+        pipeline[deal.status.value].append(deal)
+
+    return pipeline
 
 @router.get("/{deal_id}", response_model=DealOut)
 def get_deal(
@@ -125,3 +153,12 @@ def list_deal_properties(
     deal = DealService.get_with_properties_or_404(db, deal_id)
     DealService.ensure_access(user, deal)
     return deal.properties
+@router.get("/{deal_id}/matching-properties", response_model=list[PropertyOut])
+def get_matching_properties(
+    deal_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    deal = DealService.get_or_404(db, deal_id)
+    return DealService.matching_properties(db, user, deal)
+

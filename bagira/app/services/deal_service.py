@@ -6,6 +6,7 @@ from app.models.deal_property import DealProperty
 from app.models.deal import Deal, DealStatus
 from app.models.user import User, UserRole
 from app.repositories.deal import DealRepository
+from app.repositories.properties import PropertyRepository
 
 
 class DealService:
@@ -149,3 +150,18 @@ class DealService:
         if not deal:
             raise HTTPException(status_code=404, detail="Deal not found")
         return deal
+
+    @staticmethod
+    def matching_properties(db: Session, user: User, deal: Deal):
+        DealService.ensure_access(user, deal)
+
+        agent_id = None
+        if user.role != UserRole.ADMIN:
+            agent_id = user.id
+
+        return PropertyRepository.list_matching_for_deal(
+            db,
+            budget_min=deal.budget_min,
+            budget_max=deal.budget_max,
+            agent_id=agent_id,
+        )
