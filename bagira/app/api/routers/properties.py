@@ -96,3 +96,5 @@ def get_property_timeline(property_id: int, db: DBSession, user: CurrentUser):
     ).all()
 
     return activities
+
+

@@ -6,6 +6,7 @@ from app.db.session import get_db
 from app.models.task import Task
 from app.models.activity import Activity,ActivityType,ActivityStatus
 from app.schemas.task import TaskCreate, TaskRead, TaskUpdate,TaskStatus
+from app.schemas.activity import ActivityRead
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
@@ -94,3 +95,16 @@ def delete_task(task_id: int, db: Session = Depends(get_db)):
     db.delete(task)
     db.commit()
     return {"status": "deleted"}
+
+@router.get("/{task_id}/timeline", response_model=list[ActivityRead])
+def get_task_timeline(
+    task_id: int,
+    db: Session = Depends(get_db),
+):
+    activities = db.scalars(
+        select(Activity)
+        .where(Activity.task_id == task_id)
+        .order_by(Activity.created_at.desc())
+    ).all()
+
+    return activities
