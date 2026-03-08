@@ -46,7 +46,7 @@ def create_deal(
     user: User = Depends(get_current_user),
 ):
     return DealService.create(db, user, payload)
-@router.get("/pipeline")
+@router.get("/pipeline",response_model=dict)
 def deals_pipeline(
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),

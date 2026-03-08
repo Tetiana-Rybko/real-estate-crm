@@ -1,12 +1,13 @@
 from pydantic import BaseModel
 
 from app.schemas.activity import ActivityRead
-from app.schemas.deal import DealOut
-from app.schemas.task import TaskRead
 
 
 class DashboardOut(BaseModel):
-    deals: list[DealOut]
-    tasks: list[TaskRead]
-    overdue_tasks: list[TaskRead]
+    deals_total: int
+    deals_won: int
+    deals_lost: int
+    conversion_rate: float
+    tasks_total: int
+    tasks_overdue: int
     recent_activity: list[ActivityRead]

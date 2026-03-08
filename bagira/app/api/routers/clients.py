@@ -2,6 +2,10 @@ import logging
 from sqlalchemy import select
 
 from app.models.activity import Activity
+from app.models.deal import Deal
+from app.schemas.deal import DealOut
+from app.models.task import Task
+from app.schemas.task import TaskRead
 from app.schemas.activity import ActivityRead
 from fastapi import APIRouter, Depends, HTTPException, status
 
@@ -114,3 +118,39 @@ def get_client_timeline(client_id: int, db: DBSession, user: CurrentUser):
     ).all()
 
     return activities
+@router.get(
+    "/{client_id}/deals",
+    response_model=list[DealOut],
+    dependencies=[Depends(require_roles(UserRole.ADMIN, UserRole.AGENT))],
+)
+def get_client_deals(client_id: int, db: DBSession, user: CurrentUser):
+    logger.info("get_client_deals client_id=%s user_id=%s", client_id, user.id)
+
+    client = ClientService.get_or_404(db, client_id)
+    ClientService.ensure_access(user, client)
+
+    deals = db.scalars(
+        select(Deal)
+        .where(Deal.client_id == client_id)
+        .order_by(Deal.created_at.desc())
+    ).all()
+
+    return deals
+@router.get(
+    "/{client_id}/tasks",
+    response_model=list[TaskRead],
+    dependencies=[Depends(require_roles(UserRole.ADMIN, UserRole.AGENT))],
+)
+def get_client_tasks(client_id: int, db: DBSession, user: CurrentUser):
+    logger.info("get_client_tasks client_id=%s user_id=%s", client_id, user.id)
+
+    client = ClientService.get_or_404(db, client_id)
+    ClientService.ensure_access(user, client)
+
+    tasks = db.scalars(
+        select(Task)
+        .where(Task.client_id == client_id)
+        .order_by(Task.created_at.desc())
+    ).all()
+
+    return tasks

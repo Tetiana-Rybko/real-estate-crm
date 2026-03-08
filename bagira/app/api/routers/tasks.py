@@ -27,9 +27,25 @@ def get_task(task_id: int, db: Session = Depends(get_db)):
 @router.post("/", response_model=TaskRead, status_code=status.HTTP_201_CREATED)
 def create_task(payload: TaskCreate, db: Session = Depends(get_db)):
     task = Task(**payload.model_dump())
+
     db.add(task)
     db.commit()
     db.refresh(task)
+
+    activity = Activity(
+        type=ActivityType.task,
+        status=ActivityStatus.done,
+        note=f"Створено задачу: {task.title}",
+        user_id=task.user_id,
+        client_id=task.client_id,
+        deal_id=task.deal_id,
+        property_id=task.property_id,
+        task_id=task.id,
+    )
+
+    db.add(activity)
+    db.commit()
+
     return task
 
 

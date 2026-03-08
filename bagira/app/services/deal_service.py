@@ -69,7 +69,7 @@ class DealService:
             db,
             deal=created_deal,
             user=user,
-            note=f"Deal created: {created_deal.title}",
+            note=f"Створено угоду: {created_deal.title}",
         )
 
         return created_deal
@@ -97,7 +97,7 @@ class DealService:
                 db,
                 deal=updated_deal,
                 user=user,
-                note=f"Deal status changed: {old_status} -> {status}",
+                note=f"Змінено статус угоди: {old_status} -> {status}",
             )
 
         return updated_deal
@@ -116,7 +116,7 @@ class DealService:
                 db,
                 deal=updated_deal,
                 user=user,
-                note=f"Deal assigned to realtor_id={realtor_id}",
+                note=f"Угоду призначено агенту: realtor_id={realtor_id}",
             )
 
         return updated_deal
@@ -139,7 +139,7 @@ class DealService:
             db,
             deal=deal,
             user=user,
-            note=f"Property attached to deal: property_id={property_id}",
+            note=f"Додано об'єкт до угоди: property_id={property_id}",
         )
 
         return link
