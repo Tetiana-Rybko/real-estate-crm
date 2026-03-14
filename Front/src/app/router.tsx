@@ -1,17 +1,28 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import Login from "../pages/Login";
+import ClientsPage from "../pages/ClientsPage";
+import RequireAuth from "./RequireAuth";
 import { AppLayout } from "../layouts/AppLayout";
-import { HomePage } from "../pages/HomePage";
-import  ClientsPage from "../pages/ClientsPage";
-import  ObjectsPage  from "../pages/ObjectsPage";
+import PropertiesPage from "../pages/PropertiesPage";
+import DealsPage from "../pages/DealsPage";
 
 export const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
     path: "/",
-    element: <AppLayout />,
+    element: (
+      <RequireAuth>
+        <AppLayout />
+      </RequireAuth>
+    ),
     children: [
-      { index: true, element: <HomePage /> },          // "/"
-      { path: "clients", element: <ClientsPage /> },   // "/clients"
-      { path: "objects", element: <ObjectsPage /> },   // "/objects"
+      { index: true, element: <Navigate to="/clients" replace /> },
+      { path: "clients", element: <ClientsPage /> },
+      { path: "properties", element: <PropertiesPage /> },
+      { path: "deals", element: <DealsPage /> },
     ],
   },
 ]);
