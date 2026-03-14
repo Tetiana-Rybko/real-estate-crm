@@ -148,6 +148,27 @@ export default function DealsPage() {
     }
   }
 }
+
+  async function archiveDeal(id: number): Promise<void> {
+  if (!confirm("Перевести угоду в архів?")) return;
+
+  try {
+    await updateDealStatus(id, "archived");
+    await load();
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      const detail = err.response?.data?.detail;
+      if (typeof detail === "string") {
+        alert(detail);
+      } else {
+        alert("Не вдалося архівувати угоду");
+      }
+    } else {
+      alert("Не вдалося архівувати угоду");
+    }
+  }
+}
+
   async function removeDeal(id: number): Promise<void> {
     if (!confirm("Видалити угоду?")) return;
 
@@ -364,8 +385,8 @@ export default function DealsPage() {
                         ))}
                       </select>
 
-                      <button onClick={() => void removeDeal(deal.id)}>
-                        Видалити
+                      <button onClick={() => void archiveDeal(deal.id)}>
+                        В архів
                       </button>
                     </div>
                   </div>
