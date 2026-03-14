@@ -52,7 +52,7 @@ services:
   frontend:
     container_name: bagira_frontend
     build:
-      context: ./Front
+      context: ../Front
       dockerfile: Dockerfile
     depends_on:
       - backend
