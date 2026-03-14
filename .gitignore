@@ -24,8 +24,6 @@ secrets/
 *.sqlite3
 *.db
 
-# Alembic local config
-alembic.ini
 gunicorn.ctlFront/.env
 Front/node_modules
 Front/dist
