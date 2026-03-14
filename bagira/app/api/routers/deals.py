@@ -161,4 +161,13 @@ def get_matching_properties(
 ):
     deal = DealService.get_or_404(db, deal_id)
     return DealService.matching_properties(db, user, deal)
+@router.delete("/{deal_id}", status_code=204)
+def delete_deal(
+    deal_id: int,
+    db: Session = Depends(get_db),
+    _: User = Depends(require_roles(UserRole.ADMIN)),
+):
+    deal = DealService.get_or_404(db, deal_id)
 
+    db.delete(deal)
+    db.commit()
