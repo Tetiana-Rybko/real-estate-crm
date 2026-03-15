@@ -12,7 +12,10 @@ import logging
 from app.api.routers import deals,activity,users,tasks,dashboard,search
 
 
-app = FastAPI(title="Bagira SRM API")
+app = FastAPI(
+    title="Bagira SRM API",
+    root_path="/api",
+)
 setup_logging()
 
 
