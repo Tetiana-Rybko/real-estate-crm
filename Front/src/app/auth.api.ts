@@ -16,7 +16,7 @@ export async function login(
   form.append("password", password);
 
   const res = await axios.post<LoginResponse>(
-    "http://localhost:8000/auth/token",
+    "/api/auth/token",
     form,
     {
       headers: {
