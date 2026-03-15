@@ -1,7 +1,6 @@
 alembic==1.13.2
 annotated-types==0.7.0
 anyio==4.8.0
-bcrypt
 bcrypt==4.2.1
 certifi==2025.1.31
 click==8.1.8
