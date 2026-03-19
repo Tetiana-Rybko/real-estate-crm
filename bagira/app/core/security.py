@@ -13,7 +13,7 @@ from app.models.user import User
 # OAuth2 схема (Swagger будет знать, что нужен Bearer token)
 from app.core.settings import settings
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
 
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.ALGORITHM
