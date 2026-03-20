@@ -1,4 +1,3 @@
-# IDE / venv
 .idea/
 .venv/
 venv/
@@ -23,7 +22,20 @@ secrets/
 # Local databases
 *.sqlite3
 *.db
+*.sql
+*.dump
+*.sql.gz
 
-gunicorn.ctlFront/.env
+# Logs
+*.log
+
+# Uploads
+uploads/
+
+# Frontend
+Front/.env
 Front/node_modules
 Front/dist
+
+# Gunicorn
+gunicorn.ctl
