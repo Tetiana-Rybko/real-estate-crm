@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "./api";
 
 type LoginResponse = {
   access_token: string;
@@ -9,21 +9,15 @@ export async function login(
   email: string,
   password: string
 ): Promise<LoginResponse> {
-
   const form = new URLSearchParams();
-
   form.append("username", email);
   form.append("password", password);
 
-  const res = await axios.post<LoginResponse>(
-    "/api/auth/token",
-    form,
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
-  );
+  const res = await api.post<LoginResponse>("/auth/token", form, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
 
   return res.data;
 }
