@@ -21,7 +21,10 @@ export async function getClients(): Promise<Client[]> {
     const res = await api.get<Client[]>("/clients/my");
     return res.data;
   } catch (err: unknown) {
-    if (axios.isAxiosError(err) && err.response?.status === 403) {
+    if (
+      axios.isAxiosError(err) &&
+      (err.response?.status === 401 || err.response?.status === 403)
+    ) {
       const res = await api.get<Client[]>("/clients");
       return res.data;
     }
@@ -38,8 +41,10 @@ export async function deleteClient(id: number) {
   await api.delete(`/clients/${id}`);
 }
 
-export async function updateClient(id: number, payload: Partial<ClientCreate>) {
+export async function updateClient(
+  id: number,
+  payload: Partial<ClientCreate>
+) {
   const res = await api.put<Client>(`/clients/${id}`, payload);
   return res.data;
 }
-

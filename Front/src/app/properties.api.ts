@@ -1,3 +1,4 @@
+import axios from "axios";
 import { api } from "./api";
 
 export interface Property {
@@ -24,18 +25,32 @@ export interface PropertyCreate {
 }
 
 export async function getProperties(): Promise<Property[]> {
-  const res = await api.get<Property[]>("/properties/my");
-  return res.data;
+  try {
+    const res = await api.get<Property[]>("/properties/my");
+    return res.data;
+  } catch (err: unknown) {
+    if (
+      axios.isAxiosError(err) &&
+      (err.response?.status === 401 || err.response?.status === 403)
+    ) {
+      const res = await api.get<Property[]>("/properties");
+      return res.data;
+    }
+    throw err;
+  }
 }
 
-export async function createProperty(payload: PropertyCreate): Promise<Property> {
+export async function createProperty(
+  payload: PropertyCreate
+): Promise<Property> {
   const res = await api.post<Property>("/properties", payload);
   return res.data;
 }
 
-export async function deleteProperty(id: number) {
+export async function deleteProperty(id: number): Promise<void> {
   await api.delete(`/properties/${id}`);
 }
+
 export async function updateProperty(
   id: number,
   payload: Partial<PropertyCreate>
