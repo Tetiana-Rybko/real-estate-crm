@@ -8,29 +8,106 @@ export function AppLayout() {
     navigate("/login");
   }
 
+  const linkBase: React.CSSProperties = {
+    color: "#F8EAF0",
+    textDecoration: "none",
+    padding: "12px 14px",
+    borderRadius: 10,
+    display: "block",
+    fontWeight: 500,
+  };
+
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
+    <div style={{ display: "flex", minHeight: "100vh", background: "#F6F3F5" }}>
       <aside
         style={{
-          width: 240,
-          padding: 16,
-          borderRight: "1px solid #eee",
+          width: 260,
+          padding: 20,
+          background: "#4A0F28",
+          color: "#FFFFFF",
+          display: "flex",
+          flexDirection: "column",
+          boxShadow: "2px 0 12px rgba(0,0,0,0.08)",
         }}
       >
-        <h2>Bagira CRM</h2>
+        <div style={{ marginBottom: 28 }}>
+          <div
+            style={{
+              fontSize: 28,
+              fontWeight: 700,
+              lineHeight: 1.1,
+              letterSpacing: 0.3,
+            }}
+          >
+            Багіра CRM
+          </div>
+          <div
+            style={{
+              marginTop: 6,
+              fontSize: 13,
+              color: "#D8B8C5",
+            }}
+          >
+            Агентство нерухомості
+          </div>
+        </div>
 
-        <nav style={{ display: "grid", gap: 10 }}>
-          <NavLink to="/clients">Клієнти</NavLink>
-          <NavLink to="/properties">Об'єкти</NavLink>
-          <NavLink to="/deals">Угоди</NavLink>
+        <nav style={{ display: "grid", gap: 8 }}>
+          <NavLink
+            to="/clients"
+            style={({ isActive }) => ({
+              ...linkBase,
+              background: isActive ? "#6B1D3B" : "transparent",
+            })}
+          >
+            Клієнти
+          </NavLink>
+
+          <NavLink
+            to="/properties"
+            style={({ isActive }) => ({
+              ...linkBase,
+              background: isActive ? "#6B1D3B" : "transparent",
+            })}
+          >
+            Об'єкти
+          </NavLink>
+
+          <NavLink
+            to="/deals"
+            style={({ isActive }) => ({
+              ...linkBase,
+              background: isActive ? "#6B1D3B" : "transparent",
+            })}
+          >
+            Угоди
+          </NavLink>
         </nav>
 
-        <button onClick={logout} style={{ marginTop: 20 }}>
+        <button
+          onClick={logout}
+          style={{
+            marginTop: "auto",
+            background: "#FFFFFF",
+            color: "#4A0F28",
+            border: "none",
+            borderRadius: 10,
+            padding: "12px 14px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
           Вийти
         </button>
       </aside>
 
-      <main style={{ flex: 1, padding: 24 }}>
+      <main
+        style={{
+          flex: 1,
+          padding: 28,
+          background: "#F6F3F5",
+        }}
+      >
         <Outlet />
       </main>
     </div>
