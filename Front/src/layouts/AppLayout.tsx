@@ -1,5 +1,4 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
 
 export function AppLayout() {
   const navigate = useNavigate();
@@ -33,7 +32,7 @@ export function AppLayout() {
       >
         <div style={{ marginBottom: 28, textAlign: "center" }}>
           <img
-            src={logo}
+            src="/logo.png"
             alt="Багіра"
             style={{
               width: 88,
