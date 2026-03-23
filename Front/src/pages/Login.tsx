@@ -27,21 +27,34 @@ export default function Login() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundImage: 'url("/logo.png")',
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
         position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Фон с логотипом */}
+      <img
+        src="/logo.png"
+        alt="logo"
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          opacity: 0.35,
+          zIndex: 0 ,
+        }}
+      />
+
+      {/* Затемнение */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: "rgba(20, 8, 14, 0.72)",
+          background: "rgba(20, 8, 14, 0.75)",
         }}
       />
 
+      {/* Форма */}
       <form
         onSubmit={handleSubmit}
         style={{
@@ -50,7 +63,7 @@ export default function Login() {
           width: 360,
           padding: 32,
           borderRadius: 18,
-          background: "rgba(74, 15, 40, 0.88)",
+          background: "rgba(74, 15, 40, 0.9)",
           boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
           color: "#fff",
           display: "flex",
