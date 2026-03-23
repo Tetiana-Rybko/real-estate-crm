@@ -13,33 +13,96 @@ export default function Login() {
 
     try {
       const data = await login(email, password);
-
       localStorage.setItem("token", data.access_token);
-
       navigate("/clients");
     } catch {
-      alert("Неверный логин или пароль");
+      alert("Невірний логін або пароль");
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Вход</h2>
-
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundImage: 'url("/logo.png")',
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        position: "relative",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(20, 8, 14, 0.72)",
+        }}
       />
 
-      <input
-        type="password"
-        placeholder="Пароль"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: 360,
+          padding: 32,
+          borderRadius: 18,
+          background: "rgba(74, 15, 40, 0.88)",
+          boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
+          color: "#fff",
+          display: "flex",
+          flexDirection: "column",
+          gap: 14,
+        }}
+      >
+        <h2 style={{ textAlign: "center", margin: 0 }}>
+          Авторизуватися
+        </h2>
 
-      <button type="submit">Войти</button>
-    </form>
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 10,
+            border: "none",
+            outline: "none",
+          }}
+        />
+
+        <input
+          type="password"
+          placeholder="Пароль"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 10,
+            border: "none",
+            outline: "none",
+          }}
+        />
+
+        <button
+          type="submit"
+          style={{
+            marginTop: 8,
+            padding: 12,
+            borderRadius: 10,
+            border: "none",
+            background: "#FFFFFF",
+            color: "#4A0F28",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          Увійти
+        </button>
+      </form>
+    </div>
   );
 }
