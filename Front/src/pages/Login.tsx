@@ -33,8 +33,8 @@ export default function Login() {
         onSubmit={handleSubmit}
         style={{
           position: "absolute",
-          right: 60,
-          bottom: 60,
+          right: 40,
+          bottom: 20,
 
           width: 340,
           padding: 28,
