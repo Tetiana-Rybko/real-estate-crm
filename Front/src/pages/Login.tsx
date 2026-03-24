@@ -24,9 +24,11 @@ export default function Login() {
     <div
       style={{
         minHeight: "100vh",
+        position: "relative",
         backgroundImage: 'url("/logo.png")',
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <form
@@ -35,15 +37,17 @@ export default function Login() {
           position: "absolute",
           right: 40,
           bottom: 20,
-
           width: 340,
           padding: 28,
           borderRadius: 16,
           background: "rgba(255,255,255,0.9)",
-
           display: "flex",
           flexDirection: "column",
           gap: 14,
+          opacity: 0,
+          transform: "scale(0.85)",
+          animation: "zoomIn 0.5s ease forwards",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
         }}
       >
         <h2 style={{ textAlign: "center", margin: 0 }}>
@@ -58,6 +62,7 @@ export default function Login() {
             padding: 12,
             borderRadius: 10,
             border: "1px solid #ddd",
+            outline: "none",
           }}
         />
 
@@ -70,6 +75,7 @@ export default function Login() {
             padding: 12,
             borderRadius: 10,
             border: "1px solid #ddd",
+            outline: "none",
           }}
         />
 
@@ -89,6 +95,17 @@ export default function Login() {
           Увійти
         </button>
       </form>
+
+      <style>
+        {`
+          @keyframes zoomIn {
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }
