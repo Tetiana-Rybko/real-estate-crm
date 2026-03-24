@@ -24,9 +24,6 @@ export default function Login() {
     <div
       style={{
         minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         backgroundImage: 'url("/logo.png")',
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -35,10 +32,15 @@ export default function Login() {
       <form
         onSubmit={handleSubmit}
         style={{
+          position: "absolute",
+          right: 60,
+          bottom: 60,
+
           width: 340,
           padding: 28,
           borderRadius: 16,
           background: "rgba(255,255,255,0.9)",
+
           display: "flex",
           flexDirection: "column",
           gap: 14,
