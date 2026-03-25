@@ -2,12 +2,18 @@ import { useEffect, useState } from "react";
 import {
   getClients,
   deleteClient,
+  updateClient,
   type Client,
 } from "../app/clients.api";
 import CreateClientForm from "./CreateClientForm";
 
 export default function ClientsPage() {
   const [clients, setClients] = useState<Client[]>([]);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editFullName, setEditFullName] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editEmail, setEditEmail] = useState("");
+  const [editNote, setEditNote] = useState("");
 
   async function load() {
     const data = await getClients();
@@ -17,6 +23,38 @@ export default function ClientsPage() {
   async function remove(id: number) {
     await deleteClient(id);
     load();
+  }
+
+  function startEdit(client: Client) {
+    setEditingId(client.id);
+    setEditFullName(client.full_name);
+    setEditPhone(client.phone || "");
+    setEditEmail(client.email || "");
+    setEditNote(client.note || "");
+  }
+
+  async function saveEdit(id: number) {
+    await updateClient(id, {
+      full_name: editFullName,
+      phone: editPhone,
+      email: editEmail,
+      note: editNote,
+    });
+
+    setEditingId(null);
+    setEditFullName("");
+    setEditPhone("");
+    setEditEmail("");
+    setEditNote("");
+    load();
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditFullName("");
+    setEditPhone("");
+    setEditEmail("");
+    setEditNote("");
   }
 
   useEffect(() => {
@@ -75,8 +113,9 @@ export default function ClientsPage() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
             gap: 20,
+            marginTop: 20,
           }}
         >
           {clients.map((c) => (
@@ -84,13 +123,12 @@ export default function ClientsPage() {
               key={c.id}
               style={{
                 background: "#FFFFFF",
-                borderRadius: 18,
-                padding: 20,
-                boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
-                border: "1px solid #F0E7EC",
+                borderRadius: 14,
+                padding: 16,
+                boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
                 display: "flex",
                 flexDirection: "column",
-                gap: 14,
+                gap: 10,
               }}
             >
               <div
@@ -124,21 +162,139 @@ export default function ClientsPage() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => remove(c.id)}
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button
+                    onClick={() => startEdit(c)}
+                    type="button"
+                    style={{
+                      border: "none",
+                      background: "#EEE7F8",
+                      color: "#6B3FA0",
+                      borderRadius: 10,
+                      padding: "8px 12px",
+                      cursor: "pointer",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Редагувати
+                  </button>
+
+                  <button
+                    onClick={() => remove(c.id)}
+                    type="button"
+                    style={{
+                      border: "none",
+                      background: "#FBECEF",
+                      color: "#A53A57",
+                      borderRadius: 10,
+                      padding: "8px 12px",
+                      cursor: "pointer",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Видалити
+                  </button>
+                </div>
+              </div>
+
+              {editingId === c.id && (
+                <div
                   style={{
-                    border: "none",
-                    background: "#FBECEF",
-                    color: "#A53A57",
-                    borderRadius: 10,
-                    padding: "8px 12px",
-                    cursor: "pointer",
-                    fontWeight: 600,
+                    display: "grid",
+                    gap: 10,
+                    marginTop: 4,
+                    marginBottom: 4,
+                    padding: 14,
+                    borderRadius: 12,
+                    background: "#F8F5FA",
                   }}
                 >
-                  Видалити
-                </button>
-              </div>
+                  <input
+                    value={editFullName}
+                    onChange={(e) => setEditFullName(e.target.value)}
+                    placeholder="Ім'я"
+                    style={{
+                      padding: 10,
+                      borderRadius: 10,
+                      border: "1px solid #DDD",
+                      outline: "none",
+                    }}
+                  />
+
+                  <input
+                    value={editPhone}
+                    onChange={(e) => setEditPhone(e.target.value)}
+                    placeholder="Телефон"
+                    style={{
+                      padding: 10,
+                      borderRadius: 10,
+                      border: "1px solid #DDD",
+                      outline: "none",
+                    }}
+                  />
+
+                  <input
+                    value={editEmail}
+                    onChange={(e) => setEditEmail(e.target.value)}
+                    placeholder="Email"
+                    style={{
+                      padding: 10,
+                      borderRadius: 10,
+                      border: "1px solid #DDD",
+                      outline: "none",
+                    }}
+                  />
+
+                  <textarea
+                    value={editNote}
+                    onChange={(e) => setEditNote(e.target.value)}
+                    placeholder="Нотатка"
+                    rows={3}
+                    style={{
+                      padding: 10,
+                      borderRadius: 10,
+                      border: "1px solid #DDD",
+                      resize: "vertical",
+                      fontFamily: "inherit",
+                      outline: "none",
+                    }}
+                  />
+
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      onClick={() => saveEdit(c.id)}
+                      type="button"
+                      style={{
+                        border: "none",
+                        background: "#4A0F28",
+                        color: "#FFFFFF",
+                        borderRadius: 10,
+                        padding: "10px 14px",
+                        cursor: "pointer",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Зберегти
+                    </button>
+
+                    <button
+                      onClick={cancelEdit}
+                      type="button"
+                      style={{
+                        border: "none",
+                        background: "#ECECEC",
+                        color: "#333333",
+                        borderRadius: 10,
+                        padding: "10px 14px",
+                        cursor: "pointer",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Скасувати
+                    </button>
+                  </div>
+                </div>
+              )}
 
               <div
                 style={{

@@ -18,14 +18,14 @@ export interface ClientCreate {
 
 export async function getClients(): Promise<Client[]> {
   try {
-    const res = await api.get<Client[]>("/clients/my");
+    const res = await api.get<Client[]>(`/clients/my`);
     return res.data;
   } catch (err: unknown) {
     if (
       axios.isAxiosError(err) &&
       (err.response?.status === 401 || err.response?.status === 403)
     ) {
-      const res = await api.get<Client[]>("/clients");
+      const res = await api.get<Client[]>(`/clients`);
       return res.data;
     }
     throw err;
@@ -33,7 +33,7 @@ export async function getClients(): Promise<Client[]> {
 }
 
 export async function createClient(payload: ClientCreate): Promise<Client> {
-  const res = await api.post<Client>("/clients", payload);
+  const res = await api.post<Client>(`/clients`, payload);
   return res.data;
 }
 
