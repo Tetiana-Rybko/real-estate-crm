@@ -26,14 +26,14 @@ export interface PropertyCreate {
 
 export async function getProperties(): Promise<Property[]> {
   try {
-    const res = await api.get<Property[]>("/properties/my");
+    const res = await api.get<Property[]>(`/properties/my`);
     return res.data;
   } catch (err: unknown) {
     if (
       axios.isAxiosError(err) &&
       (err.response?.status === 401 || err.response?.status === 403)
     ) {
-      const res = await api.get<Property[]>("/properties");
+      const res = await api.get<Property[]>(`/properties`);
       return res.data;
     }
     throw err;
@@ -43,7 +43,7 @@ export async function getProperties(): Promise<Property[]> {
 export async function createProperty(
   payload: PropertyCreate
 ): Promise<Property> {
-  const res = await api.post<Property>("/properties", payload);
+  const res = await api.post<Property>(`/properties`, payload);
   return res.data;
 }
 

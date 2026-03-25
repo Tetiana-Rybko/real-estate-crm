@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { createProperty } from "../app/properties.api";
+import {
+  createProperty,
+  updateProperty,
+  type Property,
+} from "../app/properties.api";
 
 type Props = {
   onCreated: () => Promise<void> | void;
+  initialData?: Property | null;
+  onCancelEdit?: () => void;
 };
 
-export default function CreatePropertyForm({ onCreated }: Props) {
+export default function CreatePropertyForm({
+  onCreated,
+  initialData = null,
+  onCancelEdit,
+}: Props) {
   const [title, setTitle] = useState("");
   const [city, setCity] = useState("");
   const [district, setDistrict] = useState("");
@@ -19,22 +29,58 @@ export default function CreatePropertyForm({ onCreated }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  useEffect(() => {
+    setTitle(initialData?.title ?? "");
+    setCity(initialData?.city ?? "");
+    setDistrict(initialData?.district ?? "");
+    setAddress(initialData?.address ?? "");
+    setPrice(
+      initialData?.price !== null && initialData?.price !== undefined
+        ? String(initialData.price)
+        : ""
+    );
+    setRooms(
+      initialData?.rooms !== null && initialData?.rooms !== undefined
+        ? String(initialData.rooms)
+        : ""
+    );
+    setAreaTotal(
+      initialData?.area_total !== null && initialData?.area_total !== undefined
+        ? String(initialData.area_total)
+        : ""
+    );
+    setFloor(
+      initialData?.floor !== null && initialData?.floor !== undefined
+        ? String(initialData.floor)
+        : ""
+    );
+    setError(null);
+  }, [initialData]);
+
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
+    const payload = {
+      title,
+      city: city || undefined,
+      district: district || undefined,
+      address: address || undefined,
+      price: price ? Number(price) : undefined,
+      rooms: rooms ? Number(rooms) : undefined,
+      area_total: areaTotal ? Number(areaTotal) : undefined,
+      floor: floor ? Number(floor) : undefined,
+    };
+
     try {
-      await createProperty({
-        title,
-        city: city || undefined,
-        district: district || undefined,
-        address: address || undefined,
-        price: price ? Number(price) : undefined,
-        rooms: rooms ? Number(rooms) : undefined,
-        area_total: areaTotal ? Number(areaTotal) : undefined,
-        floor: floor ? Number(floor) : undefined,
-      });
+      if (initialData) {
+        await updateProperty(initialData.id, payload);
+      } else {
+        await createProperty(payload);
+      }
 
       setTitle("");
       setCity("");
@@ -48,9 +94,9 @@ export default function CreatePropertyForm({ onCreated }: Props) {
       await onCreated();
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.detail || "Не вдалося створити об'єкт");
+        setError(err.response?.data?.detail || "Не вдалося зберегти об'єкт");
       } else {
-        setError("Не вдалося створити об'єкт");
+        setError("Не вдалося зберегти об'єкт");
       }
     } finally {
       setLoading(false);
@@ -62,73 +108,202 @@ export default function CreatePropertyForm({ onCreated }: Props) {
       onSubmit={handleSubmit}
       style={{
         display: "grid",
-        gap: 10,
-        border: "1px solid #ddd",
-        borderRadius: 10,
-        padding: 16,
-        marginBottom: 20,
-        background: "#fff",
+        gap: 16,
+        marginBottom: 28,
+        padding: 20,
+        borderRadius: 16,
+        background: "#FFFFFF",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
       }}
     >
-      <h3 style={{ margin: 0 }}>Додати об'єкт</h3>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 12,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 20,
+            fontWeight: 700,
+            color: "#4A0F28",
+          }}
+        >
+          {initialData ? "Редагувати об'єкт" : "Додати об'єкт"}
+        </div>
 
-      <input
-        placeholder="Назва об'єкта"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+        {initialData && onCancelEdit && (
+          <button
+            type="button"
+            onClick={onCancelEdit}
+            style={{
+              border: "none",
+              background: "#ECECEC",
+              color: "#333333",
+              borderRadius: 10,
+              padding: "10px 14px",
+              cursor: "pointer",
+              fontWeight: 600,
+            }}
+          >
+            Скасувати
+          </button>
+        )}
+      </div>
 
-      <input
-        placeholder="Місто"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-      />
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: 14,
+        }}
+      >
+        <input
+          placeholder="Назва об'єкта"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
 
-      <input
-        placeholder="Район"
-        value={district}
-        onChange={(e) => setDistrict(e.target.value)}
-      />
+        <input
+          placeholder="Місто"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
 
-      <input
-        placeholder="Адреса"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
+        <input
+          placeholder="Район"
+          value={district}
+          onChange={(e) => setDistrict(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
 
-      <input
-        placeholder="Ціна"
-        type="number"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
+        <input
+          placeholder="Адреса"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
 
-      <input
-        placeholder="Кімнат"
-        type="number"
-        value={rooms}
-        onChange={(e) => setRooms(e.target.value)}
-      />
+        <input
+          placeholder="Ціна"
+          type="number"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
 
-      <input
-        placeholder="Площа, м²"
-        type="number"
-        value={areaTotal}
-        onChange={(e) => setAreaTotal(e.target.value)}
-      />
+        <input
+          placeholder="Кімнат"
+          type="number"
+          value={rooms}
+          onChange={(e) => setRooms(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
 
-      <input
-        placeholder="Поверх"
-        type="number"
-        value={floor}
-        onChange={(e) => setFloor(e.target.value)}
-      />
+        <input
+          placeholder="Площа, м²"
+          type="number"
+          value={areaTotal}
+          onChange={(e) => setAreaTotal(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Створення..." : "Створити"}
-      </button>
+        <input
+          placeholder="Поверх"
+          type="number"
+          value={floor}
+          onChange={(e) => setFloor(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
+      </div>
 
-      {error && <div style={{ color: "crimson" }}>Помилка: {error}</div>}
+      <div style={{ display: "flex", gap: 10 }}>
+        <button
+          type="submit"
+          disabled={loading || !title.trim()}
+          style={{
+            border: "none",
+            background: "#4A0F28",
+            color: "#FFFFFF",
+            borderRadius: 12,
+            padding: "12px 18px",
+            fontWeight: 600,
+            cursor: loading || !title.trim() ? "not-allowed" : "pointer",
+            opacity: loading || !title.trim() ? 0.7 : 1,
+          }}
+        >
+          {loading
+            ? initialData
+              ? "Збереження..."
+              : "Створення..."
+            : initialData
+            ? "Зберегти зміни"
+            : "Створити"}
+        </button>
+      </div>
+
+      {error && (
+        <div
+          style={{
+            color: "crimson",
+            fontSize: 14,
+          }}
+        >
+          Помилка: {error}
+        </div>
+      )}
     </form>
   );
 }

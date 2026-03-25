@@ -3,22 +3,35 @@ import axios from "axios";
 import {
   getProperties,
   deleteProperty,
-  updateProperty,
   type Property,
 } from "../app/properties.api";
 import CreatePropertyForm from "./CreatePropertyForm";
+
+const labelStyle = {
+  fontSize: 12,
+  color: "#A07C8D",
+  marginBottom: 4,
+  textTransform: "uppercase" as const,
+  letterSpacing: 0.4,
+};
+
+const valueStyle = {
+  color: "#2F2430",
+  fontSize: 15,
+};
 
 export default function PropertiesPage() {
   const [items, setItems] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editing, setEditing] = useState<Property | null>(null);
 
-  async function load() {
+  async function load(): Promise<void> {
     setLoading(true);
     setError(null);
 
     try {
-      const data = await getProperties();
+      const data: Property[] = await getProperties();
       setItems(data);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -31,34 +44,14 @@ export default function PropertiesPage() {
     }
   }
 
-  async function edit(p: Property) {
-    const title = prompt("Назва об'єкта", p.title);
-    if (!title) return;
-
-    const price = prompt("Ціна", String(p.price ?? ""));
-    if (price === null) return;
-
-    try {
-      await updateProperty(p.id, {
-        title,
-        price: price ? Number(price) : undefined,
-      });
-
-      await load();
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        alert(err.response?.data?.detail || "Не вдалося оновити об'єкт");
-      } else {
-        alert("Не вдалося оновити об'єкт");
-      }
-    }
-  }
-
-  async function remove(id: number) {
+  async function remove(id: number): Promise<void> {
     if (!confirm("Видалити об'єкт?")) return;
 
     try {
       await deleteProperty(id);
+      if (editing?.id === id) {
+        setEditing(null);
+      }
       await load();
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -84,70 +77,209 @@ export default function PropertiesPage() {
         }}
       >
         <div>
-          <h1 style={{ margin: 0 }}>Об'єкти</h1>
-          <p style={{ margin: "8px 0 0", color: "#666" }}>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: 32,
+              color: "#4A0F28",
+            }}
+          >
+            Об'єкти
+          </h1>
+
+          <p
+            style={{
+              margin: "8px 0 0",
+              color: "#7A5A68",
+              fontSize: 15,
+            }}
+          >
             Список об'єктів нерухомості
           </p>
         </div>
 
-        <button onClick={load}>Оновити</button>
+        <button
+          onClick={load}
+          style={{
+            border: "none",
+            background: "#4A0F28",
+            color: "#FFFFFF",
+            borderRadius: 10,
+            padding: "10px 14px",
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          Оновити
+        </button>
       </div>
 
-      <CreatePropertyForm onCreated={load} />
+      <CreatePropertyForm
+        onCreated={async () => {
+          setEditing(null);
+          await load();
+        }}
+        initialData={editing}
+        onCancelEdit={() => setEditing(null)}
+      />
 
-      {loading && <div>Завантаження...</div>}
+      {loading && (
+        <div
+          style={{
+            padding: 24,
+            borderRadius: 16,
+            background: "#FFFFFF",
+            color: "#7A5A68",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+          }}
+        >
+          Завантаження...
+        </div>
+      )}
 
       {error && (
-        <div style={{ color: "crimson", marginBottom: 16 }}>
+        <div
+          style={{
+            color: "crimson",
+            marginBottom: 16,
+            padding: 16,
+            borderRadius: 12,
+            background: "#FFF5F7",
+          }}
+        >
           Помилка: {error}
         </div>
       )}
 
       {!loading && !error && items.length === 0 && (
-        <div>Поки що немає жодного об'єкта.</div>
+        <div
+          style={{
+            padding: 24,
+            borderRadius: 16,
+            background: "#FFFFFF",
+            color: "#7A5A68",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+          }}
+        >
+          Поки що немає жодного об'єкта.
+        </div>
       )}
 
       {!loading && !error && items.length > 0 && (
-        <div style={{ display: "grid", gap: 12 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))",
+            gap: 20,
+            marginTop: 20,
+          }}
+        >
           {items.map((p) => (
             <div
               key={p.id}
               style={{
-                border: "1px solid #ddd",
-                padding: 14,
-                borderRadius: 10,
                 background: "#fff",
+                borderRadius: 14,
+                padding: 16,
+                boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
               }}
             >
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
+                  alignItems: "flex-start",
                   gap: 12,
                 }}
               >
                 <div>
-                  <div style={{ fontSize: 18, fontWeight: 700 }}>{p.title}</div>
-
-                  <div style={{ color: "#666", marginTop: 6 }}>
-                    {[p.city, p.district, p.address]
-                      .filter(Boolean)
-                      .join(", ") || "Адресу не вказано"}
+                  <div
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 700,
+                      color: "#4A0F28",
+                    }}
+                  >
+                    {p.title}
                   </div>
 
-                  <div style={{ marginTop: 8 }}>
-                    <b>Ціна:</b> {p.price ?? "—"} €
-                  </div>
-
-                  <div style={{ marginTop: 4 }}>
-                    <b>Кімнат:</b> {p.rooms ?? "—"} | <b>Площа:</b>{" "}
-                    {p.area_total ?? "—"} м² | <b>Поверх:</b> {p.floor ?? "—"}
+                  <div
+                    style={{
+                      marginTop: 4,
+                      fontSize: 13,
+                      color: "#A07C8D",
+                    }}
+                  >
+                    ID: {p.id}
                   </div>
                 </div>
 
                 <div style={{ display: "flex", gap: 8 }}>
-                  <button onClick={() => edit(p)}>Редагувати</button>
-                  <button onClick={() => remove(p.id)}>Видалити</button>
+                  <button
+                    onClick={() => setEditing(p)}
+                    type="button"
+                    style={{
+                      border: "none",
+                      background: "#EEF2FF",
+                      color: "#3A4ED5",
+                      borderRadius: 10,
+                      padding: "6px 10px",
+                      cursor: "pointer",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Редагувати
+                  </button>
+
+                  <button
+                    onClick={() => remove(p.id)}
+                    type="button"
+                    style={{
+                      border: "none",
+                      background: "#FBECEF",
+                      color: "#A53A57",
+                      borderRadius: 10,
+                      padding: "6px 10px",
+                      cursor: "pointer",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Видалити
+                  </button>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gap: 10 }}>
+                <div>
+                  <div style={labelStyle}>Адреса</div>
+                  <div style={valueStyle}>
+                    {[p.city, p.district, p.address].filter(Boolean).join(", ") ||
+                      "Не вказано"}
+                  </div>
+                </div>
+
+                <div>
+                  <div style={labelStyle}>Ціна</div>
+                  <div
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "#4A0F28",
+                    }}
+                  >
+                    {p.price ? `${p.price} €` : "Не вказано"}
+                  </div>
+                </div>
+
+                <div>
+                  <div style={labelStyle}>Характеристики</div>
+                  <div style={valueStyle}>
+                    {p.rooms ?? "—"} кімн • {p.area_total ?? "—"} м² • поверх{" "}
+                    {p.floor ?? "—"}
+                  </div>
                 </div>
               </div>
             </div>
