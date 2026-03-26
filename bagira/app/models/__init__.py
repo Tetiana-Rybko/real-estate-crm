@@ -6,6 +6,7 @@ from app.models.property import Property
 from app.models.task import Task
 from app.models.activity import Activity
 from app.models.deal_property import DealProperty
+from app.models.property_image import PropertyImage
 
 __all__ = [
     "User",
@@ -15,4 +16,5 @@ __all__ = [
     "Task",
     "Activity",
     "DealProperty",
+    "PropertyImage",
 ]

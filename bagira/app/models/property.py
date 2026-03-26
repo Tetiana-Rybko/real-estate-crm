@@ -95,3 +95,9 @@ class Property(Base):
         secondary="deal_properties",
         viewonly=True,
     )
+    images: Mapped[list["PropertyImage"]] = relationship(
+        "PropertyImage",
+        back_populates="property",
+        cascade="all, delete-orphan",
+        order_by="PropertyImage.sort_order",
+    )
