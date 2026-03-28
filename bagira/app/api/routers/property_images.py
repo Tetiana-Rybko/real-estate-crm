@@ -2,7 +2,7 @@ from uuid import uuid4
 import os
 
 from fastapi import APIRouter, UploadFile, File, HTTPException, status
-from sqlalchemy import select,update
+from sqlalchemy import select,update,func
 
 from app.api.deps import DBSession, CurrentUser
 from app.models.property import Property
@@ -30,6 +30,19 @@ async def upload_images(
 
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+    existing_main = db.scalar(
+        select(PropertyImage.id).where(
+            PropertyImage.property_id == property_id,
+            PropertyImage.is_main.is_(True),
+        ).limit(1)
+    )
+
+    existing_count = db.scalar(
+        select(func.count())
+        .select_from(PropertyImage)
+        .where(PropertyImage.property_id == property_id)
+    ) or 0
+
     saved = []
 
     for idx, file in enumerate(files[:20]):
@@ -43,16 +56,16 @@ async def upload_images(
         img = PropertyImage(
             property_id=property_id,
             file_path=path,
-            is_main=(idx == 0),
-            sort_order=idx,
+            is_main=(existing_main is None and idx == 0),
+            sort_order=existing_count + idx,
         )
+
         db.add(img)
         saved.append(img)
 
     db.commit()
 
     return {"uploaded": len(saved)}
-
 @router.post("/images/{image_id}/make-main", response_model=PropertyImageOut)
 def make_image_main(
     image_id: int,
