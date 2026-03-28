@@ -6,7 +6,6 @@ from typing import Optional
 
 from sqlalchemy import Boolean, DateTime, Enum as SAEnum, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from app.db.base import Base
 
 
@@ -101,3 +100,17 @@ class Property(Base):
         cascade="all, delete-orphan",
         order_by="PropertyImage.sort_order",
     )
+
+    @property
+    def main_image(self) -> str | None:
+        if not self.images:
+            return None
+        for image in self.images:
+            if image.is_main:
+                return f"/{image.file_path}"
+        return f"/{self.images[0].file_path}"
+
+
+    @property
+    def images_count(self) -> int:
+        return len(self.images or [])

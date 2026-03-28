@@ -11,6 +11,24 @@ export interface Property {
   rooms?: number | null;
   area_total?: number | null;
   floor?: number | null;
+  main_image?: string | null;
+  images_count: number;
+  images: {
+  id: number;
+    property_id: number;
+    file_path: string;
+    is_main: boolean;
+    sort_order: number;
+    created_at: string;
+}[],
+}
+export interface PropertyImage {
+  id: number;
+  property_id: number;
+  file_path: string;
+  is_main: boolean;
+  sort_order: number;
+  created_at: string;
 }
 
 export interface PropertyCreate {
@@ -58,3 +76,32 @@ export async function updateProperty(
   const res = await api.put<Property>(`/properties/${id}`, payload);
   return res.data;
 }
+export async function uploadPropertyImages(
+  propertyId: number,
+  files: File[],
+): Promise<{ uploaded: number }> {
+  const formData = new FormData();
+
+  for (const file of files) {
+    formData.append("files", file);
+  }
+
+  const res = await api.post(`/properties/${propertyId}/images`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return res.data;
+}
+
+export async function makePropertyImageMain(
+  imageId: number,
+): Promise<PropertyImage> {
+  const res = await api.post(`/properties/images/${imageId}/make-main`);
+  return res.data;
+}
+export async function deletePropertyImage(imageId: number): Promise<void> {
+  await api.delete(`/properties/images/${imageId}`);
+}
+

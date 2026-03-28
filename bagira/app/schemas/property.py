@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional
+from typing import Optional,List
 
 from pydantic import BaseModel, ConfigDict
 
@@ -58,3 +58,17 @@ class PropertyOut(PropertyBase):
     id: int
     created_at: datetime
     updated_at: datetime
+
+    main_image: str | None = None
+    images_count: int = 0
+    images: List[PropertyImageOut] = []
+
+class PropertyImageOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    property_id: int
+    file_path: str
+    is_main: bool
+    sort_order: int
+    created_at: datetime

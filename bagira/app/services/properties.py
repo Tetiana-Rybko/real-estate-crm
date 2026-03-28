@@ -41,8 +41,7 @@ class PropertyService:
     def create(db: Session, user: User, payload: PropertyCreate) -> Property:
         data = payload.model_dump()
 
-        # агентом объекта всегда становится текущий пользователь
-        # если позже захочешь, для ADMIN можно добавить отдельную логику назначения
+
         data["agent_id"] = user.id
 
         obj = Property(**data)
