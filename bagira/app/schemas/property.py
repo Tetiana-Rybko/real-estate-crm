@@ -11,7 +11,12 @@ from app.models.property import PropertyStatus, PropertyType
 class PropertyBase(BaseModel):
     type: PropertyType = PropertyType.apartment
     status: PropertyStatus = PropertyStatus.draft
-
+    class_type: str | None = None
+    year_built: int | None = None
+    heating: str | None = None
+    furniture: str | None = None
+    commission: int | None = None
+   
     title: str
     address: Optional[str] = None
     city: Optional[str] = None

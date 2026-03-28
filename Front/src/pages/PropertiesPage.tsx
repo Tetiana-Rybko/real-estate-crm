@@ -226,7 +226,7 @@ export default function PropertiesPage() {
           {items.map((p) => {
             const main = p.images?.find((img) => img.is_main) || p.images?.[0];
             const mainImageUrl = main
-              ? `http://127.0.0.1:8000/${main.file_path}`
+              ? `/${main.file_path}`
               : null;
 
             return (
@@ -373,7 +373,7 @@ export default function PropertiesPage() {
                       }}
                     >
                       {p.images.map((img) => {
-                        const thumbUrl = `http://127.0.0.1:8000/${img.file_path}`;
+                        const thumbUrl = `/${img.file_path}`;
 
                         return (
                           <div

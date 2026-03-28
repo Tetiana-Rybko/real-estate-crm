@@ -25,6 +25,11 @@ export default function CreatePropertyForm({
   const [rooms, setRooms] = useState("");
   const [areaTotal, setAreaTotal] = useState("");
   const [floor, setFloor] = useState("");
+  const [classType, setClassType] = useState("");
+  const [yearBuilt, setYearBuilt] = useState("");
+  const [heating, setHeating] = useState("");
+  const [furniture, setFurniture] = useState("");
+  const [commission, setCommission] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,6 +44,20 @@ export default function CreatePropertyForm({
         ? String(initialData.price)
         : ""
     );
+    setClassType(initialData?.class_type ?? "");
+    setYearBuilt(
+      initialData?.year_built !== null && initialData?.year_built !== undefined
+      ? String(initialData.year_built)
+      : ""
+    );
+    setHeating(initialData?.heating ?? "");
+    setFurniture(initialData?.furniture ?? "");
+    setCommission(
+      initialData?.commission !== null && initialData?.commission !== undefined
+      ? String(initialData.commission)
+      : ""
+    );
+
     setRooms(
       initialData?.rooms !== null && initialData?.rooms !== undefined
         ? String(initialData.rooms)
@@ -253,6 +272,73 @@ export default function CreatePropertyForm({
             fontSize: 14,
           }}
         />
+
+        <input
+          placeholder="Класс жилья"
+          value={classType}
+          onChange={(e) => setClassType(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
+
+        <input
+          placeholder="Год постройки"
+          type="number"
+          value={yearBuilt}
+          onChange={(e) => setYearBuilt(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
+
+        <input
+          placeholder="Отопление"
+          value={heating}
+          onChange={(e) => setHeating(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
+
+        <input
+          placeholder="Мебель и техника"
+          value={furniture}
+          onChange={(e) => setFurniture(e.target.value)}
+          style={{
+            padding: 12,
+            borderRadius: 12,
+            border: "1px solid #E7DCE2",
+            outline: "none",
+            fontSize: 14,
+          }}
+        />
+
+       <input
+         placeholder="Комиссия"
+         type="number"
+         value={commission}
+         onChange={(e) => setCommission(e.target.value)}
+         style={{
+           padding: 12,
+           borderRadius: 12,
+           border: "1px solid #E7DCE2",
+           outline: "none",
+           fontSize: 14,
+          }}
+        /> 
 
         <input
           placeholder="Поверх"

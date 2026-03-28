@@ -7,6 +7,11 @@ export interface Property {
   city?: string | null;
   district?: string | null;
   address?: string | null;
+  class_type?: string | null;
+  year_built?: number | null;
+  heating?: string | null;
+  furniture?: string | null;
+  commission?: number | null;
   price?: number | null;
   rooms?: number | null;
   area_total?: number | null;
@@ -40,6 +45,11 @@ export interface PropertyCreate {
   rooms?: number;
   area_total?: number;
   floor?: number;
+  class_type?: string;
+  year_built?: number;
+  heating?: string;
+  furniture?: string;
+  commission?: number;
 }
 
 export async function getProperties(): Promise<Property[]> {

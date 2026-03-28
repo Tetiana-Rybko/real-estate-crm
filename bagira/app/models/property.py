@@ -4,7 +4,7 @@ import enum
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import Boolean, DateTime, Enum as SAEnum, ForeignKey, Integer, String, Text, func
+from sqlalchemy import Boolean, DateTime, Enum as SAEnum, ForeignKey, Integer, String, Text, func,Column,String,Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 
@@ -50,7 +50,11 @@ class Property(Base):
     address: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
     city: Mapped[Optional[str]] = mapped_column(String(120), nullable=True)
     district: Mapped[Optional[str]] = mapped_column(String(120), nullable=True)
-
+    class_type = Column(String, nullable=True)
+    year_built = Column(Integer, nullable=True)
+    heating = Column(String, nullable=True)
+    furniture = Column(String, nullable=True)
+    commission = Column(Integer, nullable=True)
     price: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     rooms: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     area_total: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
