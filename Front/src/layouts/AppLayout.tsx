@@ -50,7 +50,7 @@ export function AppLayout() {
               letterSpacing: 0.3,
             }}
           >
-            Багіра CRM
+            Багіра
           </div>
 
           <div
@@ -93,6 +93,16 @@ export function AppLayout() {
             })}
           >
             Угоди
+          </NavLink>
+          {/* 👉 ВОТ ЭТО НОВОЕ */}
+          <NavLink
+            to="/property-intakes"
+            style={({ isActive }) => ({
+              ...linkBase,
+              background: isActive ? "#6B1D3B" : "transparent",
+            })}
+          >
+            Акти прийому
           </NavLink>
         </nav>
 
