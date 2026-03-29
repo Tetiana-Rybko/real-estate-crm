@@ -5,6 +5,8 @@ import RequireAuth from "./RequireAuth";
 import { AppLayout } from "../layouts/AppLayout";
 import PropertiesPage from "../pages/PropertiesPage";
 import DealsPage from "../pages/DealsPage";
+import PropertyIntakesPage from "../pages/PropertyIntakesPage";
+import PropertyIntakeCreatePage from "../pages/PropertyIntakeCreatePage";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,8 @@ export const router = createBrowserRouter([
       { path: "clients", element: <ClientsPage /> },
       { path: "properties", element: <PropertiesPage /> },
       { path: "deals", element: <DealsPage /> },
+      { path: "property-intakes", element: <PropertyIntakesPage />},
+      {path: "property-intakes/new", element: <PropertyIntakeCreatePage />},
     ],
   },
 ]);

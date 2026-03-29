@@ -6,7 +6,7 @@ export default function Sidebar() {
 
       {/* ЛОГО / НАЗВАНИЕ */}
       <div style={styles.logo}>
-        Bagira CRM
+        Bagira
       </div>
 
       {/* МЕНЮ */}
@@ -14,6 +14,7 @@ export default function Sidebar() {
         <Link to="/clients" style={styles.link}>Клієнти</Link>
         <Link to="/properties" style={styles.link}>Об'єкти</Link>
         <Link to="/deals" style={styles.link}>Угоди</Link>
+        <Link to="/property-intakes" style={styles.link}>Aкти прийому</Link>
       </nav>
 
     </div>

@@ -9,7 +9,7 @@ from app.api.routers.clients import router as clients_router
 from app.api.routers.properties import router as properties_router
 from app.api.routers.property_images import router as property_images_router
 import logging
-from app.api.routers import deals,activity,users,tasks,dashboard,search
+from app.api.routers import deals,activity,users,tasks,dashboard,search,property_intakes
 
 
 app = FastAPI(
@@ -40,6 +40,7 @@ app.include_router(tasks.router)
 app.include_router(dashboard.router)
 app.include_router(search.router)
 app.include_router(property_images_router)
+app.include_router(property_intakes.router)
 
 @app.get("/health")
 def health():
