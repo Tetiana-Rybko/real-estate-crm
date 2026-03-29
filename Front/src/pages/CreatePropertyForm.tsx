@@ -17,6 +17,43 @@ export default function CreatePropertyForm({
   initialData = null,
   onCancelEdit,
 }: Props) {
+  const sectionStyle = {
+  background: "#FFFFFF",
+  borderRadius: 16,
+  padding: 20,
+  boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+  display: "grid",
+  gap: 16,
+};
+
+const sectionTitleStyle = {
+  margin: 0,
+  fontSize: 18,
+  fontWeight: 700,
+  color: "#4A0F28",
+};
+
+const gridStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gap: 14,
+};
+
+const inputStyle = {
+  padding: 12,
+  borderRadius: 12,
+  border: "1px solid #E7DCE2",
+  outline: "none",
+  fontSize: 14,
+  width: "100%",
+  boxSizing: "border-box" as const,
+};
+
+const textareaStyle = {
+  ...inputStyle,
+  minHeight: 100,
+  resize: "vertical" as const,
+};
   const [title, setTitle] = useState("");
   const [city, setCity] = useState("");
   const [district, setDistrict] = useState("");
@@ -172,189 +209,128 @@ export default function CreatePropertyForm({
         )}
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: 14,
-        }}
-      >
-        <input
-          placeholder="Назва об'єкта"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+      <div style={{ display: "grid", gap: 20 }}>
+  <div style={sectionStyle}>
+    <h3 style={sectionTitleStyle}>Основне</h3>
 
-        <input
-          placeholder="Місто"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+    <div style={gridStyle}>
+      <input
+        placeholder="Назва об'єкта"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        style={inputStyle}
+      />
 
-        <input
-          placeholder="Район"
-          value={district}
-          onChange={(e) => setDistrict(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+      <input
+        placeholder="Місто"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        style={inputStyle}
+      />
 
-        <input
-          placeholder="Адреса"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+      <input
+        placeholder="Район"
+        value={district}
+        onChange={(e) => setDistrict(e.target.value)}
+        style={inputStyle}
+      />
 
-        <input
-          placeholder="Ціна"
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+      <input
+        placeholder="Адреса"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        style={inputStyle}
+      />
 
-        <input
-          placeholder="Кімнат"
-          type="number"
-          value={rooms}
-          onChange={(e) => setRooms(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+      <input
+        placeholder="Клас житла"
+        value={classType}
+        onChange={(e) => setClassType(e.target.value)}
+        style={inputStyle}
+      />
 
-        <input
-          placeholder="Площа, м²"
-          type="number"
-          value={areaTotal}
-          onChange={(e) => setAreaTotal(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+      <input
+        placeholder="Рік побудови"
+        type="number"
+        value={yearBuilt}
+        onChange={(e) => setYearBuilt(e.target.value)}
+        style={inputStyle}
+      />
+    </div>
+  </div>
 
-        <input
-          placeholder="Класс жилья"
-          value={classType}
-          onChange={(e) => setClassType(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+  <div style={sectionStyle}>
+    <h3 style={sectionTitleStyle}>Параметри квартири</h3>
 
-        <input
-          placeholder="Год постройки"
-          type="number"
-          value={yearBuilt}
-          onChange={(e) => setYearBuilt(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+    <div style={gridStyle}>
+      <input
+        placeholder="Кількість кімнат"
+        type="number"
+        value={rooms}
+        onChange={(e) => setRooms(e.target.value)}
+        style={inputStyle}
+      />
 
-        <input
-          placeholder="Отопление"
-          value={heating}
-          onChange={(e) => setHeating(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+      <input
+        placeholder="Загальна площа"
+        type="number"
+        value={areaTotal}
+        onChange={(e) => setAreaTotal(e.target.value)}
+        style={inputStyle}
+      />
 
-        <input
-          placeholder="Мебель и техника"
-          value={furniture}
-          onChange={(e) => setFurniture(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
+      <input
+        placeholder="Поверх"
+        type="number"
+        value={floor}
+        onChange={(e) => setFloor(e.target.value)}
+        style={inputStyle}
+      />
+    </div>
+  </div>
 
-       <input
-         placeholder="Комиссия"
-         type="number"
-         value={commission}
-         onChange={(e) => setCommission(e.target.value)}
-         style={{
-           padding: 12,
-           borderRadius: 12,
-           border: "1px solid #E7DCE2",
-           outline: "none",
-           fontSize: 14,
-          }}
-        /> 
+  <div style={sectionStyle}>
+    <h3 style={sectionTitleStyle}>Комунікації та комплектація</h3>
 
-        <input
-          placeholder="Поверх"
-          type="number"
-          value={floor}
-          onChange={(e) => setFloor(e.target.value)}
-          style={{
-            padding: 12,
-            borderRadius: 12,
-            border: "1px solid #E7DCE2",
-            outline: "none",
-            fontSize: 14,
-          }}
-        />
-      </div>
+    <div style={gridStyle}>
+      <input
+        placeholder="Опалення"
+        value={heating}
+        onChange={(e) => setHeating(e.target.value)}
+        style={inputStyle}
+      />
 
+      <input
+        placeholder="Меблі та техніка"
+        value={furniture}
+        onChange={(e) => setFurniture(e.target.value)}
+        style={inputStyle}
+      />
+    </div>
+  </div>
+
+  <div style={sectionStyle}>
+    <h3 style={sectionTitleStyle}>Фінанси</h3>
+
+    <div style={gridStyle}>
+      <input
+        placeholder="Ціна"
+        type="number"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        style={inputStyle}
+      />
+
+      <input
+        placeholder="Комісія"
+        type="number"
+        value={commission}
+        onChange={(e) => setCommission(e.target.value)}
+        style={inputStyle}
+      />
+    </div>
+  </div>
+</div>
       <div style={{ display: "flex", gap: 10 }}>
         <button
           type="submit"
