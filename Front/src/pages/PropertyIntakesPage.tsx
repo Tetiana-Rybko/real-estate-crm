@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
 import {
   getPropertyIntakes,
   type PropertyIntake,
@@ -37,7 +38,7 @@ export default function PropertyIntakesPage() {
     setError(null);
 
     try {
-      const data = await getPropertyIntakes();
+      const data: PropertyIntake[] = await getPropertyIntakes();
       setItems(data);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
@@ -56,6 +57,7 @@ export default function PropertyIntakesPage() {
 
   return (
     <div>
+      {/* HEADER */}
       <div
         style={{
           display: "flex",
@@ -82,63 +84,29 @@ export default function PropertyIntakesPage() {
               fontSize: 15,
             }}
           >
-            Польові акти прийому об&apos;єктів
+            Польові акти прийому об'єктів
           </p>
         </div>
 
-        <div
+        <Link
+          to="/property-intakes/new"
           style={{
-            display: "flex",
-            gap: 10,
-            alignItems: "center",
+            textDecoration: "none",
+            background: "#7B2D52",
+            color: "#FFFFFF",
+            borderRadius: 10,
+            padding: "10px 14px",
+            fontWeight: 600,
           }}
         >
-          <button
-            type="button"
-            onClick={() => void load()}
-            style={{
-              border: "none",
-              background: "#4A0F28",
-              color: "#FFFFFF",
-              borderRadius: 10,
-              padding: "10px 14px",
-              cursor: "pointer",
-              fontWeight: 600,
-            }}
-          >
-            Оновити
-          </button>
-
-          <Link
-            to="/property-intakes/new"
-            style={{
-              textDecoration: "none",
-              background: "#7B2D52",
-              color: "#FFFFFF",
-              borderRadius: 10,
-              padding: "10px 14px",
-              fontWeight: 600,
-            }}
-          >
-            + Новий акт
-          </Link>
-        </div>
+          + Новий акт
+        </Link>
       </div>
 
-      {loading && (
-        <div
-          style={{
-            padding: 24,
-            borderRadius: 16,
-            background: "#FFFFFF",
-            color: "#7A5A68",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
-          }}
-        >
-          Завантаження...
-        </div>
-      )}
+      {/* LOADING */}
+      {loading && <div>Завантаження...</div>}
 
+      {/* ERROR */}
       {error && (
         <div
           style={{
@@ -153,6 +121,7 @@ export default function PropertyIntakesPage() {
         </div>
       )}
 
+      {/* EMPTY */}
       {!loading && !error && items.length === 0 && (
         <div
           style={{
@@ -167,6 +136,7 @@ export default function PropertyIntakesPage() {
         </div>
       )}
 
+      {/* LIST */}
       {!loading && !error && items.length > 0 && (
         <div
           style={{
@@ -177,47 +147,34 @@ export default function PropertyIntakesPage() {
         >
           {items.map((item) => {
             const address = [
-              item.city,
-              item.district,
               item.street,
               item.building_number,
-               item.apartment_number,
+              item.apartment_number,
             ]
               .filter(Boolean)
               .join(", ");
 
             return (
-              <div key={item.id} style={cardStyle}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 12,
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 700,
-                        color: "#4A0F28",
-                      }}
-                    >
-                      {item.residential_complex || "Акт без назви"}
-                    </div>
-
-                    <div
-                      style={{
-                        marginTop: 4,
-                        fontSize: 13,
-                        color: "#A07C8D",
-                      }}
-                    >
-                      ID: {item.id}
-                    </div>
+              <Link
+                key={item.id}
+                to={`/property-intakes/${item.id}`}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
+                <div style={cardStyle}>
+                  {/* TITLE */}
+                  <div
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 700,
+                      color: "#4A0F28",
+                    }}
+                  >
+                    {item.residential_complex || "Акт без назви"}
                   </div>
-
+                  {/* STATUS */}
                   <div
                     style={{
                       padding: "6px 10px",
@@ -227,34 +184,45 @@ export default function PropertyIntakesPage() {
                       fontSize: 12,
                       fontWeight: 700,
                       textTransform: "uppercase",
+                      width: "fit-content",
                     }}
                   >
                     {item.status}
                   </div>
-                </div>
 
-                <div>
-                  <div style={labelStyle}>Адреса</div>
-                  <div style={valueStyle}>{address || "Не вказано"}</div>
-                </div>
+                  {/* ADDRESS */}
+                  <div>
+                    <div style={labelStyle}>Адреса</div>
+                    <div style={valueStyle}>
+                      {address || "Не вказано"}
+                    </div>
+                  </div>
 
-                <div>
-                  <div style={labelStyle}>Власник</div>
-                  <div style={valueStyle}>{item.owner_name || "Не вказано"}</div>
-                </div>
+                  {/* OWNER */}
+                  <div>
+                    <div style={labelStyle}>Власник</div>
+                    <div style={valueStyle}>
+                      {item.owner_name || "Не вказано"}
+                    </div>
+                  </div>
 
-                <div>
-                  <div style={labelStyle}>Телефон</div>
-                  <div style={valueStyle}>{item.owner_phone || "Не вказано"}</div>
-                </div>
+                  {/* PHONE */}
+                  <div>
+                    <div style={labelStyle}>Телефон</div>
+                    <div style={valueStyle}>
+                      {item.owner_phone || "Не вказано"}
+                    </div>
+                  </div>
 
-                <div>
-                  <div style={labelStyle}>Ціна</div>
-                  <div style={valueStyle}>
-                    {item.price ? `${item.price} €` : "Не вказано"}
+                  {/* PRICE */}
+                  <div>
+                    <div style={labelStyle}>Ціна</div>
+                    <div style={valueStyle}>
+                      {item.price ? `${item.price} €` : "Не вказано"}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

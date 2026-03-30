@@ -165,4 +165,5 @@ export async function updatePropertyIntake(
 
 export async function deletePropertyIntake(id: number): Promise<void> {
   await api.delete(`/property-intakes/${id}`);
+
 }

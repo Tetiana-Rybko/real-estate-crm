@@ -94,7 +94,7 @@ export function AppLayout() {
           >
             Угоди
           </NavLink>
-          {/* 👉 ВОТ ЭТО НОВОЕ */}
+
           <NavLink
             to="/property-intakes"
             style={({ isActive }) => ({
