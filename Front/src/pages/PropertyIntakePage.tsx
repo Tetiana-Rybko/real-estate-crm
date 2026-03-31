@@ -111,6 +111,16 @@ export default function PropertyIntakePage() {
     return <div>Акт не знайдено</div>;
   }
 
+  const fullAddress = [
+    item.city,
+    item.district,
+    item.street,
+    item.building_number,
+    item.apartment_number,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   return (
     <div style={{ display: "grid", gap: 20 }}>
       <div
@@ -210,20 +220,48 @@ export default function PropertyIntakePage() {
               <div style={labelStyle}>Квартира</div>
               <div style={valueStyle}>{showValue(item.apartment_number)}</div>
             </div>
+            <div>
+              <div style={labelStyle}>Повна адреса</div>
+              <div style={valueStyle}>{showValue(fullAddress)}</div>
+            </div>
           </div>
         </div>
 
         <div style={sectionStyle}>
           <h3 style={sectionTitleStyle}>Параметри квартири</h3>
           <div style={gridStyle}>
-            <div><div style={labelStyle}>Кімнат</div><div style={valueStyle}>{showValue(item.rooms)}</div></div>
-            <div><div style={labelStyle}>Поверхів</div><div style={valueStyle}>{showValue(item.total_floors)}</div></div>
-            <div><div style={labelStyle}>Поверх</div><div style={valueStyle}>{showValue(item.floor)}</div></div>
-            <div><div style={labelStyle}>Загальна площа</div><div style={valueStyle}>{showValue(item.area_total)}</div></div>
-            <div><div style={labelStyle}>Житлова площа</div><div style={valueStyle}>{showValue(item.area_living)}</div></div>
-            <div><div style={labelStyle}>Площа кухні</div><div style={valueStyle}>{showValue(item.area_kitchen)}</div></div>
-            <div><div style={labelStyle}>Висота стелі</div><div style={valueStyle}>{showValue(item.ceiling_height)}</div></div>
-            <div><div style={labelStyle}>Санвузол</div><div style={valueStyle}>{showValue(item.sanitary_unit)}</div></div>
+            <div>
+              <div style={labelStyle}>Кімнат</div>
+              <div style={valueStyle}>{showValue(item.rooms)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Поверхів</div>
+              <div style={valueStyle}>{showValue(item.total_floors)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Поверх</div>
+              <div style={valueStyle}>{showValue(item.floor)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Загальна площа</div>
+              <div style={valueStyle}>{showValue(item.area_total)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Житлова площа</div>
+              <div style={valueStyle}>{showValue(item.area_living)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Площа кухні</div>
+              <div style={valueStyle}>{showValue(item.area_kitchen)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Висота стелі</div>
+              <div style={valueStyle}>{showValue(item.ceiling_height)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Санвузол</div>
+              <div style={valueStyle}>{showValue(item.sanitary_unit)}</div>
+            </div>
           </div>
 
           <div>
@@ -235,73 +273,193 @@ export default function PropertyIntakePage() {
         <div style={sectionStyle}>
           <h3 style={sectionTitleStyle}>Будинок і комунікації</h3>
           <div style={gridStyle}>
-            <div><div style={labelStyle}>Тип стін</div><div style={valueStyle}>{showValue(item.wall_type)}</div></div>
-            <div><div style={labelStyle}>Ліфт</div><div style={valueStyle}>{showValue(item.lift)}</div></div>
-            <div><div style={labelStyle}>Ремонт</div><div style={valueStyle}>{showValue(item.repair)}</div></div>
-            <div><div style={labelStyle}>Утеплення</div><div style={valueStyle}>{showValue(item.insulation)}</div></div>
-            <div><div style={labelStyle}>Рік побудови</div><div style={valueStyle}>{showValue(item.year_built)}</div></div>
-            <div><div style={labelStyle}>Лічильники</div><div style={valueStyle}>{showValue(item.individual_meters)}</div></div>
-            <div><div style={labelStyle}>Опалення</div><div style={valueStyle}>{showValue(item.heating)}</div></div>
-            <div><div style={labelStyle}>Підігрів води</div><div style={valueStyle}>{showValue(item.water_heating)}</div></div>
+            <div>
+              <div style={labelStyle}>Тип стін</div>
+              <div style={valueStyle}>{showValue(item.wall_type)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Ліфт</div>
+              <div style={valueStyle}>{showValue(item.lift)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Ремонт</div>
+              <div style={valueStyle}>{showValue(item.repair)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Утеплення</div>
+              <div style={valueStyle}>{showValue(item.insulation)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Рік побудови</div>
+              <div style={valueStyle}>{showValue(item.year_built)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Лічильники</div>
+              <div style={valueStyle}>{showValue(item.individual_meters)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Опалення</div>
+              <div style={valueStyle}>{showValue(item.heating)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Підігрів води</div>
+              <div style={valueStyle}>{showValue(item.water_heating)}</div>
+            </div>
           </div>
 
-          <div><div style={labelStyle}>Безпека</div><div style={valueStyle}>{showValue(item.security)}</div></div>
-          <div><div style={labelStyle}>Комунікації</div><div style={valueStyle}>{showValue(item.communications)}</div></div>
-          <div><div style={labelStyle}>Відключення світла</div><div style={valueStyle}>{showValue(item.power_outage_notes)}</div></div>
+          <div>
+            <div style={labelStyle}>Безпека</div>
+            <div style={valueStyle}>{showValue(item.security)}</div>
+          </div>
+          <div>
+            <div style={labelStyle}>Комунікації</div>
+            <div style={valueStyle}>{showValue(item.communications)}</div>
+          </div>
+          <div>
+            <div style={labelStyle}>Відключення світла</div>
+            <div style={valueStyle}>{showValue(item.power_outage_notes)}</div>
+          </div>
         </div>
 
         <div style={sectionStyle}>
           <h3 style={sectionTitleStyle}>Стан і комплектація</h3>
           <div style={gridStyle}>
-            <div><div style={labelStyle}>Ванна / душ</div><div style={valueStyle}>{showValue(item.bathroom_type)}</div></div>
-            <div><div style={labelStyle}>Стіни</div><div style={valueStyle}>{showValue(item.walls_condition)}</div></div>
-            <div><div style={labelStyle}>Стеля</div><div style={valueStyle}>{showValue(item.ceiling_condition)}</div></div>
-            <div><div style={labelStyle}>Підлога</div><div style={valueStyle}>{showValue(item.floor_condition)}</div></div>
+            <div>
+              <div style={labelStyle}>Ванна / душ</div>
+              <div style={valueStyle}>{showValue(item.bathroom_type)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Стіни</div>
+              <div style={valueStyle}>{showValue(item.walls_condition)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Стеля</div>
+              <div style={valueStyle}>{showValue(item.ceiling_condition)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Підлога</div>
+              <div style={valueStyle}>{showValue(item.floor_condition)}</div>
+            </div>
           </div>
 
-          <div><div style={labelStyle}>Меблі і техніка</div><div style={valueStyle}>{showValue(item.furniture_appliances)}</div></div>
-          <div><div style={labelStyle}>Житлова кімната</div><div style={valueStyle}>{showValue(item.living_room_details)}</div></div>
+          <div>
+            <div style={labelStyle}>Меблі і техніка</div>
+            <div style={valueStyle}>{showValue(item.furniture_appliances)}</div>
+          </div>
+          <div>
+            <div style={labelStyle}>Житлова кімната</div>
+            <div style={valueStyle}>{showValue(item.living_room_details)}</div>
+          </div>
         </div>
 
         <div style={sectionStyle}>
           <h3 style={sectionTitleStyle}>Фінанси</h3>
           <div style={gridStyle}>
-            <div><div style={labelStyle}>Ціна</div><div style={valueStyle}>{showValue(item.price)}</div></div>
-            <div><div style={labelStyle}>Комісія</div><div style={valueStyle}>{showValue(item.commission)}</div></div>
-            <div><div style={labelStyle}>ОСББ / місяць</div><div style={valueStyle}>{showValue(item.osbb_monthly)}</div></div>
-            <div><div style={labelStyle}>Електрика за 1 кВт</div><div style={valueStyle}>{showValue(item.electricity_price_per_kw)}</div></div>
-            <div><div style={labelStyle}>Прямий договір</div><div style={valueStyle}>{showValue(item.has_direct_electric_contract)}</div></div>
+            <div>
+              <div style={labelStyle}>Ціна</div>
+              <div style={valueStyle}>{showValue(item.price)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Комісія</div>
+              <div style={valueStyle}>{showValue(item.commission)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>ОСББ / місяць</div>
+              <div style={valueStyle}>{showValue(item.osbb_monthly)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Електрика за 1 кВт</div>
+              <div style={valueStyle}>{showValue(item.electricity_price_per_kw)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Прямий договір</div>
+              <div style={valueStyle}>{showValue(item.has_direct_electric_contract)}</div>
+            </div>
           </div>
 
-          <div><div style={labelStyle}>Борги по комуналці</div><div style={valueStyle}>{showValue(item.utility_debts)}</div></div>
+          <div>
+            <div style={labelStyle}>Борги по комуналці</div>
+            <div style={valueStyle}>{showValue(item.utility_debts)}</div>
+          </div>
         </div>
 
         <div style={sectionStyle}>
           <h3 style={sectionTitleStyle}>Юридична інформація</h3>
           <div style={gridStyle}>
-            <div><div style={labelStyle}>К-сть власників</div><div style={valueStyle}>{showValue(item.owner_count)}</div></div>
-            <div><div style={labelStyle}>Власник</div><div style={valueStyle}>{showValue(item.owner_name)}</div></div>
-            <div><div style={labelStyle}>Шлюбний статус</div><div style={valueStyle}>{showValue(item.marital_status)}</div></div>
-            <div><div style={labelStyle}>К-сть прописаних</div><div style={valueStyle}>{showValue(item.registered_residents_count)}</div></div>
-            <div><div style={labelStyle}>Оформлення</div><div style={valueStyle}>{showValue(item.deal_formalization)}</div></div>
-            <div><div style={labelStyle}>Документи готові</div><div style={valueStyle}>{showValue(item.documents_ready)}</div></div>
-            <div><div style={labelStyle}>Частки дітей</div><div style={valueStyle}>{showValue(item.children_shares)}</div></div>
-            <div><div style={labelStyle}>Програми</div><div style={valueStyle}>{showValue(item.programs)}</div></div>
+            <div>
+              <div style={labelStyle}>К-сть власників</div>
+              <div style={valueStyle}>{showValue(item.owner_count)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Власник</div>
+              <div style={valueStyle}>{showValue(item.owner_name)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Шлюбний статус</div>
+              <div style={valueStyle}>{showValue(item.marital_status)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>К-сть прописаних</div>
+              <div style={valueStyle}>{showValue(item.registered_residents_count)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Оформлення</div>
+              <div style={valueStyle}>{showValue(item.deal_formalization)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Документи готові</div>
+              <div style={valueStyle}>{showValue(item.documents_ready)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Частки дітей</div>
+              <div style={valueStyle}>{showValue(item.children_shares)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Програми</div>
+              <div style={valueStyle}>{showValue(item.programs)}</div>
+            </div>
           </div>
         </div>
 
         <div style={sectionStyle}>
           <h3 style={sectionTitleStyle}>Перегляди і контакти</h3>
           <div style={gridStyle}>
-            <div><div style={labelStyle}>Графік переглядів</div><div style={valueStyle}>{showValue(item.viewing_schedule)}</div></div>
-            <div><div style={labelStyle}>Є ключі</div><div style={valueStyle}>{showValue(item.has_keys)}</div></div>
-            <div><div style={labelStyle}>Телефон власника</div><div style={valueStyle}>{showValue(item.owner_phone)}</div></div>
+            <div>
+              <div style={labelStyle}>Графік переглядів</div>
+              <div style={valueStyle}>{showValue(item.viewing_schedule)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Є ключі</div>
+              <div style={valueStyle}>{showValue(item.has_keys)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Телефон власника</div>
+              <div style={valueStyle}>{showValue(item.owner_phone)}</div>
+            </div>
           </div>
         </div>
 
         <div style={sectionStyle}>
           <h3 style={sectionTitleStyle}>Нотатки</h3>
           <div style={valueStyle}>{showValue(item.notes)}</div>
+        </div>
+
+        <div style={sectionStyle}>
+          <h3 style={sectionTitleStyle}>Системна інформація</h3>
+          <div style={gridStyle}>
+            <div>
+              <div style={labelStyle}>ID акту</div>
+              <div style={valueStyle}>{showValue(item.id)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>ID об'єкта</div>
+              <div style={valueStyle}>{showValue(item.property_id)}</div>
+            </div>
+            <div>
+              <div style={labelStyle}>Створив користувач</div>
+              <div style={valueStyle}>{showValue(item.created_by_id)}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
