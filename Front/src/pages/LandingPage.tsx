@@ -79,11 +79,11 @@ export default function LandingPage() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12}}>
             <img
-              src="/logo-bagira_1.png"
+              src="/logo-bagira-classic.png"
               alt="Багіра"
               style={{
-                width: 64,
-                height: 64,
+                width: "25%",
+                height: "25%",
                 objectFit: "contain",
                 borderRadius: 999,
                 background: "rgba(255,255,255,0.08)",
@@ -93,24 +93,43 @@ export default function LandingPage() {
 
           <nav
             style={{
-              display: "flex",
-              gap: 24,
-              flexWrap: "wrap",
-              justifyContent: "flex-end",
-            }}
-          >
-            <a href="#about" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-              Про нас
-            </a>
-            <a href="#catalog" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-              Каталог
-            </a>
-            <a href="#jobs" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-              Вакансії
-            </a>
-            <a href="#contacts" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-              Контакти
-            </a>
+    position: "absolute",
+    top: 20,
+    right: 40,
+    display: "flex",
+    gap: 24,
+    color: "#fff",
+    fontWeight: 500,
+    fontSize: 14,
+  }}
+>
+  <a
+  href="#about"
+  style={{ color: "#FFFFFF", textDecoration: "none" }}
+>
+  Про нас
+</a>
+
+<a
+  href="#catalog"
+  style={{ color: "#FFFFFF", textDecoration: "none" }}
+>
+  Каталог
+</a>
+
+<a
+  href="#jobs"
+  style={{ color: "#FFFFFF", textDecoration: "none" }}
+>
+  Вакансії
+</a>
+
+<a
+  href="#contacts"
+  style={{ color: "#FFFFFF", textDecoration: "none" }}
+>
+  Контакти
+</a>
           </nav>
         </div>
 
