@@ -295,6 +295,16 @@ export default function LandingPage() {
           >
             Працюємо з перевіреними об&apos;єктами та супроводжуємо вас до передачі ключів
           </p>
+            <div
+              style={{
+                marginTop: 12,
+                fontSize: 16,
+                color: "#ffffff",
+                opacity: 0.9,
+              }}
+            >
+             Працюємо в Ірпені, Бучі, Гостомелі та прилеглих населених пунктах
+           </div>
 
           <div
             style={{
@@ -305,7 +315,7 @@ export default function LandingPage() {
               flexWrap: "wrap",
             }}
           >
-            <a href="tel:+380933549445" style={buttonPrimaryStyle}>
+            <a href="tel:+380753549445" style={buttonPrimaryStyle}>
               📞 Отримати консультацію
             </a>
 
@@ -594,7 +604,7 @@ export default function LandingPage() {
           </p>
 
           <div style={{ marginTop: 28 }}>
-            <a href="tel:+380933549445" style={buttonPrimaryStyle}>
+            <a href="tel:+380753549445" style={buttonPrimaryStyle}>
               📞 Дізнатись про вакансії
             </a>
           </div>
@@ -627,12 +637,10 @@ export default function LandingPage() {
               fontWeight: 700,
             }}
           >
-            <a href="tel:+380933549445" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-              +38 (093) 354 94 45
-            </a>
             <a href="tel:+380753549445" style={{ color: "#FFFFFF", textDecoration: "none" }}>
               +38 (075) 354 94 45
             </a>
+
           </div>
         </div>
       </section>
@@ -682,7 +690,7 @@ export default function LandingPage() {
       <section id="contacts" style={{ padding: "80px 24px 100px", background: "#F1EBEF" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>
           <h2 style={sectionTitleStyle}>Контакти</h2>
-          <p style={sectionTextStyle}>Зв&apos;яжіться зі мною зручним для вас способом</p>
+          <p style={sectionTextStyle}>Зв&apos;яжіться з нами зручним для вас способом</p>
 
           <div
             style={{
@@ -693,54 +701,111 @@ export default function LandingPage() {
             }}
           >
             <div style={cardStyle}>
-              <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>Телефон</div>
-              <div style={{ marginTop: 12 }}>
-                <a href="tel:+380933549445" style={{ color: "#2F2430", textDecoration: "none" }}>
-                  +38 (093) 354 94 45
-                </a>
-              </div>
-              <div style={{ marginTop: 8 }}>
-                <a href="tel:+380753549445" style={{ color: "#2F2430", textDecoration: "none" }}>
-                  +38 (075) 354 94 45
-                </a>
-              </div>
+             <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
+               Телефон
+             </div>
+             <div style={{ marginTop: 12 }}>
+               +38 (075) 354 94 45
+           </div>
+         </div>
+
+        <div style={cardStyle}>
+          <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
+            Telegram
+          </div>
+        <div style={{ marginTop: 12 }}>
+          <a
+            href="https://t.me/bagira_irpin"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: "#2F2430", textDecoration: "none" }}
+          >
+           @bagira_irpin
+         </a>
+       </div>
+     </div>
+
+     <div style={cardStyle}>
+       <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
+         Email
+       </div>
+       <div style={{ marginTop: 12 }}>
+         bagira@gmail.com
+       </div>
+     </div>
+
+          </div>
+            <div
+               style={{
+                 marginTop: 40,
+                 textAlign: "center",
+                 fontSize: 24,
+                 fontWeight: 700,
+                 color: "#4A0F28",
+               }}
+            >
+              Соціальні мережі
             </div>
 
-            <div style={cardStyle}>
-              <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>Telegram</div>
-              <div style={{ marginTop: 12 }}>
-                <a
-                  href="https://t.me/bagira_irpin"
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ color: "#2F2430", textDecoration: "none" }}
-                >
-                  @bagira_irpin
-                </a>
-              </div>
-            </div>
-
-            <div style={cardStyle}>
-              <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>Instagram</div>
-              <div style={{ marginTop: 12 }}>
-                <a
+            <div
+               style={{
+                 display: "grid",
+                 gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                 gap: 16,
+                 marginTop: 20,
+               }}
+            >
+               {/* Instagram */}
+               <div style={cardStyle}>
+               <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
+                   Instagram
+               </div>
+               <div style={{ marginTop: 12 }}>
+                 <a
                   href="https://instagram.com/bagira.irpin"
                   target="_blank"
                   rel="noreferrer"
                   style={{ color: "#2F2430", textDecoration: "none" }}
-                >
+                 >
                   @bagira.irpin
                 </a>
               </div>
             </div>
 
+            {/* TikTok */}
             <div style={cardStyle}>
-              <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>Регіон роботи</div>
-              <div style={{ marginTop: 12, color: "#2F2430" }}>
-                Ірпінь, Буча, Гостомель та прилеглі населені пункти.
-              </div>
+            <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
+              TikTok
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <a
+                href="https://www.tiktok.com/@bagira.irpin"
+                target="_blank"
+                rel="noreferrer"
+                style={{ color: "#2F2430", textDecoration: "none" }}
+              >
+                @bagira.irpin
+              </a>
             </div>
           </div>
+
+          {/* YouTube */}
+         <div style={cardStyle}>
+           <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
+             YouTube
+           </div>
+           <div style={{ marginTop: 12 }}>
+             <a
+               href="https://youtube.com/@bagira-irpin"
+               target="_blank"
+               rel="noreferrer"
+               style={{ color: "#2F2430", textDecoration: "none" }}
+              >
+               @bagira-irpin
+             </a>
+           </div>
+         </div>
+       </div>
         </div>
       </section>
 
