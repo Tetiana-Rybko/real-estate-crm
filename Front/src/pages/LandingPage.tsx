@@ -69,27 +69,15 @@ export default function LandingPage() {
   const properties = useMemo<Property[]>(
     () => [
       {
-        id: 1,
-        title: "Дворівнева 3 к. кв. в ЖК RIVIERA",
-        location: "м. Гостомель",
-        address: "вул. Ювілейна, 14/2",
-        price: "64 000 $",
-        details: [
-          "Газ, двоконтурний котел",
-          "Електрика",
-          "Централізована каналізація",
-          "Централізована вода",
-        ],
-        extra: "Простора дворівнева квартира в новому будинку. Гарячий варіант для сімʼї або інвестиції.",
-        mainImage: "/riviera/main.jpg",
-        images: [
-          "/riviera/main.jpg",
-          "/riviera/2.jpg",
-          "/riviera/3.jpg",
-          "/riviera/4.jpg",
-          "/riviera/5.jpg",
-        ],
-        isHot: true,
+          id: 1,
+        title: "Квартира бункер з газом",
+        location: "Локація",
+        address: "Адреса",
+        price: "25 500$",
+        details: ["Фото та опис додаються"],
+
+        video:"/bunker/main.mp4",
+
       },
       {
         id: 2,
@@ -160,12 +148,28 @@ export default function LandingPage() {
       },
 
       {
-        id: 5,
-        title: "Квартира №5 — заповнюється",
-        location: "Локація",
-        address: "Адреса",
-        price: "Ціна",
-        details: ["Фото та опис додаються"],
+          id: 5,
+        title: "Дворівнева 3 к. кв. в ЖК RIVIERA",
+        location: "м. Гостомель",
+        address: "вул. Ювілейна, 14/2",
+        price: "64 000 $",
+        details: [
+          "Газ, двоконтурний котел",
+          "Електрика",
+          "Централізована каналізація",
+          "Централізована вода",
+        ],
+        extra: "Простора дворівнева квартира в новому будинку. Гарячий варіант для сімʼї або інвестиції.",
+        mainImage: "/riviera/main.jpg",
+        images: [
+          "/riviera/main.jpg",
+          "/riviera/2.jpg",
+          "/riviera/3.jpg",
+          "/riviera/4.jpg",
+          "/riviera/5.jpg",
+        ],
+        isHot: true,
+
       },
       {
         id: 6,
