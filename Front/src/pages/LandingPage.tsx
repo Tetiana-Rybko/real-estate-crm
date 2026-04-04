@@ -10,12 +10,15 @@ type Property = {
   extra?: string;
   mainImage?: string;
   images?: string[];
+  video?: string;
   isHot?: boolean;
 };
 
 export default function LandingPage() {
   const [activeProperty, setActiveProperty] = useState<Property | null>(null);
-
+  const [activeMedia, setActiveMedia] = useState<string | null>(null);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const sectionTitleStyle = {
     margin: 0,
     fontSize: 32,
@@ -81,7 +84,6 @@ export default function LandingPage() {
         mainImage: "/riviera/main.jpg",
         images: [
           "/riviera/main.jpg",
-          "/riviera/1.jpg",
           "/riviera/2.jpg",
           "/riviera/3.jpg",
           "/riviera/4.jpg",
@@ -91,28 +93,72 @@ export default function LandingPage() {
       },
       {
         id: 2,
-        title: "Квартира №2 — заповнюється",
-        location: "Локація",
-        address: "Адреса",
-        price: "Ціна",
-        details: ["Фото та опис додаються"],
+        title: "Простора 1 кімнатна квартира",
+        location: "Михайлівка-Рубежівка,Гранд Віллас",
+        address: "",
+        price: "25 000$",
+        details: [
+            "Площа 46,5 м²",
+            "Можливість зробити дворівневу",
+            "Електро опалення",
+            "Під сертифікат обговорюється",
+        ],
+        extra: "Гарна квартира з можливістю зробити її дворівневою",
+        mainImage: "/willas/main.jpg",
+        images: [
+          "/willas/main.jpg",
+          "/willas/2.jpg",
+          "/willas/3.jpg",
+          "/willas/4.jpg",
+          "/willas/5.jpg",
+        ],
+        isHot: true,
       },
+
       {
         id: 3,
-        title: "Квартира №3 — заповнюється",
-        location: "Локація",
-        address: "Адреса",
-        price: "Ціна",
-        details: ["Фото та опис додаються"],
+        title: "Ексклюзивний таунхаус з відеооглядом",
+        location: "Ірпінь",
+        address: "6 Лінія, 21/4",
+        price: "88 000$",
+        details: [
+              "Площа 110,2 м²",
+              "Ділянка 1,3 сотки",
+              "1 пов.: кухня-студія + спальня, 2 пов.: 3 спальні, 2 санвузли",
+              "Газове опалення",
+              "Централізована вода, 2 септики",
+              "Тепла підлога + радіатори",
+              "Електрика 7 кВт",
+              "Лазерна стяжка",
+        ],
+        extra: "Якісний таунхаус з усіма комунікаціями — ідеальний варіант для сім’ї",
+        video: "/irpin_6line/main.mp4",
+        images: [
+          "/irpin_6line/1.jpg",
+          "/irpin_6line/2.jpg",
+          "/irpin_6line/3.jpg",
+          "/irpin_6line/4.jpg",
+
+        ],
+        isHot: true,
       },
+
       {
         id: 4,
-        title: "Квартира №4 — заповнюється",
-        location: "Локація",
-        address: "Адреса",
-        price: "Ціна",
-        details: ["Фото та опис додаються"],
+        title: "Таунхаус",
+        location: "Буча",
+        address: "вул. Яблунська, 39-л",
+        price: "65 000$",
+        details: [
+           "Площа 123 м²",
+           "Ділянка 1,6 сотки",
+           "Газ, котел",
+           "Електрика",
+           "Центральна каналізація",
+           "Свердловина",
+           "З наповненням",],
       },
+
       {
         id: 5,
         title: "Квартира №5 — заповнюється",
@@ -430,13 +476,42 @@ export default function LandingPage() {
                     position: "relative",
                   }}
                 >
-                  {property.mainImage ? (
-                    <img
-                      src={property.mainImage}
-                      alt={property.title}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                    />
-                  ) : null}
+                  {property.video ? (
+                    <video
+                      src={property.video}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      poster={property.mainImage}
+                      onClick={(e) => {
+                         e.stopPropagation();
+                         setActiveVideo(property.video!);
+                      }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                        cursor: "pointer",
+                      }}
+                   />
+               ) : property.mainImage ? (
+                 <img
+                    src={property.mainImage}
+                    alt={property.title}
+                    onClick={(e) => {
+                       e.stopPropagation();
+                        setActiveMedia(property.mainImage!);
+                    }}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                  }}
+                />
+               ) : null}
 
                   {property.isHot ? (
                     <div
@@ -719,12 +794,18 @@ export default function LandingPage() {
                 gap: 16,
               }}
             >
-              {activeProperty.images.map((image) => (
+              {activeProperty.images.map((image:string, index: number) => (
                 <div key={image} style={{ borderRadius: 16, overflow: "hidden", background: "#f5f1f3" }}>
                   <img
                     src={image}
                     alt={activeProperty.title}
-                    style={{ width: "100%", height: 240, objectFit: "cover", display: "block" }}
+                     onClick={(e) => {
+                       e.stopPropagation();
+                       setActiveMedia(image);
+                       setActiveVideo(null);
+                       setActiveIndex(index);
+                   }}
+                    style={{ width: "100%", height: 240, objectFit: "cover", display: "block",cursor: "pointer" }}
                   />
                 </div>
               ))}
@@ -732,6 +813,119 @@ export default function LandingPage() {
           </div>
         </div>
       ) : null}
+       {(activeMedia || activeVideo) && (
+  <div
+    onClick={() => {
+      setActiveMedia(null);
+      setActiveVideo(null);
+    }}
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.9)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 9999,
+      cursor: "pointer",
+      padding: 20,
+    }}
+  >
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        setActiveMedia(null);
+        setActiveVideo(null);
+      }}
+      style={{
+        position: "absolute",
+        top: 20,
+        right: 30,
+        color: "#fff",
+        fontSize: 30,
+        cursor: "pointer",
+      }}
+    >
+      ✕
+    </div>
+
+    {!activeVideo && activeProperty?.images?.length ? (
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          setActiveIndex((prev) =>
+            prev === 0 ? (activeProperty?.images?.length ?? 1) - 1 : prev - 1
+          );
+        }}
+        style={{
+          position: "absolute",
+          left: 20,
+          top: "50%",
+          transform: "translateY(-50%)",
+          color: "#fff",
+          fontSize: 48,
+          lineHeight: 1,
+          cursor: "pointer",
+          userSelect: "none",
+          padding: "8px 12px",
+        }}
+      >
+        ‹
+      </div>
+    ) : null}
+
+    {!activeVideo && activeProperty?.images?.length ? (
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          setActiveIndex((prev) =>
+            prev === (activeProperty?.images?.length ?? 1) - 1 ? 0 : prev + 1
+          );
+        }}
+        style={{
+          position: "absolute",
+          right: 20,
+          top: "50%",
+          transform: "translateY(-50%)",
+          color: "#fff",
+          fontSize: 48,
+          lineHeight: 1,
+          cursor: "pointer",
+          userSelect: "none",
+          padding: "8px 12px",
+        }}
+      >
+        ›
+      </div>
+    ) : null}
+
+    {activeVideo ? (
+      <video
+        src={activeVideo}
+        controls
+        autoPlay
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          maxWidth: "90%",
+          maxHeight: "90%",
+          cursor: "default",
+        }}
+      />
+    ) : (
+      <img
+        src={activeProperty?.images?.[activeIndex] || activeMedia!}
+        alt="Preview"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          maxWidth: "90%",
+          maxHeight: "90%",
+          objectFit: "contain",
+          cursor: "default",
+        }}
+      />
+    )}
+  </div>
+)}
     </div>
   );
 }
