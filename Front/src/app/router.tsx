@@ -13,11 +13,16 @@ import PropertyIntakesPage from "../pages/PropertyIntakesPage";
 import PropertyIntakeCreatePage from "../pages/PropertyIntakeCreatePage";
 import PropertyIntakePage from "../pages/PropertyIntakePage";
 import PropertyIntakeEditPage from "../pages/PropertyIntakeEditPage";
+import KvartiryIrpen from "../pages/KvartiryIrpen";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
+  },
+  {
+  path: "/kvartiry-irpen",
+  element: <KvartiryIrpen />,
   },
   {
     path: "/login",
@@ -40,6 +45,7 @@ export const router = createBrowserRouter([
       { path: "property-intakes/new", element: <PropertyIntakeCreatePage /> },
       { path: "property-intakes/:id", element: <PropertyIntakePage /> },
       { path: "property-intakes/:id/edit", element: <PropertyIntakeEditPage /> },
+      { path: "kvartiry-irpen", element: <KvartiryIrpen /> },
     ],
   },
 ]);
