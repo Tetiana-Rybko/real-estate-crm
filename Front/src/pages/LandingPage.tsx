@@ -995,6 +995,15 @@ export default function LandingPage() {
     )}
   </div>
 )}
+        <div style={{ marginTop: 40 }}>
+  <h2>Квартиры в городах</h2>
+
+  <ul>
+    <li><a href="/kvartiry-irpen">Квартиры в Ирпене</a></li>
+    <li><a href="/kvartiry-bucha">Квартиры в Буче</a></li>
+    <li><a href="/kvartiry-gostomel">Квартиры в Гостомеле</a></li>
+  </ul>
+</div>
     </div>
   );
 }
