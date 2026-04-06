@@ -32,7 +32,7 @@ export function AppLayout() {
       >
         <div style={{ marginBottom: 28, textAlign: "center" }}>
           <img
-            src="/logo.png"
+            src="/LOGO/logo.png"
             alt="Багіра"
             style={{
               width: 88,

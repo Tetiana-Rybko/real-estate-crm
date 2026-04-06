@@ -47,15 +47,17 @@ export default function KvartiryBucha() {
     <div style={{ background: "#F6F3F5", color: "#2F2430" }}>
       <section
         style={{
-          minHeight: "72vh",
+          minHeight: "44vh",
           position: "relative",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           backgroundImage:
-            "linear-gradient(rgba(40,17,27,0.58), rgba(40,17,27,0.58)), url('/agent-photo.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+            "linear-gradient(rgba(40,17,27,0.58), rgba(40,17,27,0.58)), url('/Bagira.jpg')",
+          backgroundSize: "contain",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#2F2430",
           padding: "32px 24px 56px",
         }}
       >
@@ -67,22 +69,22 @@ export default function KvartiryBucha() {
             width: "100%",
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
-            padding: "24px 40px",
+            alignItems: "flex-start",
+            padding: "10px 40px",
             boxSizing: "border-box",
             color: "#FFFFFF",
           }}
         >
           <a href="/" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
             <img
-              src="/logo-bagira-w.png"
+              src="/LOGO/logo-bagira-w.png"
               alt="Багіра"
               style={{
-                width: window.innerWidth < 768 ? 90 : 130,
-                height: window.innerWidth < 768 ? 90 : 130,
+                width: 200,
+                height: 200,
                 objectFit: "contain",
-                borderRadius: 999,
-                background: "rgba(255,255,255,0.08)",
+                borderRadius:"30%",
+
               }}
             />
           </a>
@@ -109,16 +111,17 @@ export default function KvartiryBucha() {
             width: "100%",
             textAlign: "center",
             color: "#fff",
-            marginTop: 80,
+            marginTop: 420,
           }}
         >
           <h1
             style={{
               margin: 0,
               fontSize: window.innerWidth < 768 ? 38 : 58,
-              lineHeight: 1.08,
+              lineHeight: 1.1,
               fontWeight: 800,
               textTransform: "uppercase",
+              letterSpacing: "4px",
             }}
           >
             Квартири в Бучі
@@ -149,11 +152,12 @@ export default function KvartiryBucha() {
 
           <div
             style={{
-              marginTop: 28,
+              marginTop: 60,
               display: "flex",
               gap: 14,
               justifyContent: "center",
               flexWrap: "wrap",
+              width: "100%",
             }}
           >
             <a

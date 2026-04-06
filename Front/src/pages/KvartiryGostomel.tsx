@@ -47,15 +47,17 @@ export default function KvartiryGostomel() {
     <div style={{ background: "#F6F3F5", color: "#2F2430" }}>
       <section
         style={{
-          minHeight: "72vh",
+          minHeight: "44vh",
           position: "relative",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           backgroundImage:
-            "linear-gradient(rgba(40,17,27,0.58), rgba(40,17,27,0.58)), url('/agent-photo.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+            "linear-gradient(rgba(40,17,27,0.58), rgba(40,17,27,0.58)), url('/Bagira.jpg')",
+          backgroundSize: "contain",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#2F2430",
           padding: "32px 24px 56px",
         }}
       >
@@ -67,22 +69,22 @@ export default function KvartiryGostomel() {
             width: "100%",
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
-            padding: "24px 40px",
+            alignItems: "flex-start",
+            padding: "10px 40px",
             boxSizing: "border-box",
             color: "#FFFFFF",
           }}
         >
           <a href="/" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
             <img
-              src="/logo-bagira-w.png"
+              src="/LOGO/logo-bagira-w.png"
               alt="Багіра"
               style={{
-                width: window.innerWidth < 768 ? 90 : 130,
-                height: window.innerWidth < 768 ? 90 : 130,
+                width: 200,
+                height: 200,
                 objectFit: "contain",
-                borderRadius: 999,
-                background: "rgba(255,255,255,0.08)",
+                borderRadius:"30%",
+
               }}
             />
           </a>
@@ -109,16 +111,17 @@ export default function KvartiryGostomel() {
             width: "100%",
             textAlign: "center",
             color: "#fff",
-            marginTop: 80,
+            marginTop: 420,
           }}
         >
           <h1
             style={{
               margin: 0,
               fontSize: window.innerWidth < 768 ? 38 : 58,
-              lineHeight: 1.08,
+              lineHeight: 1.1,
               fontWeight: 800,
               textTransform: "uppercase",
+              letterSpacing: "4px",
             }}
           >
             Квартири в Гостомелі
@@ -144,16 +147,17 @@ export default function KvartiryGostomel() {
               color: "rgba(255,255,255,0.92)",
             }}
           >
-            Актуальні квартири в Гостомелі, перевірені об’єкти та супровід угоди.
+            Актуальні квартири в Гостомелі, реальні ціни та повний супровід угоди.
           </p>
 
           <div
             style={{
-              marginTop: 28,
+              marginTop: 60,
               display: "flex",
               gap: 14,
               justifyContent: "center",
               flexWrap: "wrap",
+              width: "100%",
             }}
           >
             <a
@@ -176,8 +180,8 @@ export default function KvartiryGostomel() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <h2 style={sectionTitleStyle}>Купити квартиру в Гостомелі</h2>
           <p style={sectionTextStyle}>
-            Підберемо квартиру в Гостомелі під ваші потреби та бюджет. Працюємо
-            тільки з перевіреними об’єктами та супроводжуємо купівлю до угоди.
+            Допоможемо підібрати квартиру в Гостомелі під ваш бюджет та побажання.
+            Працюємо тільки з перевіреними об’єктами та супроводжуємо угоду.
           </p>
 
           <div
@@ -190,31 +194,31 @@ export default function KvartiryGostomel() {
           >
             <div style={cardStyle}>
               <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 20 }}>
-                Доступні ціни
+                Новобудови в Гостомелі
               </div>
               <p style={{ marginTop: 12, color: "#5E4B55", lineHeight: 1.6 }}>
-                У Гостомелі можна знайти квартири за вигіднішою ціною в
-                порівнянні з Києвом та частиною передмістя.
+                Підбираємо квартири в сучасних житлових комплексах з різними
+                площами, плануваннями та умовами покупки.
               </p>
             </div>
 
             <div style={cardStyle}>
               <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 20 }}>
-                Нові житлові комплекси
+                Вторинний ринок
               </div>
               <p style={{ marginTop: 12, color: "#5E4B55", lineHeight: 1.6 }}>
-                Підбираємо квартири в сучасних комплексах з різними площами,
-                плануваннями та умовами придбання.
+                Допоможемо знайти перевірені квартири на вторинному ринку без
+                зайвих ризиків та прихованих проблем.
               </p>
             </div>
 
             <div style={cardStyle}>
               <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 20 }}>
-                Супровід угоди
+                Підбір під бюджет
               </div>
               <p style={{ marginTop: 12, color: "#5E4B55", lineHeight: 1.6 }}>
-                Допомагаємо на всіх етапах: підбір об’єкта, перевірка документів
-                та повний супровід покупки.
+                Підбираємо варіанти під ваш бюджет: від доступних квартир до
+                просторого житла для сім’ї.
               </p>
             </div>
           </div>
@@ -229,18 +233,17 @@ export default function KvartiryGostomel() {
             </h2>
 
             <ul style={{ color: "#5E4B55", lineHeight: 1.9, paddingLeft: 20, marginTop: 16 }}>
-              <li>Спокійніше середовище для життя</li>
-              <li>Близькість до Ірпеня, Бучі та Києва</li>
-              <li>Доступні варіанти квартир для різного бюджету</li>
+              <li>Комфортне місто поруч із Києвом</li>
+              <li>Розвинена інфраструктура та транспорт</li>
               <li>Популярні житлові комплекси та новобудови</li>
-              <li>Зручний вибір для проживання та інвестицій</li>
+              <li>Вигідніші ціни в порівнянні зі столицею</li>
+              <li>Зручний варіант для життя та інвестицій</li>
             </ul>
 
             <p style={{ color: "#5E4B55", lineHeight: 1.7, marginTop: 20 }}>
               Якщо ви хочете купити квартиру в Гостомелі, ми допоможемо знайти
-              відповідний варіант: однокімнатну, двокімнатну або трикімнатну
-              квартиру, житло з ремонтом або без ремонту, в новому будинку або
-              на вторинному ринку.
+              оптимальний варіант: однокімнатну, двокімнатну,трикімнатну квартиру з
+              ремонтом або без ремонту, у готовому будинку або в новобудові.
             </p>
           </div>
         </div>
@@ -251,7 +254,7 @@ export default function KvartiryGostomel() {
           <h2 style={sectionTitleStyle}>Отримати актуальні пропозиції</h2>
           <p style={sectionTextStyle}>
             На сайті представлена лише частина об’єктів. Напишіть у Telegram —
-            підберемо ще варіанти квартир у Гостомелі під ваш запит.
+            підберемо ще квартири в Гостомелі під ваш запит.
           </p>
 
           <div

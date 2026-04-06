@@ -215,7 +215,7 @@ export default function LandingPage() {
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <img
-              src="/logo-bagira-w.png"
+              src="/LOGO/logo-bagira-w.png"
               alt="Багіра"
               style={{
                 width: window.innerWidth < 768 ? 110 : 170,
@@ -996,12 +996,12 @@ export default function LandingPage() {
   </div>
 )}
         <div style={{ marginTop: 40 }}>
-  <h2>Квартиры в городах</h2>
+  <h2>Квартири в містах</h2>
 
   <ul>
-    <li><a href="/kvartiry-irpen">Квартиры в Ирпене</a></li>
-    <li><a href="/kvartiry-bucha">Квартиры в Буче</a></li>
-    <li><a href="/kvartiry-gostomel">Квартиры в Гостомеле</a></li>
+    <li><a href="/kvartiry-irpen">Квартири в Ирпені</a></li>
+    <li><a href="/kvartiry-bucha">Квартири в Бучі</a></li>
+    <li><a href="/kvartiry-gostomel">Квартири в Гостомелі</a></li>
   </ul>
 </div>
     </div>

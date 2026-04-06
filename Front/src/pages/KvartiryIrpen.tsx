@@ -47,15 +47,17 @@ export default function KvartiryIrpen() {
     <div style={{ background: "#F6F3F5", color: "#2F2430" }}>
       <section
         style={{
-          minHeight: "72vh",
+          minHeight: "44vh",
           position: "relative",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           backgroundImage:
-            "linear-gradient(rgba(40,17,27,0.58), rgba(40,17,27,0.58)), url('/agent-photo.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+            "linear-gradient(rgba(40,17,27,0.58), rgba(40,17,27,0.58)), url('/Bagira.jpg')",
+          backgroundSize: "contain",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#2F2430",
           padding: "32px 24px 56px",
         }}
       >
@@ -67,22 +69,22 @@ export default function KvartiryIrpen() {
             width: "100%",
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
-            padding: "24px 40px",
+            alignItems: "flex-start",
+            padding: "10px 40px",
             boxSizing: "border-box",
             color: "#FFFFFF",
           }}
         >
           <a href="/" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }}>
             <img
-              src="/logo-bagira-w.png"
+              src="/LOGO/logo-bagira-w.png"
               alt="Багіра"
               style={{
-                width: window.innerWidth < 768 ? 90 : 130,
-                height: window.innerWidth < 768 ? 90 : 130,
+                width: 200,
+                height: 200,
                 objectFit: "contain",
-                borderRadius: 999,
-                background: "rgba(255,255,255,0.08)",
+                borderRadius:"30%",
+
               }}
             />
           </a>
@@ -109,19 +111,20 @@ export default function KvartiryIrpen() {
             width: "100%",
             textAlign: "center",
             color: "#fff",
-            marginTop: 80,
+            marginTop: 420,
           }}
         >
           <h1
             style={{
               margin: 0,
               fontSize: window.innerWidth < 768 ? 38 : 58,
-              lineHeight: 1.08,
+              lineHeight: 1.1,
               fontWeight: 800,
               textTransform: "uppercase",
+              letterSpacing: "4px",
             }}
           >
-            Квартири в Ірпені
+            Квартири в Ірпіні
           </h1>
 
           <p
@@ -144,16 +147,17 @@ export default function KvartiryIrpen() {
               color: "rgba(255,255,255,0.92)",
             }}
           >
-            Перевірені квартири, реальні ціни та повний супровід угоди в Ірпені.
+            Актуальні квартири в Ірпіні, реальні ціни та повний супровід угоди.
           </p>
 
           <div
             style={{
-              marginTop: 28,
+              marginTop: 60,
               display: "flex",
               gap: 14,
               justifyContent: "center",
               flexWrap: "wrap",
+              width: "100%",
             }}
           >
             <a
@@ -174,10 +178,10 @@ export default function KvartiryIrpen() {
 
       <section style={{ padding: "72px 24px 24px", background: "#F6F3F5" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <h2 style={sectionTitleStyle}>Купити квартиру в Ірпені</h2>
+          <h2 style={sectionTitleStyle}>Купити квартиру в Ірпіні</h2>
           <p style={sectionTextStyle}>
-            Підберемо квартиру в Ірпені під ваш бюджет і потреби. Працюємо тільки з
-            перевіреними об’єктами та супроводжуємо угоду до передачі ключів.
+            Допоможемо підібрати квартиру в Ірпіні під ваш бюджет та побажання.
+            Працюємо тільки з перевіреними об’єктами та супроводжуємо угоду.
           </p>
 
           <div
@@ -190,11 +194,11 @@ export default function KvartiryIrpen() {
           >
             <div style={cardStyle}>
               <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 20 }}>
-                Новобудови в Ірпені
+                Новобудови в Ірпіні
               </div>
               <p style={{ marginTop: 12, color: "#5E4B55", lineHeight: 1.6 }}>
-                Підбираємо квартири в нових будинках з актуальними цінами, різними
-                площами та зручними локаціями.
+                Підбираємо квартири в сучасних житлових комплексах з різними
+                площами, плануваннями та умовами покупки.
               </p>
             </div>
 
@@ -204,17 +208,17 @@ export default function KvartiryIrpen() {
               </div>
               <p style={{ marginTop: 12, color: "#5E4B55", lineHeight: 1.6 }}>
                 Допоможемо знайти перевірені квартири на вторинному ринку без
-                прихованих ризиків та проблем з документами.
+                зайвих ризиків та прихованих проблем.
               </p>
             </div>
 
             <div style={cardStyle}>
               <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 20 }}>
-                Повний супровід
+                Підбір під бюджет
               </div>
               <p style={{ marginTop: 12, color: "#5E4B55", lineHeight: 1.6 }}>
-                Консультація, підбір, перевірка документів, супровід до угоди та
-                передачі ключів.
+                Підбираємо варіанти під ваш бюджет: від доступних квартир до
+                просторого житла для сім’ї.
               </p>
             </div>
           </div>
@@ -225,22 +229,21 @@ export default function KvartiryIrpen() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={cardStyle}>
             <h2 style={{ marginTop: 0, color: "#4A0F28", fontSize: 28 }}>
-              Чому варто купити квартиру в Ірпені?
+              Чому варто купити квартиру в Ірпіні?
             </h2>
 
             <ul style={{ color: "#5E4B55", lineHeight: 1.9, paddingLeft: 20, marginTop: 16 }}>
-              <li>Зручне розташування поруч із Києвом</li>
-              <li>Розвинена інфраструктура</li>
-              <li>Широкий вибір квартир у новобудовах і на вторинному ринку</li>
-              <li>Доступні ціни в порівнянні зі столицею</li>
-              <li>Комфортне середовище для життя</li>
+              <li>Комфортне місто поруч із Києвом</li>
+              <li>Розвинена інфраструктура та транспорт</li>
+              <li>Популярні житлові комплекси та новобудови</li>
+              <li>Вигідніші ціни в порівнянні зі столицею</li>
+              <li>Зручний варіант для життя та інвестицій</li>
             </ul>
 
             <p style={{ color: "#5E4B55", lineHeight: 1.7, marginTop: 20 }}>
-              Якщо ви хочете купити квартиру в Ірпені, ми допоможемо підібрати
-              найкращі варіанти під ваш запит: однокімнатні, двокімнатні,
-              трикімнатні квартири, житло з ремонтом або без ремонту, квартири
-              в готових будинках та на етапі будівництва.
+              Якщо ви хочете купити квартиру в Ірпіні, ми допоможемо знайти
+              оптимальний варіант: однокімнатну, двокімнатну,трикімнатну квартиру з
+              ремонтом або без ремонту, у готовому будинку або в новобудові.
             </p>
           </div>
         </div>
@@ -251,7 +254,7 @@ export default function KvartiryIrpen() {
           <h2 style={sectionTitleStyle}>Отримати актуальні пропозиції</h2>
           <p style={sectionTextStyle}>
             На сайті представлена лише частина об’єктів. Напишіть у Telegram —
-            підберемо ще варіанти квартир в Ірпені під ваш бюджет.
+            підберемо ще квартири в Ірпіні під ваш запит.
           </p>
 
           <div
