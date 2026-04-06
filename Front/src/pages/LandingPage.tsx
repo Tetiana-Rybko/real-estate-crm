@@ -218,8 +218,8 @@ export default function LandingPage() {
               src="/logo-bagira-w.png"
               alt="Багіра"
               style={{
-                width: "50%",
-                height: "50%",
+                width: window.innerWidth < 768 ? 110 : 170,
+                height: window.innerWidth < 768 ? 110 : 170,
                 objectFit: "contain",
                 borderRadius: 999,
                 background: "rgba(255,255,255,0.08)",
@@ -320,7 +320,7 @@ export default function LandingPage() {
             </a>
 
             <a
-              href="https://t.me/bagira_irpin"
+              href="https://t.me/bagirarieltor"
               target="_blank"
               rel="noreferrer"
               style={buttonSecondaryStyle}
@@ -458,7 +458,7 @@ export default function LandingPage() {
           </p>
 
           <div style={{ marginTop: 28 }}>
-            <a href="tel:+380933549445" style={buttonPrimaryStyle}>
+            <a href="tel:+380753549445" style={buttonPrimaryStyle}>
               📞 Зателефонувати зараз
             </a>
           </div>
@@ -585,7 +585,7 @@ export default function LandingPage() {
                       Дивитись усі фото
                     </button>
                   ) : null}
-                  <a href="tel:+380933549445" style={buttonPrimaryStyle}>
+                  <a href="tel:+380753549445" style={buttonPrimaryStyle}>
                     Дізнатись деталі
                   </a>
                 </div>
@@ -715,12 +715,12 @@ export default function LandingPage() {
           </div>
         <div style={{ marginTop: 12 }}>
           <a
-            href="https://t.me/bagira_irpin"
+            href="https://t.me/bagirarieltor"
             target="_blank"
             rel="noreferrer"
             style={{ color: "#2F2430", textDecoration: "none" }}
           >
-           @bagira_irpin
+           @bagirarieltor
          </a>
        </div>
      </div>
@@ -730,7 +730,7 @@ export default function LandingPage() {
          Email
        </div>
        <div style={{ marginTop: 12 }}>
-         bagira@gmail.com
+         ukrainarieltorbagira@gmail.com
        </div>
      </div>
 
