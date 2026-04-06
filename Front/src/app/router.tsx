@@ -14,6 +14,8 @@ import PropertyIntakeCreatePage from "../pages/PropertyIntakeCreatePage";
 import PropertyIntakePage from "../pages/PropertyIntakePage";
 import PropertyIntakeEditPage from "../pages/PropertyIntakeEditPage";
 import KvartiryIrpen from "../pages/KvartiryIrpen";
+import KvartiryBucha from "../pages/KvartiryBucha";
+import KvartiryGostomel from "../pages/KvartiryGostomel";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ export const router = createBrowserRouter([
   {
   path: "/kvartiry-irpen",
   element: <KvartiryIrpen />,
+  },
+  {
+  path: "/kvartiry-bucha",
+  element: <KvartiryBucha />,
+  },
+  {
+  path: "/kvartiry-gostomel",
+  element: <KvartiryGostomel />,
   },
   {
     path: "/login",
