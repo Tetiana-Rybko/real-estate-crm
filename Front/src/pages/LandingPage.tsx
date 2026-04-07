@@ -595,21 +595,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="jobs" style={{ padding: "80px 24px" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", ...cardStyle, textAlign: "center" }}>
-          <h2 style={sectionTitleStyle}>Вакансії</h2>
-          <p style={sectionTextStyle}>
-            Шукаємо активних рієлторів у команду Bagira. Якщо вам цікава нерухомість, продажі та
-            розвиток — зв&apos;яжіться з нами.
-          </p>
 
-          <div style={{ marginTop: 28 }}>
-            <a href="tel:+380753549445" style={buttonPrimaryStyle}>
-              📞 Дізнатись про вакансії
-            </a>
-          </div>
-        </div>
-      </section>
 
       <section style={{ padding: "80px 24px", background: "#4A0F28", color: "#FFFFFF" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
@@ -874,6 +860,22 @@ export default function LandingPage() {
            </div>
          </div>
        </div>
+        </div>
+      </section>
+
+       <section id="jobs" style={{ padding: "80px 24px" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", ...cardStyle, textAlign: "center" }}>
+          <h2 style={sectionTitleStyle}>Вакансії</h2>
+          <p style={sectionTextStyle}>
+            Шукаємо активних рієлторів у команду Bagira. Якщо вам цікава нерухомість, продажі та
+            розвиток — зв&apos;яжіться з нами.
+          </p>
+
+          <div style={{ marginTop: 28 }}>
+            <a href="tel:+380753549445" style={buttonPrimaryStyle}>
+              📞 Дізнатись про вакансії
+            </a>
+          </div>
         </div>
       </section>
 
