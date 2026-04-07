@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { FaPhone, FaTelegram, FaEnvelope, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
 
 type Property = {
   id: number;
@@ -12,6 +13,20 @@ type Property = {
   images?: string[];
   video?: string;
   isHot?: boolean;
+};
+const contactButtonStyle = {
+  background: "#5A1432",
+  color: "#fff",
+  padding: "18px 24px",
+  borderRadius: 12,
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+  fontWeight: 600,
+  cursor: "pointer",
+  justifyContent: "center",
+  transition: "0.3s",
+  textDecoration: "none",
 };
 
 export default function LandingPage() {
@@ -747,122 +762,68 @@ export default function LandingPage() {
           <p style={sectionTextStyle}>Зв&apos;яжіться з нами зручним для вас способом</p>
 
           <div
-            style={{
-              marginTop: 36,
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: 20,
-            }}
-          >
-            <div style={cardStyle}>
-             <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
-               Телефон
-             </div>
-             <div style={{ marginTop: 12 }}>
-               +38 (075) 354 94 45
-           </div>
-         </div>
+      style={{
+        marginTop: 36,
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+        gap: 20,
+      }}
+    >
+      <a href="tel:+380753549445" style={contactButtonStyle}
+         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      >
+        <FaPhone /> Телефон
+      </a>
 
-        <div style={cardStyle}>
-          <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
-            Telegram
-          </div>
-        <div style={{ marginTop: 12 }}>
-          <a
-            href="https://t.me/bagirarieltor"
-            target="_blank"
-            rel="noreferrer"
-            style={{ color: "#2F2430", textDecoration: "none" }}
-          >
-           @bagirarieltor
-         </a>
-       </div>
-     </div>
+      <a href="https://t.me/bagirarieltor" target="_blank" rel="noreferrer" style={contactButtonStyle}
+         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      >
+        <FaTelegram /> Telegram
+      </a>
 
-     <div style={cardStyle}>
-       <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
-         Email
-       </div>
-       <div style={{ marginTop: 12 }}>
-         ukrainarieltorbagira@gmail.com
-       </div>
-     </div>
+      <a href="mailto:ukrainarealtorbagira@gmail.com" style={contactButtonStyle}
+         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      >
+        <FaEnvelope /> Email
+      </a>
+    </div>
 
-          </div>
-            <div
-               style={{
-                 marginTop: 40,
-                 textAlign: "center",
-                 fontSize: 24,
-                 fontWeight: 700,
-                 color: "#4A0F28",
-               }}
-            >
-              Соціальні мережі
-            </div>
+    <h2 style={{ ...sectionTitleStyle, marginTop: 56 }}>Соціальні мережі</h2>
 
-            <div
-               style={{
-                 display: "grid",
-                 gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                 gap: 16,
-                 marginTop: 20,
-               }}
-            >
-               {/* Instagram */}
-               <div style={cardStyle}>
-               <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
-                   Instagram
-               </div>
-               <div style={{ marginTop: 12 }}>
-                 <a
-                  href="https://instagram.com/bagira.irpin"
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ color: "#2F2430", textDecoration: "none" }}
-                 >
-                  @bagira.irpin
-                </a>
-              </div>
-            </div>
+    <div
+      style={{
+        marginTop: 36,
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+        gap: 20,
+      }}
+    >
+      <a href="https://instagram.com/bagira.irpin" target="_blank" rel="noreferrer" style={contactButtonStyle}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      >
+        <FaInstagram /> Instagram
+      </a>
 
-            {/* TikTok */}
-            <div style={cardStyle}>
-            <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
-              TikTok
-            </div>
-            <div style={{ marginTop: 12 }}>
-              <a
-                href="https://www.tiktok.com/@bagira.irpin"
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: "#2F2430", textDecoration: "none" }}
-              >
-                @bagira.irpin
-              </a>
-            </div>
-          </div>
+      <a href="https://www.tiktok.com/@bagira.irpin" target="_blank" rel="noreferrer" style={contactButtonStyle}
+         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      >
+        <FaTiktok /> TikTok
+      </a>
 
-          {/* YouTube */}
-         <div style={cardStyle}>
-           <div style={{ fontWeight: 700, color: "#4A0F28", fontSize: 18 }}>
-             YouTube
-           </div>
-           <div style={{ marginTop: 12 }}>
-             <a
-               href="https://youtube.com/@bagira-irpin"
-               target="_blank"
-               rel="noreferrer"
-               style={{ color: "#2F2430", textDecoration: "none" }}
-              >
-               @bagira-irpin
-             </a>
-           </div>
-         </div>
-       </div>
-        </div>
-      </section>
-
+      <a href="https://www.youtube.com/@bagira-irpin" target="_blank" rel="noreferrer" style={contactButtonStyle}
+         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      >
+        <FaYoutube /> YouTube
+      </a>
+    </div>
+  </div>
+</section>
        <section id="jobs" style={{ padding: "80px 24px" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto", ...cardStyle, textAlign: "center" }}>
           <h2 style={sectionTitleStyle}>Вакансії</h2>
