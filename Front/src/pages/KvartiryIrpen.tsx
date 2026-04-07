@@ -80,8 +80,8 @@ export default function KvartiryIrpen() {
               src="/LOGO/logo-bagira-w.png"
               alt="Багіра"
               style={{
-                width: 200,
-                height: 200,
+                width: window.innerWidth < 768 ? 72 : 140,
+                height: window.innerWidth < 768 ? 72 : 140,
                 objectFit: "contain",
                 borderRadius:"30%",
 
