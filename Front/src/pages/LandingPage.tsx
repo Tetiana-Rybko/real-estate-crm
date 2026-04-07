@@ -687,6 +687,74 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <section style={{ padding: "60px 24px", background: "#F6F3F5" }}>
+  <div style={{ maxWidth: 1100, margin: "0 auto", textAlign: "center" }}>
+    <h2 style={{ fontSize: 32, margin: 0, color: "#4A0F28" }}>
+      Ми на платформах нерухомості
+    </h2>
+
+    <p
+      style={{
+        marginTop: 16,
+        color: "#5E4B55",
+        fontSize: 18,
+        lineHeight: 1.6,
+        maxWidth: 760,
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
+      Наші актуальні об’єкти також представлені на популярних платформах нерухомості.
+    </p>
+
+    <div
+      style={{
+        marginTop: 28,
+        display: "flex",
+        gap: 16,
+        justifyContent: "center",
+        flexWrap: "wrap",
+      }}
+    >
+      <a
+        href="https://dom.ria.com/uk/agency-31606.html"
+        target="_blank"
+        rel="noreferrer"
+        style={{
+          display: "inline-block",
+          padding: "14px 24px",
+          borderRadius: 12,
+          background: "#4A0F28",
+          color: "#FFFFFF",
+          textDecoration: "none",
+          fontWeight: 700,
+        }}
+      >
+        Переглянути на DOM.RIA
+      </a>
+
+      <a
+        href="https://0933549445.rieltor.ua/"
+        target="_blank"
+        rel="noreferrer"
+        style={{
+          display: "inline-block",
+          padding: "14px 24px",
+          borderRadius: 12,
+          border: "1px solid #4A0F28",
+          color: "#FFFFFF",
+          textDecoration: "none",
+          fontWeight: 700,
+          background: "#4A0F28",
+          transition: "0.2s"
+        }}
+      >
+         Переглянути на RIELTOR.UA
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section id="contacts" style={{ padding: "80px 24px 100px", background: "#F1EBEF" }}>
         <div style={{ maxWidth: 1000, margin: "0 auto" }}>
           <h2 style={sectionTitleStyle}>Контакти</h2>
