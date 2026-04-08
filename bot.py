@@ -1,8 +1,12 @@
 import logging
 import telebot
+import os
+from dotenv import load_dotenv
 
-TOKEN = "8680328711:AAEcyb6HWtH9lf2iM8dkm6JwZsqBdhvDOsc"
-ADMIN_ID = -1003697416898
+load_dotenv("bagira/.env")
+
+TOKEN = os.getenv("TOKEN")
+ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
 logging.basicConfig(level=logging.INFO)
 
@@ -14,10 +18,9 @@ def start(message):
     bot.send_message(
         message.chat.id,
         "👋 Вітаємо в агентстві «Багіра»!\n\n"
-        "Допоможемо підібрати нерухомість 🏡\n\n"
+        "Допоможемо підібрати нерухомість \n\n"
         "Напишіть:\n"
         "👉 що шукаєте\n"
-        "👉 бюджет\n"
         "👉 місто"
     )
 
