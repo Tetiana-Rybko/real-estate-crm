@@ -185,8 +185,20 @@ export default function LandingPage() {
            "Електрика",
            "Центральна каналізація",
            "Свердловина",
-           "З наповненням",],
-      },
+           "З наповненням"
+        ],
+
+        extra: "Хороша інвестиція у новобудову на майбутнє та чудовий вибір для життя в престижному районі Бучі.",
+        mainImage:"/yabl/2.jpg",
+        images: [
+            "/yabl/1.jpg",
+            "/yabl/3.jpg",
+            "/yabl/4.jpg",
+            "/yabl/5.jpg",
+          ],
+
+           isHot: true,
+        },
 
       {
           id: 5,
@@ -202,9 +214,8 @@ export default function LandingPage() {
           "Централізована вода",
         ],
         extra: "Простора дворівнева квартира в новому будинку. Гарячий варіант для сімʼї або інвестиції.",
-        mainImage: "/riviera/9.jpg",
+        mainImage: "/riviera/1.jpg",
         images: [
-          "/riviera/9.jpg",
           "/riviera/2.jpg",
           "/riviera/3.jpg",
           "/riviera/4.jpg",
@@ -214,7 +225,7 @@ export default function LandingPage() {
 
       },
       {
-          id: 7,
+          id: 6,
           title: "Елітний будинок у «Київській Швейцарії»",
           location: "с. Горбовичі",
           address: "вул. Вишнева",
