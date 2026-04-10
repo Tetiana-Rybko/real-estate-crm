@@ -33,6 +33,44 @@ const contactButtonStyle = {
 export default function LandingPage() {
   const [activeProperty, setActiveProperty] = useState<Property | null>(null);
   const [activeMedia, setActiveMedia] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    setLoading(true);
+
+    const response = await fetch("https://bagira-app.uk/api/lead", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        phone,
+        comment,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Ошибка отправки");
+    }
+
+    alert("Заявку відправлено!");
+    setName("");
+    setPhone("");
+    setComment("");
+  } catch (err) {
+    console.error(err);
+    alert("Помилка при відправці");
+  } finally {
+    setLoading(false);
+  }
+};
+
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const sectionTitleStyle = {
@@ -920,9 +958,11 @@ export default function LandingPage() {
           <h2 style={sectionTitleStyle}>Залиште заявку</h2>
           <p style={sectionTextStyle}>Ми підберемо для вас варіанти та передзвонемо протягом години</p>
 
-          <form style={{ marginTop: 28, display: "grid", gap: 14 }}>
+          <form onSubmit={ handleSubmit} style={{marginTop: 28,  display: "grid", gap: 14 }}>
             <input
               placeholder="Ваше ім'я"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               style={{
                 padding: 14,
                 borderRadius: 10,
@@ -932,6 +972,8 @@ export default function LandingPage() {
             />
             <input
               placeholder="Телефон"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               style={{
                 padding: 14,
                 borderRadius: 10,
@@ -941,6 +983,8 @@ export default function LandingPage() {
             />
             <textarea
               placeholder="Коментар"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               rows={5}
               style={{
                 padding: 14,
@@ -950,8 +994,8 @@ export default function LandingPage() {
                 resize: "vertical",
               }}
             />
-            <button type="button" style={buttonPrimaryStyle}>
-              Отримати варіанти
+            <button type="submit" style={buttonPrimaryStyle} disabled={loading}>
+                {loading ? "Відправляємо..." :  "Отримати варіанти"}
             </button>
           </form>
         </div>

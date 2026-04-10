@@ -9,7 +9,7 @@ from app.api.routers.clients import router as clients_router
 from app.api.routers.properties import router as properties_router
 from app.api.routers.property_images import router as property_images_router
 import logging
-from app.api.routers import deals,activity,users,tasks,dashboard,search,property_intakes
+from app.api.routers import deals,activity,users,tasks,dashboard,search,property_intakes,leads
 
 
 app = FastAPI(
@@ -24,7 +24,12 @@ app.mount("/uploads", StaticFiles(directory="/app/uploads"), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=[
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://bagira-app.uk",
+    "https://www.bagira-app.uk",
+],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -41,6 +46,7 @@ app.include_router(dashboard.router)
 app.include_router(search.router)
 app.include_router(property_images_router)
 app.include_router(property_intakes.router)
+app.include_router(leads.router)
 
 @app.get("/health")
 def health():
