@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState,FormEvent } from "react";
 import { FaPhone, FaTelegram, FaEnvelope, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
+
 
 type Property = {
   id: number;
@@ -31,13 +32,14 @@ const contactButtonStyle = {
 };
 
 export default function LandingPage() {
+  const [successMessage, setSuccessMessage] = useState("");
   const [activeProperty, setActiveProperty] = useState<Property | null>(null);
   const [activeMedia, setActiveMedia] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
-  const handleSubmit = async (e: React.FormEvent) => {
+ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   try {
@@ -59,7 +61,7 @@ export default function LandingPage() {
       throw new Error("Ошибка отправки");
     }
 
-    alert("Заявку відправлено!");
+    setSuccessMessage("ДЯКУЄМО! Наш менеджер скоро зв'яжеться з Вами!");
     setName("");
     setPhone("");
     setComment("");
@@ -70,7 +72,6 @@ export default function LandingPage() {
     setLoading(false);
   }
 };
-
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const sectionTitleStyle = {
@@ -956,6 +957,22 @@ export default function LandingPage() {
       <section style={{ padding: "80px 24px" }}>
         <div style={{ maxWidth: 760, margin: "0 auto", ...cardStyle }}>
           <h2 style={sectionTitleStyle}>Залиште заявку</h2>
+          {successMessage && (
+              <div
+                style={{
+                  marginBottom: 20,
+                  padding: 16,
+                  background: "#E6F9ED",
+                  color: "#1E7F4F",
+                  borderRadius: 10,
+                  fontWeight: 600,
+                  textAlign: "center",
+                }}
+              >
+                {successMessage}
+              </div>
+            )}
+
           <p style={sectionTextStyle}>Ми підберемо для вас варіанти та передзвонемо протягом години</p>
 
           <form onSubmit={ handleSubmit} style={{marginTop: 28,  display: "grid", gap: 14 }}>
