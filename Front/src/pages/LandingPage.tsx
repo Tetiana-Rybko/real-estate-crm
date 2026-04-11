@@ -1,14 +1,18 @@
 import { useMemo, useState,FormEvent } from "react";
 import { FaPhone, FaTelegram, FaEnvelope, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
 
-
+type MediaItem = {
+  type: "image" | "video";
+  src: string;
+  poster?: string;
+};
 type Property = {
   id: number;
   title: string;
+  price: string;
   location: string;
   address: string;
-  price: string;
-  description: string;
+  description?: string;
   details: string[];
   extra?: string;
   mainImage?: string;
@@ -16,30 +20,75 @@ type Property = {
   video?: string;
   isHot?: boolean;
 };
-const contactButtonStyle = {
-  background: "#5A1432",
-  color: "#fff",
-  padding: "18px 24px",
-  borderRadius: 12,
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
-  fontWeight: 600,
-  cursor: "pointer",
-  justifyContent: "center",
-  transition: "0.3s",
-  textDecoration: "none",
-};
 
 export default function LandingPage() {
-  const [successMessage, setSuccessMessage] = useState("");
-  const [activeProperty, setActiveProperty] = useState<Property | null>(null);
-  const [activeMedia, setActiveMedia] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(false);
- const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+const [successMessage, setSuccessMessage] = useState("");
+const [activeProperty, setActiveProperty] = useState<Property | null>(null);
+const [activeIndex, setActiveIndex] = useState(0);
+const [expandedPropertyId, setExpandedPropertyId] = useState<number | null>(null);
+
+const [name, setName] = useState("");
+const [phone, setPhone] = useState("");
+const [comment, setComment] = useState("");
+const [loading, setLoading] = useState(false);
+
+const getMediaItems = (property: Property): MediaItem[] => {
+  const items: MediaItem[] = [];
+
+
+  if (property.video) {
+    items.push({
+      type: "video",
+      src: property.video,
+      poster: property.mainImage || undefined,
+    });
+  }
+
+  if (property.mainImage) {
+    items.push({
+      type: "image",
+      src: property.mainImage,
+    });
+  }
+
+  property.images?.forEach((img) => {
+    if (img !== property.mainImage) {
+      items.push({
+        type: "image",
+        src: img,
+      });
+    }
+  });
+
+  return items;
+};
+
+const openGallery = (property: Property) => {
+  setActiveProperty(property);
+  setActiveIndex(0);
+};
+
+const closeGallery = () => {
+  setActiveProperty(null);
+  setActiveIndex(0);
+};
+
+const showPrev = () => {
+  if (!activeProperty) return;
+  const media = getMediaItems(activeProperty);
+  setActiveIndex((prev) => (prev === 0 ? media.length - 1 : prev - 1));
+};
+
+const showNext = () => {
+  if (!activeProperty) return;
+  const media = getMediaItems(activeProperty);
+  setActiveIndex((prev) => (prev === media.length - 1 ? 0 : prev + 1));
+};
+
+const activeMediaItems = activeProperty ? getMediaItems(activeProperty) : [];
+const currentMedia = activeMediaItems[activeIndex];
+
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   try {
@@ -58,7 +107,7 @@ export default function LandingPage() {
     });
 
     if (!response.ok) {
-      throw new Error("Ошибка отправки");
+      throw new Error("Помилка відправки");
     }
 
     setSuccessMessage("ДЯКУЄМО! Наш менеджер скоро зв'яжеться з Вами!");
@@ -73,7 +122,6 @@ export default function LandingPage() {
   }
 };
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
   const sectionTitleStyle = {
     margin: 0,
     fontSize: 32,
@@ -96,7 +144,19 @@ export default function LandingPage() {
     padding: 24,
     boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
   };
-
+  const contactButtonStyle = {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+      padding: "14px 18px",
+      borderRadius: 12,
+      background: "#5A1432",
+      color: "#FFFFFF",
+      textDecoration: "none",
+      fontWeight: 700,
+      transition: "0.2s",
+    };
   const buttonPrimaryStyle = {
     display: "inline-block",
     background: "#4A0F28",
@@ -150,14 +210,14 @@ export default function LandingPage() {
             "/bucha_soho/1.jpg",
             "/bucha_soho/2.jpg",
             "/bucha_soho/3.jpg",
-            "/bucha_soho/1.jpg",
-            "/bucha_soho/2.jpg",
-            "/bucha_soho/3.jpg",
-            "/bucha_soho/1.jpg",
-            "/bucha_soho/2.jpg",
-            "/bucha_soho/3.jpg",
-            "/bucha_soho/1.jpg",
-            "/bucha_soho/2.jpg"
+            "/bucha_soho/4.jpg",
+            "/bucha_soho/5.jpg",
+            "/bucha_soho/6.jpg",
+            "/bucha_soho/7.jpg",
+            "/bucha_soho/8.jpg",
+            "/bucha_soho/9.jpg",
+            "/bucha_soho/10.jpg",
+            "/bucha_soho/11.jpg"
           ],
 
           isHot: true
@@ -777,248 +837,438 @@ export default function LandingPage() {
       </section>
 
       <section id="catalog" style={{ padding: "80px 24px", background: "#F1EBEF" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h2 style={sectionTitleStyle}>ГАРЯЧІ ПРОПОЗИЦІЇ 🔥🔥🔥</h2>
-          <p style={sectionTextStyle}>Перевірені об&apos;єкти з реальними цінами</p>
+  <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+    <h2 style={sectionTitleStyle}>ГАРЯЧІ ПРОПОЗИЦІЇ 🔥🔥🔥</h2>
+    <p style={sectionTextStyle}>Перевірені об&apos;єкти з реальними цінами</p>
+
+    <div
+      style={{
+        marginTop: 36,
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+        gap: 20,
+      }}
+    >
+      {properties.map((property) => (
+        <div key={property.id} style={{ ...cardStyle, padding: 16 }}>
+          <div
+            style={{
+              height: 220,
+              borderRadius: 14,
+              marginBottom: 16,
+              overflow: "hidden",
+              background: "#E9DDE3",
+              position: "relative",
+            }}
+          >
+            {property.video ? (
+              <video
+                src={property.video}
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster={property.mainImage}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openGallery(property);
+                }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                  cursor: "pointer",
+                }}
+              />
+            ) : property.mainImage ? (
+              <img
+                src={property.mainImage}
+                alt={property.title}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openGallery(property);
+                }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                  cursor: "pointer",
+                }}
+              />
+            ) : null}
+
+            {property.isHot ? (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 12,
+                  left: 12,
+                  background: "rgba(74,15,40,0.92)",
+                  color: "#fff",
+                  padding: "6px 10px",
+                  borderRadius: 999,
+                  fontSize: 12,
+                  fontWeight: 700,
+                }}
+              >
+                HOT
+              </div>
+            ) : null}
+
+            {getMediaItems(property).length > 0 ? (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openGallery(property);
+                }}
+                style={{
+                  position: "absolute",
+                  bottom: 12,
+                  right: 12,
+                  background: "rgba(47, 36, 48, 0.78)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 10,
+                  padding: "8px 12px",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  backdropFilter: "blur(4px)",
+                }}
+              >
+                📷 Усі фото
+              </button>
+            ) : null}
+          </div>
 
           <div
             style={{
-              marginTop: 36,
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: 20,
+              fontSize: 22,
+              fontWeight: 700,
+              color: "#4A0F28",
+              lineHeight: 1.3,
             }}
           >
-            {properties.map((property) => (
-              <div key={property.id} style={{ ...cardStyle, padding: 16 }}>
-                <div
-                  style={{
-                    height: 220,
-                    borderRadius: 14,
-                    marginBottom: 16,
-                    overflow: "hidden",
-                    background: "#E9DDE3",
-                    position: "relative",
-                  }}
-                >
-                  {property.video ? (
-                    <video
-                      src={property.video}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      poster={property.mainImage}
-                      onClick={(e) => {
-                         e.stopPropagation();
-                         setActiveVideo(property.video!);
-                      }}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                        cursor: "pointer",
-                      }}
-                   />
-               ) : property.mainImage ? (
-                 <img
-                    src={property.mainImage}
-                    alt={property.title}
-                    onClick={(e) => {
-                       e.stopPropagation();
-                        setActiveMedia(property.mainImage!);
-                    }}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      display: "block",
-                  }}
-                />
-               ) : null}
+            {property.title}
+          </div>
 
-                  {property.isHot ? (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: 12,
-                        left: 12,
-                        background: "rgba(74,15,40,0.92)",
-                        color: "#fff",
-                        padding: "6px 10px",
-                        borderRadius: 999,
-                        fontSize: 12,
-                        fontWeight: 700,
-                      }}
-                    >
-                      HOT
-                    </div>
-                  ) : null}
-                </div>
+          <div
+            style={{
+              marginTop: 18,
+              fontSize: 28,
+              fontWeight: 800,
+              color: "#4A0F28",
+            }}
+          >
+            {property.price}
+          </div>
 
-                <div style={{ fontSize: 22, fontWeight: 700, color: "#4A0F28", lineHeight: 1.3 }}>
-                  {property.title}
-                </div>
+          <div style={{ marginTop: 18, display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <button
+              type="button"
+              style={buttonSecondaryStyle}
+              onClick={() =>
+                setExpandedPropertyId(expandedPropertyId === property.id ? null : property.id)
+              }
+            >
+              {expandedPropertyId === property.id ? "Згорнути" : "Детальніше"}
+            </button>
 
-                <div style={{ marginTop: 8, color: "#6E5B65", fontSize: 15 }}>
-                  {property.location}, {property.address}
-                </div>
+            <a href="tel:+380753549445" style={buttonPrimaryStyle}>
+              Дізнатись деталі
+            </a>
+          </div>
 
+          {expandedPropertyId === property.id ? (
+            <>
+              <div style={{ marginTop: 16, color: "#6E5B65", fontSize: 15 }}>
+                {property.location}, {property.address}
+              </div>
+
+              {property.description ? (
                 <div
                   style={{
                     marginTop: 14,
-                    display: "grid",
-                    gap: 8,
                     color: "#4F4048",
                     fontSize: 15,
-                    lineHeight: 1.5,
+                    lineHeight: 1.6,
                   }}
                 >
-                    {property.description ? (
-  <div
-    style={{
-      marginTop: 14,
-      color: "#4F4048",
-      fontSize: 15,
-      lineHeight: 1.6,
-    }}
-  >
-    {property.description}
-  </div>
-) : null}
-                  {property.details.map((detail) => (
-                    <div key={detail}>• {detail}</div>
-                  ))}
+                  {property.description}
                 </div>
+              ) : null}
 
-                {property.extra ? (
-                  <div style={{ marginTop: 14, color: "#6E5B65", fontSize: 15, lineHeight: 1.6 }}>
-                    {property.extra}
-                  </div>
-                ) : null}
-
-                <div style={{ marginTop: 18, fontSize: 28, fontWeight: 800, color: "#4A0F28" }}>
-                  {property.price}
-                </div>
-
-                <div style={{ marginTop: 18, display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  {property.images?.length ? (
-                    <button type="button" style={buttonSecondaryStyle} onClick={() => setActiveProperty(property)}>
-                      Дивитись усі фото
-                    </button>
-                  ) : null}
-                  <a href="tel:+380753549445" style={buttonPrimaryStyle}>
-                    Дізнатись деталі
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-
-      <section style={{ padding: "80px 24px", background: "#4A0F28", color: "#FFFFFF" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ margin: 0, fontSize: 38 }}>Маємо багато класних варіантів для перегляду</h2>
-
-          <p
-            style={{
-              margin: "16px auto 0",
-              maxWidth: 760,
-              fontSize: 20,
-              lineHeight: 1.6,
-              color: "#F3EAF0",
-            }}
-          >
-            Для отримання додаткової інформації та запису телефонуйте прямо зараз
-          </p>
-
-          <div
-            style={{
-              marginTop: 28,
-              display: "grid",
-              gap: 10,
-              justifyContent: "center",
-              fontSize: 22,
-              fontWeight: 700,
-            }}
-          >
-            <a href="tel:+380753549445" style={{ color: "#FFFFFF", textDecoration: "none" }}>
-              +38 (075) 354 94 45
-            </a>
-
-          </div>
-        </div>
-      </section>
-
-      <section style={{ padding: "80px 24px" }}>
-        <div style={{ maxWidth: 760, margin: "0 auto", ...cardStyle }}>
-          <h2 style={sectionTitleStyle}>Залиште заявку</h2>
-          {successMessage && (
               <div
                 style={{
-                  marginBottom: 20,
-                  padding: 16,
-                  background: "#E6F9ED",
-                  color: "#1E7F4F",
-                  borderRadius: 10,
-                  fontWeight: 600,
-                  textAlign: "center",
+                  marginTop: 14,
+                  display: "grid",
+                  gap: 8,
+                  color: "#4F4048",
+                  fontSize: 15,
+                  lineHeight: 1.5,
                 }}
               >
-                {successMessage}
+                {property.details.map((detail) => (
+                  <div key={detail}>• {detail}</div>
+                ))}
               </div>
-            )}
 
-          <p style={sectionTextStyle}>Ми підберемо для вас варіанти та передзвонемо протягом години</p>
-
-          <form onSubmit={ handleSubmit} style={{marginTop: 28,  display: "grid", gap: 14 }}>
-            <input
-              placeholder="Ваше ім'я"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={{
-                padding: 14,
-                borderRadius: 10,
-                border: "1px solid #D9C3CF",
-                fontSize: 16,
-              }}
-            />
-            <input
-              placeholder="Телефон"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              style={{
-                padding: 14,
-                borderRadius: 10,
-                border: "1px solid #D9C3CF",
-                fontSize: 16,
-              }}
-            />
-            <textarea
-              placeholder="Коментар"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              rows={5}
-              style={{
-                padding: 14,
-                borderRadius: 10,
-                border: "1px solid #D9C3CF",
-                fontSize: 16,
-                resize: "vertical",
-              }}
-            />
-            <button type="submit" style={buttonPrimaryStyle} disabled={loading}>
-                {loading ? "Відправляємо..." :  "Отримати варіанти"}
-            </button>
-          </form>
+              {property.extra ? (
+                <div
+                  style={{
+                    marginTop: 14,
+                    color: "#6E5B65",
+                    fontSize: 15,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {property.extra}
+                </div>
+              ) : null}
+            </>
+          ) : null}
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
-      <section style={{ padding: "60px 24px", background: "#F6F3F5" }}>
+{activeProperty && currentMedia ? (
+  <div
+    onClick={closeGallery}
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(20, 10, 18, 0.88)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 24,
+      zIndex: 1000,
+    }}
+  >
+    <div
+      onClick={(e) => e.stopPropagation()}
+      style={{
+        position: "relative",
+        width: "min(100%, 980px)",
+        maxHeight: "90vh",
+        borderRadius: 18,
+        overflow: "hidden",
+        background: "#1E141A",
+      }}
+    >
+      <button
+        type="button"
+        onClick={closeGallery}
+        style={{
+          position: "absolute",
+          top: 14,
+          right: 14,
+          zIndex: 3,
+          width: 40,
+          height: 40,
+          borderRadius: 999,
+          border: "none",
+          background: "rgba(255,255,255,0.14)",
+          color: "#fff",
+          fontSize: 22,
+          cursor: "pointer",
+        }}
+      >
+        ×
+      </button>
+
+      {activeMediaItems.length > 1 ? (
+        <>
+          <button
+            type="button"
+            onClick={showPrev}
+            style={{
+              position: "absolute",
+              left: 14,
+              top: "50%",
+              transform: "translateY(-50%)",
+              zIndex: 3,
+              width: 46,
+              height: 46,
+              borderRadius: 999,
+              border: "none",
+              background: "rgba(255,255,255,0.14)",
+              color: "#fff",
+              fontSize: 26,
+              cursor: "pointer",
+            }}
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            onClick={showNext}
+            style={{
+              position: "absolute",
+              right: 14,
+              top: "50%",
+              transform: "translateY(-50%)",
+              zIndex: 3,
+              width: 46,
+              height: 46,
+              borderRadius: 999,
+              border: "none",
+              background: "rgba(255,255,255,0.14)",
+              color: "#fff",
+              fontSize: 26,
+              cursor: "pointer",
+            }}
+          >
+            ›
+          </button>
+        </>
+      ) : null}
+
+      <div
+        style={{
+          width: "100%",
+          height: "min(78vh, 720px)",
+          background: "#120C11",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {currentMedia.type === "video" ? (
+          <video
+            src={currentMedia.src}
+            poster={currentMedia.poster}
+            controls
+            autoPlay
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              display: "block",
+            }}
+          />
+        ) : (
+          <img
+            src={currentMedia.src}
+            alt={activeProperty.title}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              display: "block",
+            }}
+          />
+        )}
+      </div>
+
+      <div
+        style={{
+          padding: "14px 18px",
+          background: "#241A22",
+          color: "#fff",
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 12,
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ fontWeight: 700 }}>{activeProperty.title}</div>
+        <div style={{ opacity: 0.8 }}>
+          {activeIndex + 1} / {activeMediaItems.length}
+        </div>
+      </div>
+    </div>
+  </div>
+) : null}
+
+<section style={{ padding: "80px 24px", background: "#4A0F28", color: "#FFFFFF" }}>
+  <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
+    <h2 style={{ margin: 0, fontSize: 38 }}>Маємо багато класних варіантів для перегляду</h2>
+
+    <p
+      style={{
+        margin: "16px auto 0",
+        maxWidth: 760,
+        fontSize: 20,
+        lineHeight: 1.6,
+        color: "#F3EAF0",
+      }}
+    >
+      Для отримання додаткової інформації та запису телефонуйте прямо зараз
+    </p>
+
+    <div
+      style={{
+        marginTop: 28,
+        display: "grid",
+        gap: 10,
+        justifyContent: "center",
+        fontSize: 22,
+        fontWeight: 700,
+      }}
+    >
+      <a href="tel:+380753549445" style={{ color: "#FFFFFF", textDecoration: "none" }}>
+        +38 (075) 354 94 45
+      </a>
+    </div>
+  </div>
+</section>
+
+<section style={{ padding: "80px 24px" }}>
+  <div style={{ maxWidth: 760, margin: "0 auto", ...cardStyle }}>
+    <h2 style={sectionTitleStyle}>Залиште заявку</h2>
+    <p style={sectionTextStyle}>Ми підберемо для вас варіанти та передзвонемо протягом години</p>
+
+    <form onSubmit={handleSubmit} style={{ marginTop: 28, display: "grid", gap: 14 }}>
+      <input
+        placeholder="Ваше ім'я"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        style={{
+          padding: 14,
+          borderRadius: 10,
+          border: "1px solid #D9C3CF",
+          fontSize: 16,
+        }}
+      />
+      <input
+        placeholder="Телефон"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        style={{
+          padding: 14,
+          borderRadius: 10,
+          border: "1px solid #D9C3CF",
+          fontSize: 16,
+        }}
+      />
+      <textarea
+        placeholder="Коментар"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        rows={5}
+        style={{
+          padding: 14,
+          borderRadius: 10,
+          border: "1px solid #D9C3CF",
+          fontSize: 16,
+          resize: "vertical",
+        }}
+      />
+      <button type="submit" style={buttonPrimaryStyle} disabled={loading}>
+        {loading ? "Відправляємо..." : "Отримати варіанти"}
+      </button>
+    </form>
+  </div>
+</section>
+
+<section style={{ padding: "60px 24px", background: "#F6F3F5" }}>
   <div style={{ maxWidth: 1100, margin: "0 auto", textAlign: "center" }}>
     <h2 style={{ fontSize: 32, margin: 0, color: "#4A0F28" }}>
       Ми на платформах нерухомості
@@ -1077,21 +1327,21 @@ export default function LandingPage() {
           textDecoration: "none",
           fontWeight: 700,
           background: "#4A0F28",
-          transition: "0.2s"
+          transition: "0.2s",
         }}
       >
-         Переглянути на RIELTOR.UA
-            </a>
-          </div>
-        </div>
-      </section>
+        Переглянути на RIELTOR.UA
+      </a>
+    </div>
+  </div>
+</section>
 
-      <section id="contacts" style={{ padding: "80px 24px 100px", background: "#F1EBEF" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <h2 style={sectionTitleStyle}>Контакти</h2>
-          <p style={sectionTextStyle}>Зв&apos;яжіться з нами зручним для вас способом</p>
+<section id="contacts" style={{ padding: "80px 24px 100px", background: "#F1EBEF" }}>
+  <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+    <h2 style={sectionTitleStyle}>Контакти</h2>
+    <p style={sectionTextStyle}>Зв&apos;яжіться з нами зручним для вас способом</p>
 
-          <div
+    <div
       style={{
         marginTop: 36,
         display: "grid",
@@ -1099,23 +1349,31 @@ export default function LandingPage() {
         gap: 20,
       }}
     >
-      <a href="tel:+380753549445" style={contactButtonStyle}
-         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
-         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      <a
+        href="tel:+380753549445"
+        style={contactButtonStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
       >
         <FaPhone /> Телефон
       </a>
 
-      <a href="https://t.me/bagirarieltor" target="_blank" rel="noreferrer" style={contactButtonStyle}
-         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
-         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      <a
+        href="https://t.me/bagirarieltor"
+        target="_blank"
+        rel="noreferrer"
+        style={contactButtonStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
       >
         <FaTelegram /> Telegram
       </a>
 
-      <a href="mailto:ukrainarealtorbagira@gmail.com" style={contactButtonStyle}
-         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
-         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      <a
+        href="mailto:ukrainarealtorbagira@gmail.com"
+        style={contactButtonStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
       >
         <FaEnvelope /> Email
       </a>
@@ -1131,232 +1389,59 @@ export default function LandingPage() {
         gap: 20,
       }}
     >
-      <a href="https://instagram.com/bagira.irpin" target="_blank" rel="noreferrer" style={contactButtonStyle}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
-          onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      <a
+        href="https://instagram.com/bagira.irpin"
+        target="_blank"
+        rel="noreferrer"
+        style={contactButtonStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
       >
         <FaInstagram /> Instagram
       </a>
 
-      <a href="https://www.tiktok.com/@bagira.irpin" target="_blank" rel="noreferrer" style={contactButtonStyle}
-         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
-         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      <a
+        href="https://www.tiktok.com/@bagira.irpin"
+        target="_blank"
+        rel="noreferrer"
+        style={contactButtonStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
       >
         <FaTiktok /> TikTok
       </a>
 
-      <a href="https://www.youtube.com/@bagira-irpin" target="_blank" rel="noreferrer" style={contactButtonStyle}
-         onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
-         onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
+      <a
+        href="https://www.youtube.com/@bagira-irpin"
+        target="_blank"
+        rel="noreferrer"
+        style={contactButtonStyle}
+        onMouseEnter={(e) => (e.currentTarget.style.background = "#7A1B45")}
+        onMouseLeave={(e) => (e.currentTarget.style.background = "#5A1432")}
       >
         <FaYoutube /> YouTube
       </a>
     </div>
   </div>
 </section>
-       <section id="jobs" style={{ padding: "80px 24px" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", ...cardStyle, textAlign: "center" }}>
-          <h2 style={sectionTitleStyle}>Вакансії</h2>
-          <p style={sectionTextStyle}>
-            Шукаємо активних рієлторів у команду Bagira. Якщо вам цікава нерухомість, продажі та
-            розвиток — зв&apos;яжіться з нами.
-          </p>
 
-          <div style={{ marginTop: 28 }}>
-            <a href="tel:+380753549445" style={buttonPrimaryStyle}>
-              📞 Дізнатись про вакансії
-            </a>
-          </div>
-        </div>
-      </section>
+<section id="jobs" style={{ padding: "80px 24px" }}>
+  <div style={{ maxWidth: 1000, margin: "0 auto", ...cardStyle, textAlign: "center" }}>
+    <h2 style={sectionTitleStyle}>Вакансії</h2>
+    <p style={sectionTextStyle}>
+      Шукаємо активних рієлторів у команду Bagira. Якщо вам цікава нерухомість, продажі та
+      розвиток — зв&apos;яжіться з нами.
+    </p>
 
-      {activeProperty?.images?.length ? (
-        <div
-          onClick={() => setActiveProperty(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(22, 10, 16, 0.82)",
-            zIndex: 999,
-            padding: 24,
-            overflowY: "auto",
-          }}
-        >
-          <div
-            onClick={(event) => event.stopPropagation()}
-            style={{
-              maxWidth: 1100,
-              margin: "40px auto",
-              background: "#fff",
-              borderRadius: 20,
-              padding: 24,
-              boxShadow: "0 20px 60px rgba(0,0,0,0.24)",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: 16,
-                marginBottom: 20,
-                flexWrap: "wrap",
-              }}
-            >
-              <div>
-                <div style={{ fontSize: 28, fontWeight: 800, color: "#4A0F28" }}>
-                  {activeProperty.title}
-                </div>
-                <div style={{ marginTop: 6, color: "#6E5B65" }}>
-                  {activeProperty.location}, {activeProperty.address}
-                </div>
-              </div>
-
-              <button type="button" onClick={() => setActiveProperty(null)} style={buttonSecondaryStyle}>
-                Закрити
-              </button>
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                gap: 16,
-              }}
-            >
-              {activeProperty.images.map((image:string, index: number) => (
-                <div key={image} style={{ borderRadius: 16, overflow: "hidden", background: "#f5f1f3" }}>
-                  <img
-                    src={image}
-                    alt={activeProperty.title}
-                     onClick={(e) => {
-                       e.stopPropagation();
-                       setActiveMedia(image);
-                       setActiveVideo(null);
-                       setActiveIndex(index);
-                   }}
-                    style={{ width: "100%", height: 240, objectFit: "cover", display: "block",cursor: "pointer" }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
-       {(activeMedia || activeVideo) && (
-  <div
-    onClick={() => {
-      setActiveMedia(null);
-      setActiveVideo(null);
-    }}
-    style={{
-      position: "fixed",
-      inset: 0,
-      background: "rgba(0,0,0,0.9)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: 9999,
-      cursor: "pointer",
-      padding: 20,
-    }}
-  >
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-        setActiveMedia(null);
-        setActiveVideo(null);
-      }}
-      style={{
-        position: "absolute",
-        top: 20,
-        right: 30,
-        color: "#fff",
-        fontSize: 30,
-        cursor: "pointer",
-      }}
-    >
-      ✕
+    <div style={{ marginTop: 28 }}>
+      <a href="tel:+380753549445" style={buttonPrimaryStyle}>
+        📞 Дізнатись про вакансії
+      </a>
     </div>
-
-    {!activeVideo && activeProperty?.images?.length ? (
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-          setActiveIndex((prev) =>
-            prev === 0 ? (activeProperty?.images?.length ?? 1) - 1 : prev - 1
-          );
-        }}
-        style={{
-          position: "absolute",
-          left: 20,
-          top: "50%",
-          transform: "translateY(-50%)",
-          color: "#fff",
-          fontSize: 48,
-          lineHeight: 1,
-          cursor: "pointer",
-          userSelect: "none",
-          padding: "8px 12px",
-        }}
-      >
-        ‹
-      </div>
-    ) : null}
-
-    {!activeVideo && activeProperty?.images?.length ? (
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-          setActiveIndex((prev) =>
-            prev === (activeProperty?.images?.length ?? 1) - 1 ? 0 : prev + 1
-          );
-        }}
-        style={{
-          position: "absolute",
-          right: 20,
-          top: "50%",
-          transform: "translateY(-50%)",
-          color: "#fff",
-          fontSize: 48,
-          lineHeight: 1,
-          cursor: "pointer",
-          userSelect: "none",
-          padding: "8px 12px",
-        }}
-      >
-        ›
-      </div>
-    ) : null}
-
-    {activeVideo ? (
-      <video
-        src={activeVideo}
-        controls
-        autoPlay
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          maxWidth: "90%",
-          maxHeight: "90%",
-          cursor: "default",
-        }}
-      />
-    ) : (
-      <img
-        src={activeProperty?.images?.[activeIndex] || activeMedia!}
-        alt="Preview"
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          maxWidth: "90%",
-          maxHeight: "90%",
-          objectFit: "contain",
-          cursor: "default",
-        }}
-      />
-    )}
   </div>
-)}
-        <div style={{ marginTop: 40 }}>
+</section>
+
+<div style={{ marginTop: 40 }}>
   <h2>Квартири в містах</h2>
 
   <ul>
@@ -1365,6 +1450,6 @@ export default function LandingPage() {
     <li><a href="/kvartiry-gostomel">Квартири в Гостомелі</a></li>
   </ul>
 </div>
-    </div>
-  );
+</div>
+);
 }
