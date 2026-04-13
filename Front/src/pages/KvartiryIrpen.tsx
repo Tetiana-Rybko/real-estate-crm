@@ -176,13 +176,30 @@ export default function KvartiryIrpen() {
         </div>
       </section>
 
-      <section style={{ padding: "72px 24px 24px", background: "#F6F3F5" }}>
+      <section style={{
+                padding: "72px 24px",
+                background:
+                   "linear-gradient(rgba(246,243,245,0.6), rgba(246,243,245,0.6)), url('/irpen-bg.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+      }}
+      >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <h2 style={sectionTitleStyle}>Купити квартиру в Ірпіні</h2>
           <p style={sectionTextStyle}>
-            Допоможемо підібрати квартиру в Ірпіні під ваш бюджет та побажання.
-            Працюємо тільки з перевіреними об’єктами та супроводжуємо угоду.
+          Ірпінь — один з найпопулярніших напрямків для покупки житла поруч із Києвом.
+          Тут поєднуються сучасні новобудови, розвинена інфраструктура та зручне
+          сполучення зі столицею. Ми допоможемо підібрати квартиру в Ірпіні під ваш
+          бюджет — від компактних варіантів до просторого сімейного житла.
           </p>
+          <h2 style={sectionTitleStyle}>
+              Що ми пропонуємо
+            </h2>
+
+            <p style={sectionTextStyle}>
+              Підбираємо квартири в Ірпені в сучасних житлових комплексах,
+                   на вторинному ринку та під інвестиції.
+            </p>
 
           <div
             style={{
@@ -225,7 +242,13 @@ export default function KvartiryIrpen() {
         </div>
       </section>
 
-      <section style={{ padding: "56px 24px", background: "#F1EBEF" }}>
+      <section style={{  padding: "56px 24px",
+            background:
+              "linear-gradient(rgba(246,243,245,0.6), rgba(246,243,245,0.6)), url('/irpen-bg.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+           }}
+      >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={cardStyle}>
             <h2 style={{ marginTop: 0, color: "#4A0F28", fontSize: 28 }}>
@@ -238,6 +261,11 @@ export default function KvartiryIrpen() {
               <li>Популярні житлові комплекси та новобудови</li>
               <li>Вигідніші ціни в порівнянні зі столицею</li>
               <li>Зручний варіант для життя та інвестицій</li>
+              <li>Зручне розташування поруч із Києвом (20–30 хвилин)</li>
+              <li>Велика кількість сучасних новобудов</li>
+              <li>Розвинена інфраструктура: школи, садки, магазини</li>
+              <li>Зелене місто з парками та лісом</li>
+              <li>Високий попит — вигідно для інвестицій</li>
             </ul>
 
             <p style={{ color: "#5E4B55", lineHeight: 1.7, marginTop: 20 }}>
@@ -245,12 +273,65 @@ export default function KvartiryIrpen() {
               оптимальний варіант: однокімнатну, двокімнатну,трикімнатну квартиру з
               ремонтом або без ремонту, у готовому будинку або в новобудові.
             </p>
+              <div style={{ marginTop: 40 }}>
+              <h3 style={{ color: "#4A0F28", fontSize: 22 }}>
+                Часті питання про квартири в Ірпені
+              </h3>
+
+              <div style={{ marginTop: 20, display: "grid", gap: 16 }}>
+
+                <div>
+                  <strong>Скільки коштує квартира в Ірпені?</strong>
+                  <p style={{ margin: "6px 0 0", color: "#5E4B55", lineHeight: 1.6 }}>
+                    Ціни залежать від району, площі та стану житла. Є варіанти як доступні,
+                    так і преміум сегмент. Ми підберемо квартиру під ваш бюджет.
+                  </p>
+                </div>
+
+                <div>
+                  <strong>Чи є квартири без ремонту?</strong>
+                  <p style={{ margin: "6px 0 0", color: "#5E4B55", lineHeight: 1.6 }}>
+                    Так, доступні варіанти як з ремонтом, так і без нього — у новобудовах та
+                    на вторинному ринку.
+                  </p>
+                </div>
+
+                <div>
+                  <strong>Чи можна купити квартиру в Ірпені в новобудові?</strong>
+                  <p style={{ margin: "6px 0 0", color: "#5E4B55", lineHeight: 1.6 }}>
+                    Так, ми працюємо з перевіреними забудовниками та пропонуємо актуальні
+                    варіанти в нових житлових комплексах.
+                  </p>
+                </div>
+
+                <div>
+                  <strong>Чи допомагаєте з оформленням угоди?</strong>
+                  <p style={{ margin: "6px 0 0", color: "#5E4B55", lineHeight: 1.6 }}>
+                    Так, ми супроводжуємо угоду від підбору квартири до підписання документів.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+             <div style={{ marginTop: 40 }}>
+              <h3>Інші міста</h3>
+              <ul>
+                <li><a href="/kvartiry-irpen">Квартири в Ірпені</a></li>
+                <li><a href="/kvartiry-bucha">Квартири в Бучі</a></li>
+                <li><a href="/kvartiry-gostomel">Квартири в Гостомелі</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      <section style={{ padding: "56px 24px 84px", background: "#F6F3F5" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      <section style={{ padding: "56px 24px 84px", background: "#F1EBEF" }}>
+        <div style={{ maxWidth: 1100,
+          margin: "0 auto",
+          background: "#FFFFFF",
+          borderRadius: 16,
+          padding: 28,
+          boxShadow: "0 10px 30px rgba(74,15,40,0.08)"}}>
           <h2 style={sectionTitleStyle}>Отримати актуальні пропозиції</h2>
           <p style={sectionTextStyle}>
             На сайті представлена лише частина об’єктів. Напишіть у Telegram —
